@@ -1,7 +1,9 @@
+import path from 'path';
+
 module.exports = {
-  entry: './src/app.js',
+  entry: ['./src/index.web.js'],
   output: {
-    path: __dirname + '/lib/',
+    path: path.join(__dirname, 'build'),
     filename: 'bundle.js'
   },
   module: {
@@ -10,7 +12,7 @@ module.exports = {
         test: /\.js$/,
         exclude: /node_modules/,
         // note(ckim): Change to use { enforce: 'pre' ... } when upgrading webpack
-        loader: [ 'babel-loader', 'eslint-loader' ],
+        loader: 'eslint-loader',
         query: {
           presets: [ 'es2015' ]
         }
@@ -21,5 +23,8 @@ module.exports = {
     alias: {
       'react-native': 'react-native-web'
     }
+  },
+  resolveLoader: {
+    root: path.join(__dirname, 'node_modules')
   }
 };
