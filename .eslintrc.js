@@ -8,7 +8,9 @@ module.exports = {
     "node": true
   },
   "rules": {
-    "import/no-extraneous-dependencies": "off"
+    "import/no-extraneous-dependencies": "off",
+    "react/jsx-filename-extension": [1, { "extensions": [".js"] }],
+    "space-before-function-paren": "off"
   },
   "settings": {
       "import/resolver": {
