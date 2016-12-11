@@ -9,6 +9,10 @@
   "scripts": {
     "local": "./node_modules/.bin/webpack-dev-server"
   },
+  "engines": {
+    "node": ">=6.0.0",
+    "npm": ">=3.10.9"
+  },
   "dependencies": {
     "express": "^4.14.0",
     "path": "^0.12.7",
