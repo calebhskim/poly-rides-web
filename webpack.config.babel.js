@@ -1,10 +1,14 @@
 import path from 'path';
+import webpack from 'webpack';
 
 module.exports = {
   entry: ['./src/index.web.js'],
   output: {
-    path: path.join(__dirname, 'build'),
-    filename: 'bundle.js'
+    filename: 'bundle.js',
+    path: path.join(__dirname, 'build')
+  },
+  devServer: {
+    stats: 'errors-only'
   },
   module: {
     loaders: [
@@ -35,7 +39,7 @@ module.exports = {
   resolveLoader: {
     root: path.join(__dirname, 'node_modules')
   },
-  devServer: {
-    stats: 'errors-only'
-  } 
+  plugins: [
+    new webpack.optimize.OccurrenceOrderPlugin()  
+  ]
 };

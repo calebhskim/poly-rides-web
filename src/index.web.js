@@ -1,9 +1,9 @@
 import { AppRegistry } from 'react-native';
-import Hello from './components/hello';
+import App from './components/App';
 
-AppRegistry.registerComponent('Hello', () => Hello);
+AppRegistry.registerComponent('App', () => App);
 if (typeof window !== 'undefined') {
-  AppRegistry.runApplication('Hello', {
+  AppRegistry.runApplication('App', {
     rootTag: document.getElementById('react-root'),
   });
 }

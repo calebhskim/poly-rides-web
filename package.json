@@ -8,18 +8,22 @@
   "license": "MIT",
   "scripts": {
     "local": "./node_modules/.bin/webpack-dev-server --content-base public/ --hot",
-    "build": "node -r babel-register node_modules/.bin/webpack -p --config=webpack.config.js"
+    "build": "node_modules/.bin/webpack",
+    "start": "yarn run build && node ./build/server.js"
   },
   "engines": {
     "node": ">=6.0.0",
     "npm": ">=3.10.9"
   },
   "dependencies": {
+    "body-parser": "^1.15.2",
     "express": "^4.14.0",
     "path": "^0.12.7",
     "react": "~15.3.2",
     "react-dom": "~15.3.2",
-    "react-native-web": "^0.0.55"
+    "react-native-web": "^0.0.55",
+    "react-redux": "^4.4.6",
+    "redux": "^3.6.0"
   },
   "devDependencies": {
     "babel-core": "^6.18.2",

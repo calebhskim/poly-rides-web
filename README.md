@@ -10,3 +10,10 @@ git clone https://github.com/calebhskim/poly-rides-web.git
 cd poly-rides-web
 yarn
 ```
+
+## TODO:
+* Finish SSR  
+* Handle routing  
+* Configure Webpack properly  
+* Setup testing  
+* Begin actual UI/UX
