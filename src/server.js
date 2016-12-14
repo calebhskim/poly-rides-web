@@ -24,9 +24,9 @@ function renderFullPage(html, preloadedState) {
         <script>
           // WARNING: See the following for Security isues with this approach:
           // http://redux.js.org/docs/recipes/ServerRendering.html#security-considerations
-          window.__PRELOADED_STATE__ = ${JSON.stringify(preloadedState)}
+          window.PRELOADED_STATE = ${JSON.stringify(preloadedState)}
         </script>
-        <script src="/static/bundle.js"></script>
+        <script src="/bundle.js"></script>
       </body>
     </html>
     `);
@@ -49,7 +49,7 @@ function handleRender(req, res) {
   
   // Grab the initial state from our Redux store
   const preloadedState = store.getState();
-
+  console.log("TEST");
   // Send the rendered page back to the client
   res.send(renderFullPage(html, preloadedState));
 }
@@ -57,11 +57,7 @@ function handleRender(req, res) {
 app.set('env', process.env.NODE_ENV || 'development');
 app.set('port', process.env.port || config.http);
 app.use(bodyParser.json());
-
-AppRegistry.registerComponent('App', () => Hello);
-const { element, stylesheet } = AppRegistry.getApplication('App', { initialProps });
-const initialHTML = ReactDOMServer.renderToString(element);
-
+app.use(handleRender);
 app.listen(app.get('port'), () => {
   console.log(`Server started: http://localhost:${app.get('port')}/`);
 });

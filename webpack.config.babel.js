@@ -1,11 +1,14 @@
 import path from 'path';
 import webpack from 'webpack';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
 
 module.exports = {
-  entry: ['./src/index.web.js'],
+  devtoo: 'eval-source-map',
+  entry: ['./src/client.js'],
   output: {
     filename: 'bundle.js',
-    path: path.join(__dirname, 'build')
+    path: path.join(__dirname, 'build'),
+    publicPath: '/'
   },
   devServer: {
     stats: 'errors-only'
@@ -40,6 +43,12 @@ module.exports = {
     root: path.join(__dirname, 'node_modules')
   },
   plugins: [
-    new webpack.optimize.OccurrenceOrderPlugin()  
+    new webpack.DefinePlugin({
+      'process.env.NODE': JSON.stringify('development')
+    }),
+    new webpack.optimize.OccurrenceOrderPlugin(),
+    new HtmlWebpackPlugin({
+      template: 'static/index.html'  
+    }),
   ]
 };

@@ -1,9 +1,9 @@
 import React from 'react';
-import Hello from './hello';
+import Hello from '../components/hello';
 
 function App() {
   return (
-    <Hello/>
+    <Hello />
   );
 }
 
