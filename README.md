@@ -12,8 +12,9 @@ yarn
 ```
 
 ## TODO:
-* Finish SSR  
-* Handle routing  
-* Configure Webpack properly  
-* Setup testing  
+* Finish SSR
+* Handle routing
+* Configure Webpack properly
+* Setup testing
 * Begin actual UI/UX
+* Setup production
