@@ -1,10 +1,20 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { View } from 'react-native';
 import Hello from '../components/hello';
 
-function App() {
-  return (
-    <Hello />
-  );
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+
+  render() {
+    return (
+      <View>
+        <Hello />
+      </View>
+    );
+  }
 }
 
 export default App;

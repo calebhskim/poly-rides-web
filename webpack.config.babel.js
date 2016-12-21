@@ -3,14 +3,19 @@ import webpack from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 
 module.exports = {
-  devtoo: 'eval-source-map',
-  entry: ['./src/client.js'],
+  devtool: 'eval-source-map',
+  entry: [
+    'webpack/hot/only-dev-server',
+    'webpack-dev-server/client?http://localhost:8080',
+    './src/client.js'
+  ],
   output: {
     filename: 'bundle.js',
     path: path.join(__dirname, 'build'),
     publicPath: '/'
   },
   devServer: {
+    hot: true,
     stats: 'errors-only'
   },
   module: {
@@ -18,20 +23,9 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: 'babel-loader',
-        query: {
-          presets: [ 'es2015', 'react-native' ]
-        }
-      },
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
         // note(ckim): Change to use { enforce: 'pre' ... } when upgrading webpack
-        loader: 'eslint-loader',
-        query: {
-          presets: [ 'es2015' ]
-        }
-      }
+        loaders: ['react-hot', 'babel-loader', 'eslint-loader']
+      }   
     ]
   },
   resolve: {
@@ -46,6 +40,7 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env.NODE': JSON.stringify('development')
     }),
+    new webpack.HotModuleReplacementPlugin(),
     new webpack.optimize.OccurrenceOrderPlugin(),
     new HtmlWebpackPlugin({
       template: 'static/index.html'  

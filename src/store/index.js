@@ -1,12 +1,7 @@
 import configureStore from './configureStore';
-import config from '../reducers/config';
+import rootReducer from '../reducers';
 
 export default function store(initialState = {}) {
-  const reducers = {
-    // Map of reducers go here
-    config
-  };
-  
   const middlewares = [
     // Add callAPIMiddleware
   ]; 
@@ -14,5 +9,14 @@ export default function store(initialState = {}) {
   // If needed later
   // const storeEnhancers = {};
   
-  return configureStore(initialState, reducers, middlewares);
+  const store = configureStore(initialState, rootReducer, middlewares);
+
+  if (module.hot) {
+    // Enable Webpack hot module replacement for reducers
+    module.hot.accept('../reducers', () => {
+      store.replaceReducer(require('../reducers'));
+    });
+  }
+
+  return store;
 }

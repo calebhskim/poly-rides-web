@@ -20,7 +20,7 @@ function renderFullPage(html, preloadedState) {
         <title>PolyRides</title>
       </head>
       <body>
-        <div id="root">${html}</div>
+        <div id='root'>${html}</div>
         <script>
           // WARNING: See the following for Security isues with this approach:
           // http://redux.js.org/docs/recipes/ServerRendering.html#security-considerations
@@ -42,14 +42,13 @@ function handleRender(req, res) {
   const html = ReactDOMServer.renderToString(element);
 
   const html = renderToString(
-      <Provider store={ store }>
-        <App />
-      </Provider>
+    <Provider store={ store }>
+      <App />
+    </Provider>
   );
   
   // Grab the initial state from our Redux store
   const preloadedState = store.getState();
-  console.log("TEST");
   // Send the rendered page back to the client
   res.send(renderFullPage(html, preloadedState));
 }

@@ -1,8 +1,10 @@
 import initialState from '../constants/initialState';
 
-export default configReducer(state = initialState.config, { type, payload }) {
+const config = (state = initialState.config, { type }) => {
   switch(type) {
     default:
       return state;
   }
-}
+};
+
+export default config;
