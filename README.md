@@ -18,3 +18,4 @@ yarn
 * Setup testing
 * Begin actual UI/UX
 * Setup production
+* Connect to Firebase
