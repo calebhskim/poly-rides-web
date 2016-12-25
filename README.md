@@ -11,6 +11,16 @@ cd poly-rides-web
 yarn
 ```
 
+
+## Generating Mock Data
+
+To generate mock data run:
+```
+yarn run mockdata
+```
+
+
+
 ## TODO:
 * Finish SSR
 * Handle routing
