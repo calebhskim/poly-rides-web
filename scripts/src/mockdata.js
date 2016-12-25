@@ -23,8 +23,8 @@ const questions = [{
   validate: (num) => {
     if (isNaN(num)) {
       return 'Error: Please enter int';
-    } else if (parseInt(num, 10) < 0) {
-      return 'Error: Value cannot be below 0';
+    } else if (parseInt(num, 10) <= 0) {
+      return 'Error: Value cannot be at or below 0';
     }
 
     return true;
