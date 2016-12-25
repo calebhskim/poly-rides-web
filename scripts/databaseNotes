@@ -1,0 +1,57 @@
+// primary actions:
+//
+//   get past trips
+//   get curent trips
+//   are there still seats?
+//   search
+
+// unclear if it should be on('value') or on('child_added')
+
+let query;
+
+// get all trips as rider
+query = 'caleb';
+rides.orderByChild(`passengers/${query}`).equalTo(true).on('value', (snap) => {
+  console.log(`getting all trips with ${query} as rider`);
+  console.log(snap.val());
+});
+
+
+// get all trips as driver
+query = 'caleb';
+rides.orderByChild('driver').equalTo(query).on('value', (snap) => {
+  console.log(`getting all trips with ${query} as driver`);
+  console.log(snap.val());
+});
+
+
+// get current trips
+const currentTime = 6;
+rides.orderByChild('departureTime').startAt(currentTime).on('value', (snap) => {
+  console.log(`getting all trips ending after currentTime: ${currentTime}`);
+  console.log(snap.val());
+});
+// this can be limited to return a range after the current time
+
+
+// are there still seats?
+//   may want to store num passengers as a property but not that much benefit
+const trip = "one";
+rides.child(`${trip}`).once('value', (snap) => {
+  const tripVal = snap.val();
+  const numPassengers = Object.keys(tripVal.passengers).length;
+
+  if (numPassengers < tripVal.availableSeats) {
+    console.log(`There are seats available in trip ${trip}`);
+  } else {
+    console.log(`There are no seats available in trip ${trip}`);
+  }
+});
+
+
+// search
+//
+// this is looking like just getting all current trips and doing the work client side
+//
+// iterating through all rides and sorting them by which are best
+
