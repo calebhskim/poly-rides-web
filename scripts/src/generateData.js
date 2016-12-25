@@ -2,8 +2,7 @@ import { rideSchema, possibleValues } from './databaseSchema';
 
 
 function getRandomTimestamp(daysShift, dayRange) {
-  // range of up to a week in advance
-
+  // kinda crazy. nonsense is for post and driver to be sequential
   const initialDate = new Date();
   const start = new Date(initialDate.getTime() + (60 * 60 * 24 * daysShift * 1000));
   const end = new Date(start.getTime() + (60 * 60 * 24 * dayRange * 1000));
