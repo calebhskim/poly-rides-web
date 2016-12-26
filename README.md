@@ -14,6 +14,7 @@ yarn
 ## TODO:
 * Finish SSR
 * Handle routing
+* Add Navbar
 * Configure Webpack properly
 * Setup testing
 * Begin actual UI/UX

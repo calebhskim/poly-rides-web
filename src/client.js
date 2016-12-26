@@ -2,8 +2,11 @@ import React from 'react';
 import * as firebase from 'firebase';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
+import { Router, Route, browserHistory } from 'react-router';
 
 import App from './containers/app';
+import About from './components/about';
+import NotFound from './components/notFound';
 import config from './config';
 import Store from './store';
 import serverInit from './actions/serverInit';
@@ -19,7 +22,11 @@ const store = new Store(preloadedState);
 store.dispatch(serverInit({}));
 render(
   <Provider store={store}>
-    <App />
+    <Router history={browserHistory}>
+      <Route path='/' component={App} />
+      <Route path='/about' component={About} />
+      <Route path='*' component={NotFound} />
+    </Router>
   </Provider>,
   document.getElementById('root'),
 );

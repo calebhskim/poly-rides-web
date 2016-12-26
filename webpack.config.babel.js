@@ -15,6 +15,7 @@ module.exports = {
     publicPath: '/'
   },
   devServer: {
+    historyApiFallback: true,
     hot: true,
     stats: 'errors-only'
   },
