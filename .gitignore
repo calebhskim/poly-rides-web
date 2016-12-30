@@ -6,5 +6,8 @@ node_modules
 # Build
 build
 
+
 # YCM files
 .tern-project
+
+.notes

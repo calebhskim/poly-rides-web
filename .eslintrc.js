@@ -12,7 +12,8 @@ module.exports = {
     "import/no-extraneous-dependencies": "off",
     "keyword-spacing": "off",
     "react/jsx-filename-extension": [1, { "extensions": [".js"] }],
-    "space-before-function-paren": "off"
+    "space-before-function-paren": "off",
+    "jsx-quotes": ["error", "prefer-single"]
   },
   "settings": {
       "import/resolver": {
