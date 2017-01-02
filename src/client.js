@@ -11,7 +11,7 @@ import config from './config';
 import Store from './store';
 import serverInit from './actions/serverInit';
 
-firebase.initializeApp(config.firebase);
+const fbApp = firebase.initializeApp(config.firebase);
 
 // Grab the state from a global variable injected into the server-generated HTML
 const preloadedState = window.PRELOADED_STATE;
@@ -19,7 +19,7 @@ const preloadedState = window.PRELOADED_STATE;
 // Create Redux store with initial state
 const store = new Store(preloadedState);
 
-store.dispatch(serverInit({}));
+store.dispatch(serverInit(fbApp));
 render(
   <Provider store={store}>
     <Router history={browserHistory}>

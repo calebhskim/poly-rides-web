@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
-import Hello from '../components/hello';
+import Login from '../components/login';
 
 class App extends Component {
   constructor(props) {
@@ -11,7 +11,7 @@ class App extends Component {
   render() {
     return (
       <View>
-        <Hello />
+        <Login />
       </View>
     );
   }

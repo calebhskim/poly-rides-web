@@ -1,15 +1,15 @@
 import initialState from '../constants/initialState';
 import actions from '../constants/actions';
 
-const config = (state = initialState.config, { type }) => {
+const firebase = (state = initialState.firebase, { payload, type }) => {
   switch(type) {
     case actions.APP_INITIALIZED_SUCCESS:
       return Object.assign({}, state, {
-        config: {},
+        app: payload.fbApp,
       });
     default:
       return state;
   }
 };
 
-export default config;
+export default firebase;
