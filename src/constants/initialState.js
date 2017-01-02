@@ -8,7 +8,13 @@ export default {
   auth: {
     lifecycle: lifecycles.AUTH_NOT_LOGGEDIN,
     user: {
-      name: null,
+      displayName: null,
+      email: null,
+      emailVerified: false,
+      isAnonymous: null,
+      photoURL: null,
+      refreshToken: null,
+      uid: null,
     },
   },
 };
