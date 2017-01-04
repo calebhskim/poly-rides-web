@@ -12,6 +12,9 @@ yarn
 ```
 
 ## TODO:
+* Auth
+** Check login/persistence in App component
+** Verify email
 * Finish SSR
 * Handle routing
 * Add Navbar

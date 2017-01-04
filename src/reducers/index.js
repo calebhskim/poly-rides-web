@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { routerReducer } from 'react-router-redux';
 import auth from './auth';
 import config from './config';
 import firebase from './firebase';
@@ -8,6 +9,7 @@ const reducers = {
   auth,
   config,
   firebase,
+  routing: routerReducer,
 };
 
 const rootReducer = combineReducers(reducers);

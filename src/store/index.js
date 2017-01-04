@@ -1,9 +1,14 @@
+import { browserHistory } from 'react-router';
+import { routerMiddleware } from 'react-router-redux';
+
 import configureStore from './configureStore';
 import rootReducer from '../reducers';
+import callAPIMiddleware from '../middleware/callAPIMiddleware';
 
 export default function store(initialState = {}) {
   const middlewares = [
-    // Add callAPIMiddleware
+    callAPIMiddleware,
+    routerMiddleware(browserHistory),
   ];
 
   // If needed later

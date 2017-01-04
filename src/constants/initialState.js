@@ -6,6 +6,7 @@ export default {
   },
   config: {},
   auth: {
+    error: {},
     lifecycle: lifecycles.AUTH_NOT_LOGGEDIN,
     user: {
       displayName: null,

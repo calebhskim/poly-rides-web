@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { View } from 'react-native';
-import Login from '../components/login';
 
 class App extends Component {
   constructor(props) {
@@ -11,10 +10,15 @@ class App extends Component {
   render() {
     return (
       <View>
-        <Login />
+        { /* Add this for nested routes */ }
+        { this.props.children }
       </View>
     );
   }
 }
+
+App.propTypes = {
+  children: PropTypes.node,
+};
 
 export default App;

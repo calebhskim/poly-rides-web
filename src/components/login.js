@@ -34,6 +34,7 @@ class Login extends Component {
         <TextInput
           accessibilityLabel='Password'
           onChangeText={text => this.setState({ pass: text })}
+          secureTextEntry
           placeholder='password'
           style={[
             styles.defaultInput,

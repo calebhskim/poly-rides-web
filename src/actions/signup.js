@@ -1,3 +1,5 @@
+import { push } from 'react-router-redux';
+
 import actions from '../constants/actions';
 
 export default function signup(email, password) {
@@ -5,10 +7,19 @@ export default function signup(email, password) {
     const { firebase: { app } } = getState();
     const auth = app.auth();
 
-    auth.createUserWithEmailAndPassword(email, password).then(() => {
+    auth.createUserWithEmailAndPassword(email, password).then((user) => {
+      const { uid } = user;
+
       dispatch({
-        type: actions.AUTH_SIGNUP_SUCCESS,
+        type: actions.AUTH_LOGIN_SUCCESS,
+        payload: user,
       });
-    }).catch(err => console.log('SIGNUP ERR :: ', err));
+      dispatch(push(`/dashboard/${uid}`));
+    }).catch((err) => {
+      dispatch({
+        type: actions.AUTH_SIGNUP_FAILURE,
+        payload: err,
+      });
+    });
   };
 }

@@ -2,22 +2,19 @@ import { push } from 'react-router-redux';
 
 import actions from '../constants/actions';
 
-export default function login(email, password) {
+export default function signout() {
   return (dispatch, getState) => {
     const { firebase: { app } } = getState();
     const auth = app.auth();
 
-    auth.signInWithEmailAndPassword(email, password).then((user) => {
-      const { uid } = user;
-
+    auth.signOut().then(() => {
       dispatch({
-        type: actions.AUTH_LOGIN_SUCCESS,
-        payload: user,
+        type: actions.AUTH_SIGNOUT_SUCCESS,
       });
-      dispatch(push(`/dashboard/${uid}`));
+      dispatch(push('/'));
     }).catch((err) => {
       dispatch({
-        type: actions.AUTH_LOGIN_FAILURE,
+        type: actions.AUTH_SIGNOUT_FAILURE,
         payload: err,
       });
     });
