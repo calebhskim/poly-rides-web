@@ -12,6 +12,8 @@ yarn
 ```
 
 ## TODO:
+* Auth
+  * Call auth().signout() on page load
 * Finish SSR
 * Handle routing
 * Add Navbar
