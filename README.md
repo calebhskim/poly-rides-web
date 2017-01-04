@@ -13,7 +13,7 @@ yarn
 
 ## TODO:
 * Auth
-  * Call auth().signout() on page load
+  * Implement persistence
 * Finish SSR
 * Handle routing
 * Add Navbar
