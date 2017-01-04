@@ -15,6 +15,7 @@ yarn
 * Auth
   * Implement persistence
   * Verify email
+  * Password check/re-enter
 * Finish SSR
 * Handle routing
 * Add Navbar
