@@ -7,9 +7,10 @@
   "author": "calebhskim <caleb.hs.kim@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "local": "npm run build && ./node_modules/.bin/webpack-dev-server --content-base build/",
+    "local": "yarn run build && ./node_modules/.bin/webpack-dev-server --content-base build/",
     "build": "node_modules/.bin/webpack",
-    "start": "yarn run build && node ./build/server.js"
+    "start": "yarn run build && node ./build/server.js",
+    "mockdata": "./node_modules/.bin/babel ./scripts/src -d ./scripts/build > /dev/null && node ./scripts/build/mockdata.js"
   },
   "engines": {
     "node": ">=6.0.0",
@@ -32,11 +33,13 @@
     "redux-thunk": "^2.1.0"
   },
   "devDependencies": {
+    "babel-cli": "^6.18.0",
     "babel-core": "^6.18.2",
     "babel-loader": "^6.2.8",
     "babel-preset-es2015": "^6.18.0",
     "babel-preset-react-native": "^1.9.0",
     "babel-register": "^6.18.0",
+    "clui": "^0.3.1",
     "eslint": "^3.11.1",
     "eslint-config-airbnb": "^13.0.0",
     "eslint-import-resolver-webpack": "^0.7.0",
@@ -44,6 +47,7 @@
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "^2.2.3",
     "eslint-plugin-react": "^6.8.0",
+    "inquirer": "^2.0.0",
     "react-hot-loader": "^1.3.1",
     "webpack": "^1.13.3",
     "webpack-dev-server": "^1.16.2"
