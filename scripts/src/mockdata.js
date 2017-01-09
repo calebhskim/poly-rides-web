@@ -1,16 +1,10 @@
 import * as firebase from 'firebase';
 import inquirer from 'inquirer';
 import clui from 'clui';
-import generateEntry from './generateData';
+import generateEntry from './mockdataUtil/generateData';
+import config from './config';
 
 
-const config = {
-  apiKey: 'AIzaSyCyiMJKUK5__AQfnSDfaQmBnVq-dBL73RY',
-  authDomain: 'polyridesweb.firebaseapp.com',
-  databaseURL: 'https://polyridesweb.firebaseio.com',
-  storageBucket: 'polyridesweb.appspot.com',
-  messagingSenderId: '429026541463',
-};
 firebase.initializeApp(config);
 
 const questions = [{
