@@ -2,13 +2,11 @@ import { applyMiddleware, compose, createStore } from 'redux';
 import createLogger from 'redux-logger';
 import thunk from 'redux-thunk';
 
-import callAPIMiddleware from '../middleware/callAPIMiddleware';
-
 // Create a store using redux store functions. reducers is a map of reducers names to their
 // corresponding functions. middlewares is an array of middlewares to use. We can possibly
 // add storeEnhancers here in the future if needed.
 export default function configureStore(initialState = {}, rootReducer, middlewares = []) {
-  const middlewareList = [thunk, callAPIMiddleware, ...middlewares];
+  const middlewareList = [thunk, ...middlewares];
 
   if (process.env.NODE_ENV !== 'production' && typeof window === 'object') {
     const logger = createLogger();

@@ -1,9 +1,14 @@
+import { browserHistory } from 'react-router';
+import { routerMiddleware } from 'react-router-redux';
+
 import configureStore from './configureStore';
 import rootReducer from '../reducers';
+import callAPIMiddleware from '../middleware/callAPIMiddleware';
 
 export default function store(initialState = {}) {
   const middlewares = [
-    // Add callAPIMiddleware
+    callAPIMiddleware,
+    routerMiddleware(browserHistory),
   ];
 
   // If needed later
@@ -14,7 +19,7 @@ export default function store(initialState = {}) {
   if (module.hot) {
     // Enable Webpack hot module replacement for reducers
     module.hot.accept('../reducers', () => {
-      store.replaceReducer(require('../reducers')); // eslint-disable-line global-require
+      newStore.replaceReducer(require('../reducers')); // eslint-disable-line global-require
     });
   }
 
