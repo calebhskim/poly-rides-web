@@ -42,7 +42,7 @@ render(
       <Route component={App}>
         <Route path='/' component={Login} />
         <Route path='/about' component={About} />
-        <Route path='/dashboard/:id' component={Dashboard} onEnter={authCheck} />
+        <Route path='/dashboard' component={Dashboard} onEnter={authCheck} />
         <Route path='*' component={NotFound} />
       </Route>
     </Router>

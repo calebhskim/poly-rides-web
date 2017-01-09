@@ -8,13 +8,11 @@ export default function login(email, password) {
     const auth = app.auth();
 
     auth.signInWithEmailAndPassword(email, password).then((user) => {
-      const { uid } = user;
-
       dispatch({
         type: actions.AUTH_LOGIN_SUCCESS,
         payload: user,
       });
-      dispatch(push(`/dashboard/${uid}`));
+      dispatch(push('/dashboard'));
     }).catch((err) => {
       dispatch({
         type: actions.AUTH_LOGIN_FAILURE,
