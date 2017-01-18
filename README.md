@@ -24,3 +24,4 @@ yarn
 * Begin actual UI/UX
 * Setup production
 * Connect to Firebase
+* Update to webpack 2
