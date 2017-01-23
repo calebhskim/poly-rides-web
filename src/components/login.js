@@ -5,6 +5,7 @@ import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-nativ
 import login from '../actions/login';
 import loginStyle from '../styles/components/login';
 import signup from '../actions/signup';
+import fbSignin from '../actions/fbSignin';
 
 const styles = StyleSheet.create(loginStyle);
 
@@ -55,12 +56,20 @@ class Login extends Component {
         >
           <Text>Signup</Text>
         </TouchableOpacity>
+        <TouchableOpacity
+          onPress={
+            () => this.props.fbSignin()
+          }
+        >
+          <Text>Facebook Login</Text>
+        </TouchableOpacity>
       </View>
     );
   }
 }
 
 Login.propTypes = {
+  fbSignin: PropTypes.func,
   login: PropTypes.func,
   signup: PropTypes.func,
 };
@@ -70,6 +79,7 @@ function mapStateToProps() {
 }
 
 const mapDispatchToProps = {
+  fbSignin,
   login,
   signup,
 };

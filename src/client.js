@@ -5,20 +5,21 @@ import { Provider } from 'react-redux';
 import { Router, Route, browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 
-import App from './containers/app';
 import About from './components/about';
+import App from './containers/app';
+import config from './config';
 import Dashboard from './components/dashboard';
+import initialState from './constants/initialState';
 import lifecycles from './constants/lifecycles';
 import Login from './components/login';
 import NotFound from './components/notFound';
-import config from './config';
-import Store from './store';
 import serverInit from './actions/serverInit';
+import Store from './store';
 
 const fbApp = firebase.initializeApp(config.firebase);
 
 // Grab the state from a global variable injected into the server-generated HTML
-const preloadedState = window.PRELOADED_STATE;
+const preloadedState = window.PRELOADED_STATE || initialState;
 
 // Create Redux store with initial state
 const store = new Store(preloadedState);

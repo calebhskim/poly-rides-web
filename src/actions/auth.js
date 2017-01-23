@@ -2,10 +2,11 @@ import firebase from 'firebase';
 
 import actions from '../constants/actions';
 
-const auth = firebase.auth();
-
 export default () => {
-  return dispatch => {
+  return (dispatch, getState) => {
+    const { firebase: { app } } = getState();
+    const auth = app.auth();
+
     auth.onAuthStateChanged(user => {
       if (user) {
         dispatch({
