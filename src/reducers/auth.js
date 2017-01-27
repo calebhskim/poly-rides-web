@@ -63,7 +63,26 @@ const auth = (state = initialState.auth, { payload, type }) => {
         error: payload,
         lifecycle: lifecycles.AUTH_SIGNOUT_FAILURE,
       });
+    case actions.AUTH_FBSIGNIN_SUCCESS: {
+      const { user, credential } = payload;
 
+      return Object.assign({}, state, {
+        fbToken: credential.accessToken,
+        lifecycle: lifecycles.AUTH_LOGGEDIN,
+        user: getUser(user),
+      });
+    }
+    case actions.AUTH_FBSIGNIN_FAILURE:
+      return Object.assign({}, state, {
+        error: payload,
+        lifecycle: lifecycles.AUTH_NOT_LOGGED_IN,
+      });
+    case actions.AUTH_STATECHANGE_LOGIN: {
+      return Object.assign({}, state, {
+        lifecycle: lifecycles.AUTH_LOGGEDIN,
+        user: getUser(payload),
+      });
+    }
     default:
       return state;
   }

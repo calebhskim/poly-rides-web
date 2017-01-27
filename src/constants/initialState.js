@@ -1,10 +1,6 @@
 import lifecycles from './lifecycles';
 
 export default {
-  firebase: {
-    app: null,
-  },
-  config: {},
   auth: {
     error: {},
     lifecycle: lifecycles.AUTH_NOT_LOGGEDIN,
@@ -17,5 +13,11 @@ export default {
       refreshToken: null,
       uid: null,
     },
+    fbToken: null,
+  },
+  config: {},
+  firebase: {
+    app: null,
+    fbProvider: null,
   },
 };

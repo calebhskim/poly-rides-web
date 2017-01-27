@@ -10,10 +10,10 @@ module.exports = {
   },
   "rules": {
     "import/no-extraneous-dependencies": "off",
+    "jsx-quotes": ["error", "prefer-single"],
     "keyword-spacing": "off",
     "react/jsx-filename-extension": [1, { "extensions": [".js"] }],
     "space-before-function-paren": "off",
-    "jsx-quotes": ["error", "prefer-single"]
   },
   "settings": {
       "import/resolver": {

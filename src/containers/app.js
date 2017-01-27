@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { View } from 'react-native';
+import { connect } from 'react-redux';
 
 class App extends Component {
   constructor(props) {
@@ -21,4 +22,11 @@ App.propTypes = {
   children: PropTypes.node,
 };
 
-export default App;
+function mapStateToProps() {
+  return {};
+}
+
+const mapDispatchToProps = {
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
