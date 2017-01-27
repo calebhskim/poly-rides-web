@@ -1,21 +1,23 @@
-import { Component, PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-import getFBRedirectResult from '../actions/getFBRedirectResult';
+import Dashboard from './Dashboard';
+import getCurrentUser from '../actions/getCurrentUser';
 
 class Account extends Component {
-  componentDidMount() {
-    this.props.getFBRedirectResult();
+  componentWillMount() {
+    this.props.getCurrentUser();
   }
 
   render() {
-    return this.props.children;
+    return (
+      <Dashboard />
+    );
   }
 }
 
 Account.propTypes = {
-  children: PropTypes.node,
-  getFBRedirectResult: PropTypes.func,
+  getCurrentUser: PropTypes.func,
 };
 
 function mapStateToProps() {
@@ -23,7 +25,7 @@ function mapStateToProps() {
 }
 
 const mapDispatchToProps = {
-  getFBRedirectResult,
+  getCurrentUser,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Account);

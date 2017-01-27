@@ -5,14 +5,14 @@ import { Provider } from 'react-redux';
 import { Router, Route, browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 
-import About from './components/about';
-import App from './containers/app';
+import About from './components/About';
+import Account from './components/Account';
+import App from './containers/App';
 import config from './config';
-import Dashboard from './components/dashboard';
 import initialState from './constants/initialState';
 import lifecycles from './constants/lifecycles';
-import Login from './components/login';
-import NotFound from './components/notFound';
+import Login from './components/Login';
+import NotFound from './components/NotFound';
 import serverInit from './actions/serverInit';
 import Store from './store';
 
@@ -27,8 +27,8 @@ const store = new Store(preloadedState);
 // Sync history with redux store for react router
 const history = syncHistoryWithStore(browserHistory, store);
 
-const authCheck = (nextState, replace) => {
-  if (store.getState().auth.lifecycle === lifecycles.AUTH_NOT_LOGGEDIN) {
+const authCheck = reduxStore => (nextState, replace) => {
+  if (reduxStore.getState().auth.lifecycle === lifecycles.AUTH_NOT_LOGGEDIN) {
     replace({
       pathname: '/',
       state: { nextPathname: nextState.location.pathname },
@@ -43,7 +43,7 @@ render(
       <Route component={App}>
         <Route path='/' component={Login} />
         <Route path='/about' component={About} />
-        <Route path='/dashboard' component={Dashboard} onEnter={authCheck} />
+        <Route path='/dashboard' component={Account} onEnter={authCheck(store)} />
         <Route path='*' component={NotFound} />
       </Route>
     </Router>

@@ -5,17 +5,22 @@ import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-nativ
 import login from '../actions/login';
 import loginStyle from '../styles/components/login';
 import signup from '../actions/signup';
-import fbSignin from '../actions/fbSignin';
+import fbPopupSignin from '../actions/fbPopupSignin';
 
 const styles = StyleSheet.create(loginStyle);
 
 class Login extends Component {
   constructor(props) {
     super(props);
+    this.handleFBSignin = this.handleFBSignin.bind(this);
     this.state = {
       email: '',
       pass: '',
     };
+  }
+
+  handleFBSignin() {
+    this.props.fbPopupSignin();
   }
 
   render() {
@@ -57,9 +62,7 @@ class Login extends Component {
           <Text>Signup</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={
-            () => this.props.fbSignin()
-          }
+          onPress={this.handleFBSignin}
         >
           <Text>Facebook Login</Text>
         </TouchableOpacity>
@@ -69,7 +72,7 @@ class Login extends Component {
 }
 
 Login.propTypes = {
-  fbSignin: PropTypes.func,
+  fbPopupSignin: PropTypes.func,
   login: PropTypes.func,
   signup: PropTypes.func,
 };
@@ -79,7 +82,7 @@ function mapStateToProps() {
 }
 
 const mapDispatchToProps = {
-  fbSignin,
+  fbPopupSignin,
   login,
   signup,
 };

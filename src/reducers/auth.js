@@ -77,6 +77,12 @@ const auth = (state = initialState.auth, { payload, type }) => {
         error: payload,
         lifecycle: lifecycles.AUTH_NOT_LOGGED_IN,
       });
+    case actions.AUTH_STATECHANGE_LOGIN: {
+      return Object.assign({}, state, {
+        lifecycle: lifecycles.AUTH_LOGGEDIN,
+        user: getUser(payload),
+      });
+    }
     default:
       return state;
   }
