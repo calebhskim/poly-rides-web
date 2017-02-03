@@ -11,6 +11,9 @@ cd poly-rides-web
 yarn
 ```
 
+## NOTES:
+We support [`stage-1`](https://babeljs.io/docs/plugins/preset-stage-1/#community-discussion).  
+
 ## TODO:
 * Auth
   * Implement persistence
