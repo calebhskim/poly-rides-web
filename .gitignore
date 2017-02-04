@@ -11,3 +11,6 @@ build
 .tern-project
 
 .notes
+
+# Yarn Error Log
+yarn-error.log
