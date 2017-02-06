@@ -15,7 +15,9 @@ export default {
     },
     fbToken: null,
   },
-  config: {},
+  config: {
+    title: 'PolyRides',
+  },
   firebase: {
     app: null,
     fbProvider: null,

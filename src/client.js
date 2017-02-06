@@ -5,13 +5,12 @@ import { Provider } from 'react-redux';
 import { Router, Route, browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 
-import About from './components/About';
 import Account from './components/Account';
 import App from './containers/App';
 import config from './config';
 import initialState from './constants/initialState';
+import Landing from './components/Landing';
 import lifecycles from './constants/lifecycles';
-import Login from './components/Login';
 import NotFound from './components/NotFound';
 import serverInit from './actions/serverInit';
 import Store from './store';
@@ -41,8 +40,7 @@ render(
   <Provider store={store}>
     <Router history={history}>
       <Route component={App}>
-        <Route path='/' component={Login} />
-        <Route path='/about' component={About} />
+        <Route path='/' component={Landing} />
         <Route path='/dashboard' component={Account} onEnter={authCheck(store)} />
         <Route path='*' component={NotFound} />
       </Route>
