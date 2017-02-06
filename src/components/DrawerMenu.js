@@ -17,6 +17,7 @@ class DrawerMenu extends Component {
 
   getMenuItems() {
     const { handleClose, lifecycle, title } = this.props;
+    const noUnderline = { textDecoration: 'none' };
     const items = [
       <AppBar key='drawerAppBar' onLeftIconButtonTouchTap={handleClose} title={title} />,
     ];
@@ -24,14 +25,18 @@ class DrawerMenu extends Component {
     if (lifecycle === lifecycles.AUTH_LOGGEDIN) {
       items.push(<MenuItem key='signout' onTouchTap={handleClose}>Signout</MenuItem>);
     } else {
-      items.push(<MenuItem key='login' onTouchTap={handleClose}>Login</MenuItem>);
+      items.push(<a href='#login' key='login' style={noUnderline}>
+        <MenuItem onTouchTap={handleClose}>Login</MenuItem></a>);
     }
 
     const bottomItems = [
       <Divider key='divider' />,
-      <MenuItem key='about' onTouchTap={handleClose}>About</MenuItem>,
-      <MenuItem key='contact' onTouchTap={handleClose}>Contact</MenuItem>,
-      <MenuItem key='careers' onTouchTap={handleClose}>Careers</MenuItem>,
+      <a href='#about' key='about' style={noUnderline}>
+        <MenuItem onTouchTap={handleClose}>About</MenuItem>
+      </a>,
+      <a href='#contact' key='contact' style={noUnderline}>
+        <MenuItem onTouchTap={handleClose}>Contact</MenuItem>
+      </a>,
     ];
 
     return items.concat(bottomItems);
@@ -39,7 +44,11 @@ class DrawerMenu extends Component {
 
   render() {
     return (
-      <Drawer docked={false} open={this.props.isOpen} >
+      <Drawer
+        docked={false}
+        open={this.props.isOpen}
+        onRequestChange={open => this.props.changeState({ open })}
+      >
         {this.getMenuItems()}
       </Drawer>
     );
@@ -47,6 +56,7 @@ class DrawerMenu extends Component {
 }
 
 DrawerMenu.propTypes = {
+  changeState: PropTypes.func.isRequired,
   handleClose: PropTypes.func.isRequired,
   isOpen: PropTypes.bool.isRequired,
   lifecycle: PropTypes.string,

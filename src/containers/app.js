@@ -15,11 +15,16 @@ injectTapEventPlugin();
 class App extends Component {
   constructor(props) {
     super(props);
+    this.changeState = this.changeState.bind(this);
     this.handleToggle = this.handleToggle.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.state = {
       open: false,
     };
+  }
+
+  changeState(obj) {
+    return this.setState(Object.assign({}, obj));
   }
 
   handleToggle() {
@@ -39,7 +44,12 @@ class App extends Component {
           <AppBar onLeftIconButtonTouchTap={this.handleToggle} title={title} />
           { /* Add this for nested routes */ }
           { this.props.children }
-          <DrawerMenu handleClose={this.handleClose} isOpen={this.state.open} />
+          <DrawerMenu
+            changeState={this.changeState}
+            handleClose={this.handleClose}
+            isOpen={this.state.open}
+            setState={this.setState}
+          />
         </View>
       </MuiThemeProvider>
     );

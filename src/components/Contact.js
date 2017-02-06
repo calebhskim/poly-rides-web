@@ -5,12 +5,12 @@ import Paper from 'material-ui/Paper';
 
 import cardStyle from '../styles/components/card';
 
-const About = () => (
-  <Paper style={cardStyle} id='about'>
+const Contact = () => (
+  <Paper style={cardStyle} id='contact'>
     <View>
-      <Text>About</Text>
+      <Text>Contact</Text>
     </View>
   </Paper>
 );
 
-export default About;
+export default Contact;

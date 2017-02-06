@@ -1,4 +1,8 @@
 export default {
+  loginCard: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   defaultInput: {
     borderColor: 'gray',
     borderBottomWidth: 2,
