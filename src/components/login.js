@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { Text, TouchableOpacity } from 'react-native';
 
 import Paper from 'material-ui/Paper';
+import RaisedButton from 'material-ui/RaisedButton';
 
 import cardStyle from '../styles/components/card';
 import fbPopupSignin from '../actions/fbPopupSignin';
@@ -19,13 +19,20 @@ class Login extends Component {
   }
 
   render() {
+    const { loginButton: { backgroundColor, color } } = loginStyle;
     return (
       <Paper style={Object.assign({}, cardStyle, loginStyle.loginCard)} >
-        <TouchableOpacity
-          onPress={this.handleFBSignin}
-        >
-          <Text>Facebook Login</Text>
-        </TouchableOpacity>
+        <RaisedButton
+          backgroundColor={backgroundColor}
+          icon={<img
+            src='/dist/facebook.svg'
+            alt=''
+            style={{ height: '18px', width: '18px', marginTop: '-5px' }}
+          />}
+          label='Login with Facebook'
+          labelColor={color}
+          onClick={this.handleFBSignin}
+        />
       </Paper>
     );
   }

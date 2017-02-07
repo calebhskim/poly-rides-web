@@ -1,6 +1,7 @@
+import CopyWebpackPlugin from 'copy-webpack-plugin';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
 import path from 'path';
 import webpack from 'webpack';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
 
 module.exports = {
   devtool: 'eval-source-map',
@@ -12,7 +13,7 @@ module.exports = {
   output: {
     filename: 'bundle.js',
     path: path.join(__dirname, 'build'),
-    publicPath: '/'
+    publicPath: '/dist/'
   },
   devServer: {
     historyApiFallback: true,
@@ -46,5 +47,11 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: 'static/index.html'  
     }),
+    new CopyWebpackPlugin([
+      {
+        from: 'src/images',
+        to: 'dist',
+      }
+    ], {}),
   ]
 };
