@@ -1,8 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { Text, TouchableOpacity, View } from 'react-native';
-
-import signout from '../actions/signout';
+import { Text, View } from 'react-native';
 
 class Dashboard extends Component {
   constructor(props) {
@@ -15,13 +13,6 @@ class Dashboard extends Component {
     return (
       <View>
         <Text>Welcome { displayName || email }</Text>
-        <TouchableOpacity
-          onPress={
-            () => this.props.signout()
-          }
-        >
-          Signout
-        </TouchableOpacity>
       </View>
     );
   }
@@ -30,7 +21,6 @@ class Dashboard extends Component {
 Dashboard.propTypes = {
   displayName: PropTypes.string,
   email: PropTypes.string,
-  signout: PropTypes.func,
 };
 
 function mapStateToProps(state) {
@@ -41,8 +31,6 @@ function mapStateToProps(state) {
   };
 }
 
-const mapDispatchToProps = {
-  signout,
-};
+const mapDispatchToProps = {};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

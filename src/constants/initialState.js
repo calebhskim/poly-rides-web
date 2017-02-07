@@ -5,7 +5,7 @@ export default {
     error: {},
     lifecycle: lifecycles.AUTH_NOT_LOGGEDIN,
     user: {
-      displayName: null,
+      displayName: '',
       email: null,
       emailVerified: false,
       isAnonymous: null,

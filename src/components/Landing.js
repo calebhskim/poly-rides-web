@@ -2,8 +2,6 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { View } from 'react-native';
 
-import About from './About';
-import Contact from './Contact';
 import Login from './Login';
 
 class Landing extends Component {
@@ -16,8 +14,6 @@ class Landing extends Component {
     return (
       <View>
         <Login />
-        <About />
-        <Contact />
       </View>
     );
   }

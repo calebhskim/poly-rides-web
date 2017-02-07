@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router';
 
 import AppBar from 'material-ui/AppBar';
 import Divider from 'material-ui/Divider';
@@ -7,39 +8,49 @@ import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 
 import lifecycles from '../constants/lifecycles';
+import linkStyles from '../styles/components/link';
+import Profile from '../components/Profile';
 import signout from '../actions/signout';
 
 class DrawerMenu extends Component {
   constructor(props) {
     super(props);
     this.getMenuItems = this.getMenuItems.bind(this);
+    this.handleSignout = this.handleSignout.bind(this);
   }
 
   getMenuItems() {
     const { handleClose, lifecycle, title } = this.props;
-    const noUnderline = { textDecoration: 'none' };
     const items = [
-      <AppBar key='drawerAppBar' onLeftIconButtonTouchTap={handleClose} title={title} />,
+      <AppBar
+        key='drawerAppBar'
+        onLeftIconButtonTouchTap={handleClose}
+        title={lifecycle === lifecycles.AUTH_LOGGEDIN ? <Profile /> : title}
+        titleStyle={{ alignItems: 'center', display: 'flex' }}
+      />,
     ];
 
     if (lifecycle === lifecycles.AUTH_LOGGEDIN) {
-      items.push(<MenuItem key='signout' onTouchTap={handleClose}>Signout</MenuItem>);
+      items.push(<MenuItem key='signout' onTouchTap={this.handleSignout}>Signout</MenuItem>);
     } else {
-      items.push(<a href='#login' key='login' style={noUnderline}>
-        <MenuItem onTouchTap={handleClose}>Login</MenuItem></a>);
+      items.push(<Link key='login' style={linkStyles} to='/'>
+        <MenuItem onTouchTap={handleClose}>Login</MenuItem></Link>);
     }
 
     const bottomItems = [
       <Divider key='divider' />,
-      <a href='#about' key='about' style={noUnderline}>
-        <MenuItem onTouchTap={handleClose}>About</MenuItem>
-      </a>,
-      <a href='#contact' key='contact' style={noUnderline}>
-        <MenuItem onTouchTap={handleClose}>Contact</MenuItem>
-      </a>,
+      <Link key='about' style={linkStyles} to='/about'>
+        <MenuItem onTouchTap={handleClose}>About</MenuItem></Link>,
+      <Link key='contact' style={linkStyles} to='/contact'>
+        <MenuItem onTouchTap={handleClose}>Contact</MenuItem></Link>,
     ];
 
     return items.concat(bottomItems);
+  }
+
+  handleSignout() {
+    this.props.handleClose();
+    this.props.signout();
   }
 
   render() {
@@ -60,6 +71,7 @@ DrawerMenu.propTypes = {
   handleClose: PropTypes.func.isRequired,
   isOpen: PropTypes.bool.isRequired,
   lifecycle: PropTypes.string,
+  signout: PropTypes.func,
   title: PropTypes.string,
 };
 

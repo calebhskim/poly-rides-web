@@ -1,4 +1,4 @@
 export default {
   display: 'flex',
-  height: '500px',
+  height: '100vh',
 };
