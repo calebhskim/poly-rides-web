@@ -1,9 +1,10 @@
 export default {
-  defaultInput: {
-    borderColor: 'gray',
-    borderBottomWidth: 2,
+  loginButton: {
+    backgroundColor: '#3b5998',
+    color: 'white',
   },
-  focused: {
-    borderColor: 'blue',
+  loginCard: {
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 };

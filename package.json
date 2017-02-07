@@ -43,6 +43,7 @@
     "babel-preset-react-native": "^1.9.0",
     "babel-register": "^6.18.0",
     "clui": "^0.3.1",
+    "copy-webpack-plugin": "^4.0.1",
     "eslint": "^3.11.1",
     "eslint-config-airbnb": "^13.0.0",
     "eslint-import-resolver-webpack": "^0.7.0",

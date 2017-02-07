@@ -5,7 +5,7 @@ export default {
     error: {},
     lifecycle: lifecycles.AUTH_NOT_LOGGEDIN,
     user: {
-      displayName: null,
+      displayName: '',
       email: null,
       emailVerified: false,
       isAnonymous: null,
@@ -15,7 +15,9 @@ export default {
     },
     fbToken: null,
   },
-  config: {},
+  config: {
+    title: 'PolyRides',
+  },
   firebase: {
     app: null,
     fbProvider: null,

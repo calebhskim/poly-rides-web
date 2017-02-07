@@ -9,9 +9,10 @@ import About from './components/About';
 import Account from './components/Account';
 import App from './containers/App';
 import config from './config';
+import Contact from './components/Contact';
 import initialState from './constants/initialState';
+import Landing from './components/Landing';
 import lifecycles from './constants/lifecycles';
-import Login from './components/Login';
 import NotFound from './components/NotFound';
 import serverInit from './actions/serverInit';
 import Store from './store';
@@ -41,8 +42,9 @@ render(
   <Provider store={store}>
     <Router history={history}>
       <Route component={App}>
-        <Route path='/' component={Login} />
+        <Route path='/' component={Landing} />
         <Route path='/about' component={About} />
+        <Route path='/contact' component={Contact} />
         <Route path='/dashboard' component={Account} onEnter={authCheck(store)} />
         <Route path='*' component={NotFound} />
       </Route>
