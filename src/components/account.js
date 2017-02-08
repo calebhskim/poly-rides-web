@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-import Dashboard from './Dashboard';
 import getCurrentUser from '../actions/getCurrentUser';
 
 class Account extends Component {
@@ -10,13 +9,15 @@ class Account extends Component {
   }
 
   render() {
-    return (
-      <Dashboard />
-    );
+    return this.props.children;
   }
 }
 
 Account.propTypes = {
+  children: PropTypes.oneOfType([
+    React.PropTypes.arrayOf(React.PropTypes.node),
+    React.PropTypes.node,
+  ]),
   getCurrentUser: PropTypes.func,
 };
 

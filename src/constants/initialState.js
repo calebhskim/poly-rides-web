@@ -8,6 +8,7 @@ export default {
       displayName: '',
       email: null,
       emailVerified: false,
+      inGroup: false,
       isAnonymous: null,
       photoURL: null,
       refreshToken: null,
