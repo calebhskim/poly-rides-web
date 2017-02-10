@@ -1,8 +1,10 @@
-import path from 'path';
-
 module.exports = {
   "extends": "airbnb",
-  "plugins": ["import"],
+  "plugins": [
+    "import",
+    "react",
+    "react-native"
+  ],
   "env": {
     "browser": true,
     "es6": true,
@@ -18,7 +20,7 @@ module.exports = {
   "settings": {
       "import/resolver": {
       "webpack": {
-        "config": path.join(__dirname, 'webpack.config.babel.js')
+        "config": 'webpack.config.babel.js'
       }
     }
   }

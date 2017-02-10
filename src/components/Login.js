@@ -7,11 +7,16 @@ import RaisedButton from 'material-ui/RaisedButton';
 import cardStyle from '../styles/components/card';
 import fbPopupSignin from '../actions/fbPopupSignin';
 import loginStyle from '../styles/components/login';
+import setNavTitle from '../actions/setNavTitle';
 
 class Login extends Component {
   constructor(props) {
     super(props);
     this.handleFBSignin = this.handleFBSignin.bind(this);
+  }
+
+  componentDidMount() {
+    this.props.setNavTitle('PolyRides');
   }
 
   handleFBSignin() {
@@ -40,6 +45,7 @@ class Login extends Component {
 
 Login.propTypes = {
   fbPopupSignin: PropTypes.func,
+  setNavTitle: PropTypes.func,
 };
 
 function mapStateToProps() {
@@ -48,6 +54,7 @@ function mapStateToProps() {
 
 const mapDispatchToProps = {
   fbPopupSignin,
+  setNavTitle,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
