@@ -1,3 +1,5 @@
+import get from 'lodash/get';
+
 import actions from '../constants/actions';
 import initialState from '../constants/initialState';
 import lifecycles from '../constants/lifecycles';
@@ -24,7 +26,7 @@ const getUser = (payload) => {
   });
 };
 
-const auth = (state = initialState.auth, { payload, type }) => {
+const auth = (state = initialState.auth, { payload, response, type }) => {
   switch(type) {
     case actions.AUTH_LOGIN_START:
       return Object.assign({}, state, {
@@ -81,6 +83,14 @@ const auth = (state = initialState.auth, { payload, type }) => {
       return Object.assign({}, state, {
         lifecycle: lifecycles.AUTH_LOGGEDIN,
         user: getUser(payload),
+      });
+    }
+    case actions.GET_FB_ID_SUCCESS: {
+      return Object.assign({}, state, {
+        user: {
+          ...state.user,
+          fbId: get(response, 'data.id', null),
+        },
       });
     }
     default:
