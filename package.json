@@ -7,16 +7,19 @@
   "author": "calebhskim <caleb.hs.kim@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "local": "yarn run build && ./node_modules/.bin/webpack-dev-server --content-base build/",
     "build": "node_modules/.bin/webpack",
-    "start": "yarn run build && node ./build/server.js",
-    "mockdata": "./node_modules/.bin/babel ./scripts/src -d ./scripts/build > /dev/null && node ./scripts/build/mockdata.js"
+    "build_scripts": "./node_modules/.bin/babel ./scripts/src -d ./scripts/build",
+    "local": "yarn run build && ./node_modules/.bin/webpack-dev-server --content-base build/",
+    "members": "yarn run build_scripts && node ./scripts/build/members.js",
+    "mockdata": "yarn run build_scripts && node ./scripts/build/mockdata.js",
+    "start": "yarn run build && node ./build/server.js"
   },
   "engines": {
     "node": ">=6.0.0",
     "npm": ">=3.10.9"
   },
   "dependencies": {
+    "axios": "^0.15.3",
     "babel-preset-stage-1": "^6.22.0",
     "body-parser": "^1.15.2",
     "express": "^4.14.0",
@@ -31,6 +34,7 @@
     "react-router": "^3.0.0",
     "react-router-redux": "^4.0.7",
     "react-tap-event-plugin": "^2.0.1",
+    "readline": "^1.3.0",
     "redux": "^3.6.0",
     "redux-logger": "^2.7.4",
     "redux-thunk": "^2.1.0"

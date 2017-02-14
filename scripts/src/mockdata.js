@@ -4,7 +4,6 @@ import clui from 'clui';
 import generateEntry from './mockdataUtil/generateData';
 import config from './config';
 
-
 firebase.initializeApp(config);
 
 const questions = [{
