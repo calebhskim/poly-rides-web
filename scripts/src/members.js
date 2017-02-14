@@ -39,9 +39,8 @@ inquirer.prompt(questions).then((ans) => {
   
   // Deconstruct member object to detect changes to facebook graph api
   // Should version lock graph api
-  const generateMember = ({ administrator, id, name }) => {
+  const generateMember = ({ administrator, name }) => {
     return {
-      id,
       isAdmin: administrator,
       name
     }
@@ -81,7 +80,7 @@ inquirer.prompt(questions).then((ans) => {
       }
 
       Promise.all(responseMembers.map((member) => {
-        return members.push(generateMember(member), pushHandler);
+        return members.child(member.id).set(generateMember(member), pushHandler);
       })).then(() => {
         process.exit();
       });
