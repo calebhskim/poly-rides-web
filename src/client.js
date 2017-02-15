@@ -39,6 +39,16 @@ const authCheck = reduxStore => (nextState, replace) => {
   }
 };
 
+const dashboardGroupCheck = reduxStore => (nextState, replace) => {
+  const { appState, auth: { user: { inGroup } } } = reduxStore.getState();
+  if (!inGroup && appState !== lifecycles.LOADING) {
+    replace({
+      pathname: '/dashboard/n',
+      state: { nextPathname: nextState.location.pathname },
+    });
+  }
+};
+
 const groupCheck = reduxStore => (nextState, replace) => {
   if (reduxStore.getState().auth.user.inGroup) {
     replace({
@@ -57,7 +67,7 @@ render(
         <Route path='/about' component={About} />
         <Route path='/contact' component={Contact} />
         <Route path='/dashboard' component={Account} onEnter={authCheck(store)}>
-          <IndexRoute component={Dashboard} />
+          <IndexRoute component={Dashboard} onEnter={dashboardGroupCheck(store)} />
           <Route path='n' component={NotInGroup} onEnter={groupCheck(store)} />
         </Route>
         <Route path='*' component={NotFound} />

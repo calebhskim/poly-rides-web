@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 import getCurrentUser from '../actions/getCurrentUser';
+import styles from '../styles/components/account';
 
 class Account extends Component {
   componentWillMount() {
@@ -9,7 +10,7 @@ class Account extends Component {
   }
 
   render() {
-    return this.props.children;
+    return <div style={styles.container}>{this.props.children}</div>;
   }
 }
 

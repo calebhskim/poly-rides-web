@@ -1,7 +1,6 @@
 import { push } from 'react-router-redux';
 
 import actions from '../constants/actions';
-import getFBId from '../actions/getFBId';
 
 export default function fbPopupSignin() {
   return (dispatch, getState) => {
@@ -9,19 +8,16 @@ export default function fbPopupSignin() {
     const auth = app.auth();
 
     return auth.signInWithPopup(fbProvider).then((result) => {
-      Promise.resolve(dispatch({
+      dispatch({
         type: actions.AUTH_FBSIGNIN_SUCCESS,
         payload: result,
-      })).then(() => {
-        dispatch(push('/dashboard'));
-        return dispatch(getFBId());
       });
+      dispatch(push('/dashboard'));
     }).catch((err) => {
       dispatch({
         type: actions.AUTH_FBSIGNIN_FAILURE,
         payload: err,
       });
-
       dispatch(push('/'));
       return Promise.reject();
     });
