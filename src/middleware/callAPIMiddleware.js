@@ -17,7 +17,7 @@ export default function callAPIMiddleware({ dispatch, getState }) {
       !types.request ||
       !types.failure ||
       !types.success ||
-      !Object.keys(action).every(k => typeof action[k] === 'string')) {
+      !Object.keys(types).every(k => typeof types[k] === 'string')) {
       throw new Error('Expected an object with three keys (request, success, and failure) all with values of type string.');
     }
 
@@ -36,7 +36,7 @@ export default function callAPIMiddleware({ dispatch, getState }) {
       type: request,
     }));
 
-    return callAPI().then(
+    return callAPI(getState()).then(
       response => dispatch(Object.assign({}, payload, {
         response,
         type: success,
