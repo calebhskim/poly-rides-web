@@ -11,11 +11,10 @@ export default function verifyInGroup() {
           type: actions.IN_FB_GROUP,
         });
       } else {
-        Promise.resolve(dispatch({
+        dispatch({
           type: actions.NOT_IN_FB_GROUP,
-        })).then(() => {
-          dispatch(push('/dashboard/n'));
         });
+        dispatch(push('/dashboard/n'));
       }
     });
   };
