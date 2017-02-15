@@ -12,5 +12,10 @@ build
 
 .notes
 
+
+# ide stuff
+.idea
+
+
 # Yarn Error Log
 yarn-error.log

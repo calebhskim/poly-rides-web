@@ -1,4 +1,8 @@
 export default {
-  port: 3000,
   firebaseApp: 'https://polyridesweb.firebaseio.com/',
+  groupId: '250502971675365',
+  port: 3000,
+  urls: {
+    graph: 'https://graph.facebook.com/',
+  },
 };
