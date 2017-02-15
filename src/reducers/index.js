@@ -5,7 +5,6 @@ import appState from './appState';
 import auth from './auth';
 import config from './config';
 import firebase from './firebase';
-import user from './user';
 
 // Map of reducers to pass to store
 const reducers = {
@@ -14,7 +13,6 @@ const reducers = {
   config,
   firebase,
   routing: routerReducer,
-  user,
 };
 
 const rootReducer = combineReducers(reducers);

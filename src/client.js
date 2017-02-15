@@ -69,7 +69,7 @@ render(
         <Route path='/contact' component={Contact} />
         <Route path='/dashboard' component={Account} onEnter={authCheck(store)}>
           <IndexRoute component={Dashboard} onEnter={dashboardGroupCheck(store)} />
-          <Route path='feed' component={Feed} />
+          <Route path='feed' component={Feed} onEnter={dashboardGroupCheck(store)} />
           <Route path='n' component={NotInGroup} onEnter={groupCheck(store)} />
         </Route>
         <Route path='*' component={NotFound} />

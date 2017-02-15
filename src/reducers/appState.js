@@ -6,6 +6,8 @@ const appState = (state = initialState.appState, { type }) => {
   switch(type) {
     case actions.IN_FB_GROUP:
       return lifecycles.DATA_LOADED;
+    case actions.NOT_IN_FB_GROUP:
+      return lifecycles.DATA_LOADED;
     default:
       return state;
   }
