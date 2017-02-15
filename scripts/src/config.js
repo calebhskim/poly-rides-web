@@ -6,4 +6,4 @@ export default {
     storageBucket: 'polyridesweb.appspot.com',
     messagingSenderId: '429026541463',
   },
-}
+};

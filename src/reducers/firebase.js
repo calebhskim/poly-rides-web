@@ -10,6 +10,11 @@ const firebase = (state = initialState.firebase, { payload, type }) => {
         fbProvider,
       });
     }
+    case actions.CURRENT_RIDES_CHANGE: {
+      return Object.assign({}, state, {
+        feed: payload,
+      });
+    }
     default:
       return state;
   }

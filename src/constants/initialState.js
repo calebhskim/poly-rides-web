@@ -21,5 +21,6 @@ export default {
   firebase: {
     app: null,
     fbProvider: null,
+    feed: {},
   },
 };

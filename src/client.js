@@ -10,6 +10,7 @@ import Account from './components/Account';
 import App from './containers/App';
 import config from './config';
 import Contact from './components/Contact';
+import Feed from './components/Feed';
 import initialState from './constants/initialState';
 import Landing from './components/Landing';
 import lifecycles from './constants/lifecycles';
@@ -45,6 +46,7 @@ render(
         <Route path='/' component={Landing} />
         <Route path='/about' component={About} />
         <Route path='/contact' component={Contact} />
+        <Route path='/feed' component={Feed} onEnter={authCheck(store)} />
         <Route path='/dashboard' component={Account} onEnter={authCheck(store)} />
         <Route path='*' component={NotFound} />
       </Route>
