@@ -7,6 +7,7 @@ function listenForRides() {
 
     const ridesRef = app.database().ref('rides');
 
+    /* this selector of data should change to whatever makes most sense */
     ridesRef.orderByChild('costPerSeat').on('value', (snap) => {
       dispatch({
         type: actions.CURRENT_RIDES_CHANGE,
