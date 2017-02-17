@@ -12,7 +12,6 @@ import FeedItem from './FeedItem';
 
 class Feed extends Component {
   componentWillMount() {
-    console.log('mounting');
     this.props.listenForRides();
   }
 
@@ -25,7 +24,6 @@ class Feed extends Component {
   }
 
   render() {
-    // TODO alignItems isn't working right or im just an idiot
     const feedContainerStyle = {
       flexDirection: 'column',
       justifyContent: 'flex-start',
@@ -41,6 +39,7 @@ class Feed extends Component {
       return 0;
     }
 
+    /* the rides returned are not sorted */
     const sortedFeed = Object.keys(this.props.feed).map(key => this.props.feed[key]);
     const displayedFeed = sortedFeed.sort(compare).map((feedItem, idx) =>
       <FeedItem feedData={feedItem} key={idx} />);

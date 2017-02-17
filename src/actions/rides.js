@@ -8,15 +8,13 @@ function listenForRides() {
     const ridesRef = app.database().ref('rides');
 
     ridesRef.orderByChild('costPerSeat').on('value', (snap) => {
-      console.log(snap.val());
-
       dispatch({
         type: actions.CURRENT_RIDES_CHANGE,
         payload: snap.val(),
       });
     }, (err) => {
-      console.log('err');
-      console.log(err);
+      // TODO: a later task will fix this
+      console.log('err: ', err);
     });
   };
 }
