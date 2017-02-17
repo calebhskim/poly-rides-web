@@ -12,10 +12,10 @@ const FeedItem = ({ feedData }) => {
         <Text>
           {fromLocation} {'->'} {toLocation} {'\n'}
         </Text>
-        <Text style={{ fontWeight: 100 }}>
+        <Text style={{ fontWeight: '100' }}>
           Posted: {postTimestamp} {'\n'}
         </Text>
-        <Text style={{ fontWeight: 200 }}>
+        <Text style={{ fontWeight: '200' }}>
           Description: {description}
         </Text>
       </CardText>
