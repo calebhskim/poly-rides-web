@@ -3,11 +3,13 @@ import { connect } from 'react-redux';
 import { View } from 'react-native';
 
 import Paper from 'material-ui/Paper';
+import orderBy from 'lodash/orderBy';
+import values from 'lodash/values';
 
 import cardStyle from '../styles/components/card';
-import setNavTitle from '../actions/setNavTitle';
-import { listenForRides, stopListenForRides } from '../actions/rides';
 import FeedItem from './FeedItem';
+import { listenForRides, stopListenForRides } from '../actions/rides';
+import setNavTitle from '../actions/setNavTitle';
 
 
 class Feed extends Component {
@@ -30,19 +32,10 @@ class Feed extends Component {
       alignItems: 'center',
     };
 
-    function compare(a, b) {
-      if (a.postTimestamp < b.postTimestamp) {
-        return -1;
-      } else if (a.postTimestamp > b.postTimestamp) {
-        return 1;
-      }
-      return 0;
-    }
-
     /* the rides returned are not sorted */
-    const sortedFeed = Object.keys(this.props.feed).map(key => this.props.feed[key]);
-    const displayedFeed = sortedFeed.sort(compare).map((feedItem, idx) =>
-      <FeedItem feedData={feedItem} key={idx} />);
+    const flattenedFeed = values(this.props.feed);
+    const displayedFeed = orderBy(flattenedFeed, ['postTimestamp'], ['desc']).map(
+      (feedItem, idx) => <FeedItem feedData={feedItem} key={idx} />);
 
     return (
       <Paper style={cardStyle} id='about'>
@@ -53,19 +46,18 @@ class Feed extends Component {
       </Paper>
     );
   }
-
 }
 
 
 Feed.propTypes = {
-  setNavTitle: PropTypes.func,
-  listenForRides: PropTypes.func,
-  stopListenForRides: PropTypes.func,
   feed: PropTypes.objectOf(PropTypes.object),
+  listenForRides: PropTypes.func,
+  setNavTitle: PropTypes.func,
+  stopListenForRides: PropTypes.func,
 };
 
 function mapStateToProps(state) {
-  const { firebase: { feed } } = state;
+  const { appState: { feed } } = state;
 
   return {
     feed,
@@ -73,8 +65,8 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  setNavTitle,
   listenForRides,
+  setNavTitle,
   stopListenForRides,
 };
 

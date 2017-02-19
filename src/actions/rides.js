@@ -6,21 +6,20 @@ function listenForRides() {
     const { firebase: { app } } = getState();
 
     const ridesRef = app.database().ref('rides');
+    const displayCount = 10;
 
-    /* this selector of data should change to whatever makes most sense */
-    ridesRef.orderByChild('costPerSeat').on('value', (snap) => {
+    ridesRef.orderByChild('postTimestamp').limitToLast(displayCount).on('value', (snap) => {
       dispatch({
         type: actions.CURRENT_RIDES_CHANGE,
         payload: snap.val(),
       });
     }, (err) => {
-      // TODO: a later task will fix this
+      // TODO: Implement proper error handling
       console.log('err: ', err);
     });
   };
 }
 
-// is this nonsense? it dispatches no actions
 function stopListenForRides() {
   return (dispatch, getState) => {
     const { firebase: { app } } = getState();

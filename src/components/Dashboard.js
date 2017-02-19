@@ -12,9 +12,9 @@ class Dashboard extends Component {
   }
 
   render() {
-    const { displayName, email, appState } = this.props;
+    const { displayName, email, loading } = this.props;
 
-    if (appState === lifecycles.LOADING) {
+    if (loading === lifecycles.LOADING) {
       return <Loading />;
     }
 
@@ -27,15 +27,15 @@ class Dashboard extends Component {
 }
 
 Dashboard.propTypes = {
-  appState: PropTypes.string,
+  loading: PropTypes.string,
   displayName: PropTypes.string,
   email: PropTypes.string,
 };
 
 function mapStateToProps(state) {
-  const { appState, auth: { user: { displayName, email } } } = state;
+  const { appState: { loading }, auth: { user: { displayName, email } } } = state;
   return {
-    appState,
+    loading,
     displayName,
     email,
   };
