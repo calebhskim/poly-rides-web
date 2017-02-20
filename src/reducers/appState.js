@@ -6,11 +6,11 @@ const appState = (state = initialState.appState, { payload, type }) => {
   switch(type) {
     case actions.IN_FB_GROUP:
       return Object.assign({}, state, {
-        loading: lifecycles.DATA_LOADED,
+        status: lifecycles.DATA_LOADED,
       });
     case actions.NOT_IN_FB_GROUP:
       return Object.assign({}, state, {
-        loading: lifecycles.DATA_LOADED,
+        status: lifecycles.DATA_LOADED,
       });
     case actions.CURRENT_RIDES_CHANGE: {
       return Object.assign({}, state, {
