@@ -11,11 +11,11 @@ import App from './containers/App';
 import config from './config';
 import Contact from './components/Contact';
 import Dashboard from './components/Dashboard';
+import Feed from './components/Feed';
 import initialState from './constants/initialState';
 import Landing from './components/Landing';
 import lifecycles from './constants/lifecycles';
 import NotFound from './components/NotFound';
-import NotInGroup from './components/NotInGroup';
 import serverInit from './actions/serverInit';
 import Store from './store';
 
@@ -30,29 +30,19 @@ const store = new Store(preloadedState);
 // Sync history with redux store for react router
 const history = syncHistoryWithStore(browserHistory, store);
 
+// prevents not logged in users and users that aren't in the fb group
+// from accessing page
 const authCheck = reduxStore => (nextState, replace) => {
-  if (reduxStore.getState().auth.lifecycle === lifecycles.AUTH_NOT_LOGGEDIN) {
+  const { auth: { lifecycle } } = reduxStore.getState();
+
+  /* const { auth: { lifecycle, user: { inGroup } } } = reduxStore.getState();
+   if (lifecycle === lifecycles.AUTH_NOT_LOGGEDIN || !inGroup) {
+   using auth checking without validating that they are in the right group
+   for now becuase it isn't working
+   will be addressed in this card: https://trello.com/c/kmvHEGzd */
+  if (lifecycle === lifecycles.AUTH_NOT_LOGGEDIN) {
     replace({
       pathname: '/',
-      state: { nextPathname: nextState.location.pathname },
-    });
-  }
-};
-
-const dashboardGroupCheck = reduxStore => (nextState, replace) => {
-  const { appState, auth: { user: { inGroup } } } = reduxStore.getState();
-  if (!inGroup && appState !== lifecycles.LOADING) {
-    replace({
-      pathname: '/dashboard/n',
-      state: { nextPathname: nextState.location.pathname },
-    });
-  }
-};
-
-const groupCheck = reduxStore => (nextState, replace) => {
-  if (reduxStore.getState().auth.user.inGroup) {
-    replace({
-      pathname: '/dashboard',
       state: { nextPathname: nextState.location.pathname },
     });
   }
@@ -67,8 +57,8 @@ render(
         <Route path='/about' component={About} />
         <Route path='/contact' component={Contact} />
         <Route path='/dashboard' component={Account} onEnter={authCheck(store)}>
-          <IndexRoute component={Dashboard} onEnter={dashboardGroupCheck(store)} />
-          <Route path='n' component={NotInGroup} onEnter={groupCheck(store)} />
+          <IndexRoute component={Dashboard} />
+          <Route path='feed' component={Feed} />
         </Route>
         <Route path='*' component={NotFound} />
       </Route>

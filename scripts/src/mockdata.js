@@ -4,8 +4,7 @@ import clui from 'clui';
 import generateEntry from './mockdataUtil/generateData';
 import config from './config';
 
-
-firebase.initializeApp(config);
+const firebaseRef = firebase.initializeApp(config.firebase);
 
 const questions = [{
   name: 'shouldClear',
@@ -26,7 +25,7 @@ const questions = [{
 }];
 
 inquirer.prompt(questions).then((ans) => {
-  const rides = firebase.database().ref('rides');
+  const rides = firebaseRef.database().ref('rides');
 
   if (ans.shouldClear) {
     rides.remove();
@@ -43,7 +42,7 @@ inquirer.prompt(questions).then((ans) => {
     spinner.message(`Inputting entry ${entryNum} of ${n}`);
 
     if (entryNum === n) {
-      firebase.database().goOffline();
+      firebaseRef.database().goOffline();
       spinner.stop();
     }
   };
