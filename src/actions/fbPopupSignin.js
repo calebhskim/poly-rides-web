@@ -13,14 +13,12 @@ export default function fbPopupSignin() {
         payload: result,
       });
       dispatch(push('/dashboard'));
-
       return Promise.resolve();
     }).catch((err) => {
       dispatch({
         type: actions.AUTH_FBSIGNIN_FAILURE,
         payload: err,
       });
-
       dispatch(push('/'));
       return Promise.reject();
     });

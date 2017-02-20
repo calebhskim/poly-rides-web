@@ -2,6 +2,9 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Text, View } from 'react-native';
 
+import lifecycles from '../constants/lifecycles';
+import Loading from './Loading';
+
 class Dashboard extends Component {
   constructor(props) {
     super(props);
@@ -9,7 +12,12 @@ class Dashboard extends Component {
   }
 
   render() {
-    const { displayName, email } = this.props;
+    const { displayName, email, status } = this.props;
+
+    if (status === lifecycles.LOADING) {
+      return <Loading />;
+    }
+
     return (
       <View>
         <Text>Welcome { displayName || email }</Text>
@@ -21,13 +29,15 @@ class Dashboard extends Component {
 Dashboard.propTypes = {
   displayName: PropTypes.string,
   email: PropTypes.string,
+  status: PropTypes.string,
 };
 
 function mapStateToProps(state) {
-  const { auth: { user: { displayName, email } } } = state;
+  const { appState: { status }, auth: { user: { displayName, email } } } = state;
   return {
     displayName,
     email,
+    status,
   };
 }
 

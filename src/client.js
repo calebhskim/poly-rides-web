@@ -2,7 +2,7 @@ import React from 'react';
 import * as firebase from 'firebase';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
-import { Router, Route, browserHistory } from 'react-router';
+import { browserHistory, IndexRoute, Router, Route } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 
 import About from './components/About';
@@ -10,6 +10,8 @@ import Account from './components/Account';
 import App from './containers/App';
 import config from './config';
 import Contact from './components/Contact';
+import Dashboard from './components/Dashboard';
+import Feed from './components/Feed';
 import initialState from './constants/initialState';
 import Landing from './components/Landing';
 import lifecycles from './constants/lifecycles';
@@ -28,8 +30,17 @@ const store = new Store(preloadedState);
 // Sync history with redux store for react router
 const history = syncHistoryWithStore(browserHistory, store);
 
+// prevents not logged in users and users that aren't in the fb group
+// from accessing page
 const authCheck = reduxStore => (nextState, replace) => {
-  if (reduxStore.getState().auth.lifecycle === lifecycles.AUTH_NOT_LOGGEDIN) {
+  const { auth: { lifecycle } } = reduxStore.getState();
+
+  /* const { auth: { lifecycle, user: { inGroup } } } = reduxStore.getState();
+   if (lifecycle === lifecycles.AUTH_NOT_LOGGEDIN || !inGroup) {
+   using auth checking without validating that they are in the right group
+   for now becuase it isn't working
+   will be addressed in this card: https://trello.com/c/kmvHEGzd */
+  if (lifecycle === lifecycles.AUTH_NOT_LOGGEDIN) {
     replace({
       pathname: '/',
       state: { nextPathname: nextState.location.pathname },
@@ -45,7 +56,10 @@ render(
         <Route path='/' component={Landing} />
         <Route path='/about' component={About} />
         <Route path='/contact' component={Contact} />
-        <Route path='/dashboard' component={Account} onEnter={authCheck(store)} />
+        <Route path='/dashboard' component={Account} onEnter={authCheck(store)}>
+          <IndexRoute component={Dashboard} />
+          <Route path='feed' component={Feed} />
+        </Route>
         <Route path='*' component={NotFound} />
       </Route>
     </Router>

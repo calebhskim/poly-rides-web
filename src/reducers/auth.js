@@ -1,3 +1,5 @@
+import get from 'lodash/get';
+
 import actions from '../constants/actions';
 import initialState from '../constants/initialState';
 import lifecycles from '../constants/lifecycles';
@@ -24,7 +26,7 @@ const getUser = (payload) => {
   });
 };
 
-const auth = (state = initialState.auth, { payload, type }) => {
+const auth = (state = initialState.auth, { payload, response, type }) => {
   switch(type) {
     case actions.AUTH_LOGIN_START:
       return Object.assign({}, state, {
@@ -34,7 +36,10 @@ const auth = (state = initialState.auth, { payload, type }) => {
       return Object.assign({}, state, {
         error: {},
         lifecycle: lifecycles.AUTH_LOGGEDIN,
-        user: getUser(payload),
+        user: {
+          ...state.user,
+          ...getUser(payload),
+        },
       });
     case actions.AUTH_LOGIN_FAILURE:
       return Object.assign({}, state, {
@@ -45,7 +50,10 @@ const auth = (state = initialState.auth, { payload, type }) => {
       return Object.assign({}, state, {
         error: {},
         lifecycle: lifecycles.AUTH_LOGGEDIN,
-        user: getUser(payload),
+        user: {
+          ...state.user,
+          ...getUser(payload),
+        },
       });
     case actions.AUTH_SIGNUP_FAILURE:
       return Object.assign({}, state, {
@@ -69,7 +77,10 @@ const auth = (state = initialState.auth, { payload, type }) => {
       return Object.assign({}, state, {
         fbToken: credential.accessToken,
         lifecycle: lifecycles.AUTH_LOGGEDIN,
-        user: getUser(user),
+        user: {
+          ...state.user,
+          ...getUser(user),
+        },
       });
     }
     case actions.AUTH_FBSIGNIN_FAILURE:
@@ -80,9 +91,34 @@ const auth = (state = initialState.auth, { payload, type }) => {
     case actions.AUTH_STATECHANGE_LOGIN: {
       return Object.assign({}, state, {
         lifecycle: lifecycles.AUTH_LOGGEDIN,
-        user: getUser(payload),
+        user: {
+          ...state.user,
+          ...getUser(payload),
+        },
       });
     }
+    case actions.GET_FB_ID_SUCCESS: {
+      return Object.assign({}, state, {
+        user: {
+          ...state.user,
+          fbId: get(response, 'data.id', null),
+        },
+      });
+    }
+    case actions.IN_FB_GROUP:
+      return Object.assign({}, state, {
+        user: {
+          ...state.user,
+          inGroup: true,
+        },
+      });
+    case actions.NOT_IN_FB_GROUP:
+      return Object.assign({}, state, {
+        user: {
+          ...state.user,
+          inGroup: false,
+        },
+      });
     default:
       return state;
   }
