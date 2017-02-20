@@ -15,6 +15,11 @@ if (process.argv.length !== 3) {
 
 firebase.initializeApp(config.firebase);
 
+let currentVal = 0;
+const baseURL = 'https://graph.facebook.com';
+const maxValue = 16343;
+const progressBar = new Progress(30);
+const members = firebase.database().ref('members');
 const questions = [
   {
     name: 'shouldClear',
@@ -28,71 +33,66 @@ const questions = [
   }
 ];
 
-inquirer.prompt(questions).then((ans) => {
-  const baseURL = 'https://graph.facebook.com';
-  const maxValue = 16343;
-  const members = firebase.database().ref('members');
-  const progressBar = new Progress(30);
-  let currentVal = 0;
-  let hasNext = true;
-  let url = `${baseURL}/250502971675365/members`;
-  
-  // Deconstruct member object to detect changes to facebook graph api
-  // Should version lock graph api
-  const generateMember = ({ administrator, name }) => {
-    return {
-      isAdmin: administrator,
-      name
-    }
+const pushHandler = () => {
+  currentVal += 1;
+  readline.clearLine(process.stdout, 0); 
+  readline.cursorTo(process.stdout, 0);
+  process.stdout.write(progressBar.update(currentVal, maxValue));
+
+  if (currentVal >= maxValue) {
+    process.exit();
+  }
+};
+
+// Deconstruct member object to detect changes to facebook graph api
+// Should minimally version lock graph api
+const generateMember = ({ administrator, name }) => {
+  return {
+    isAdmin: administrator,
+    name
+  }
+};
+
+const getUsers = (url, token, importAll) => {
+  if (!url) {
+    return Promise.resolve();
   }
 
-  const pushHandler = () => {
-    currentVal += 1;
-    readline.clearLine(process.stdout, 0); 
-    readline.cursorTo(process.stdout, 0);
-    process.stdout.write(progressBar.update(currentVal, maxValue));
-
-    if (currentVal >= maxValue) {
-      process.exit();
+  return axios({
+    method: 'get',
+    url,
+    params: {
+      access_token: token
     }
-  };
+  }).then((response) => {
+    const { data }  = response;
+    const nextUrl = get(data, 'paging.next', '');
+    const responseMembers = get(data, 'data', []);
+    const inParallel = responseMembers.map((member) => {
+      return members.child(member.id).set(generateMember(member), pushHandler);
+    });
+
+    return Promise.all(inParallel).then(() => {
+      if (!importAll) {
+        process.exit();
+      }
+
+      return getUsers(nextUrl, token, importAll);
+    });
+  }).catch((error) => {
+    console.log('ERR :: ', error);
+    process.exit(1);
+  });
+};
+
+inquirer.prompt(questions).then((ans) => {
+  const url = `${baseURL}/250502971675365/members`;
 
   if (ans.shouldClear) {
     members.remove();
   }
   
-  do {
-    axios({
-      method: 'get',
-      url,
-      params: {
-        access_token: process.argv[2]
-      }
-    }).then((response) => {
-      const { data }  = response;
-      const nextUrl = get(data, 'paging.next', '');
-      const responseMembers = get(data, 'data', []);
-
-      if (nextUrl) {
-        url = nextUrl;
-      } else {
-        hasNext = false;
-      }
-
-      Promise.all(responseMembers.map((member) => {
-        return members.child(member.id).set(generateMember(member), pushHandler);
-      })).then(() => {
-        process.exit();
-      });
-    }).catch((error) => {
-      console.log('ERR :: ', error);
-      process.exit(1);
-    });
-
-    if (!ans.importAll) {
-      break;
-    }
-  } while (hasNext);
+  return getUsers(url, process.argv[2], ans.importAll); 
 }).catch((err) => {
   console.log('INQUIRER ERR :: ', err);
   process.exit(1); 
