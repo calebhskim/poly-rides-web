@@ -38,10 +38,6 @@ const pushHandler = () => {
   readline.clearLine(process.stdout, 0); 
   readline.cursorTo(process.stdout, 0);
   process.stdout.write(progressBar.update(currentVal, maxValue));
-
-  if (currentVal >= maxValue) {
-    process.exit();
-  }
 };
 
 // Deconstruct member object to detect changes to facebook graph api
