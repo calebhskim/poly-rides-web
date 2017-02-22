@@ -1,11 +1,11 @@
-import ReactNative, { AppRegistry } from 'react-native';
+import { AppRegistry } from 'react-native';
 import { renderToString } from 'react-dom/server';
 import { Provider } from 'react-redux';
 
 import express from 'express';
 import bodyParser from 'body-parser';
 
-import App from './containers/app';
+import App from './containers/App';
 import config from './config';
 import initialState from './constants/initialState';
 import Store from './store/configureStore';
@@ -35,7 +35,7 @@ function renderFullPage(html, preloadedState) {
 function handleRender(req, res) {
   const store = new Store(initialState);
   // register the app
-  AppRegistry.registerComponent('App', () => App)
+  AppRegistry.registerComponent('App', () => App);
 
   // prerender the app
   const { element, stylesheet } = AppRegistry.getApplication('App', { /* Initial props */ });
