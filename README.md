@@ -23,9 +23,7 @@ yarn run mockdata
 
 ## TODO:
 * Finish SSR
-* Handle routing
 * Configure Webpack properly
-* Setup testing
 * Begin actual UI/UX
 * Setup production
 
@@ -47,6 +45,28 @@ on('value') or on('child_added')
 ```
 I suspect that on('value') is what we want becuase it can directly be set as the state. 
 Read more about it [here](https://firebase.google.com/docs/database/web/lists-of-data).
+
+
+## Testing
+
+To run tests run:
+```
+yarn run test
+```
+
+To run tests while watching run:
+```
+yarn run test:watch
+```
+
+To turn off code coverage checks on each run change the following in package.json:
+```
+{
+  "jest": {
+    "codeCoverage": true
+  }
+}
+```
 
 
 ### Get all trips as a passenger
