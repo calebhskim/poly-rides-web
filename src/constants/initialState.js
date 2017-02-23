@@ -3,7 +3,6 @@ import lifecycles from './lifecycles';
 export default {
   appState: {
     feed: {},
-    status: null,
     status: lifecycles.LOADING,
   },
   auth: {
