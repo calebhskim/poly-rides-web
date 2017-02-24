@@ -16,6 +16,7 @@ import initialState from './constants/initialState';
 import Landing from './components/Landing';
 import lifecycles from './constants/lifecycles';
 import NotFound from './components/NotFound';
+import NotInGroup from './components/NotInGroup';
 import serverInit from './actions/serverInit';
 import Store from './store';
 
@@ -48,18 +49,30 @@ const authCheck = reduxStore => (nextState, replace) => {
   }
 };
 
+const groupLoadCheck = reduxStore => (nextState, replace) => {
+  const { auth: { user: { inGroup } } } = reduxStore.getState();
+
+  if (inGroup === null) {
+    replace({
+      pathname: '/',
+      state: { nextPathname: nextState.location.pathname },
+    });
+  }
+};
+
 store.dispatch(serverInit(fbApp));
 render(
   <Provider store={store}>
     <Router history={history}>
-      <Route component={App}>
-        <Route path='/' component={Landing} />
-        <Route path='/about' component={About} />
-        <Route path='/contact' component={Contact} />
-        <Route path='/dashboard' component={Account} onEnter={authCheck(store)}>
+      <Route path='/' component={App}
+        <IndexRoute component={Landing} />
+        <Route path='about' component={About} />
+        <Route path='contact' component={Contact} />
+        <Route path='dashboard' component={Account} onEnter={authCheck(store)}>
           <IndexRoute component={Dashboard} />
           <Route path='feed' component={Feed} />
         </Route>
+        <Route path='n' component={NotInGroup} onEnter={groupLoadCheck(store)}/>
         <Route path='*' component={NotFound} />
       </Route>
     </Router>

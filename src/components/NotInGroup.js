@@ -1,10 +1,13 @@
 import React from 'react';
 
+import Paper from 'material-ui/Paper';
+
+import cardStyle from '../styles/components/card';
 import styles from '../styles/components/notInGroup';
 
 const msg = 'Oh no! It looks like you\'re not in the Cal Poly Ride Share Group. Request to join ';
 const NotInGroup = () => (
-  <div style={styles.container}>
+  <Paper style={Object.assign({}, cardStyle, styles.container)} >
     <h4>
       {msg}
       <a
@@ -14,7 +17,7 @@ const NotInGroup = () => (
         here
       </a>.
     </h4>
-  </div>
+  </Paper>
 );
 
 export default NotInGroup;

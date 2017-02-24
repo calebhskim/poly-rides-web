@@ -15,7 +15,7 @@ export default {
       emailVerified: false,
       fbId: null,
       isAnonymous: null,
-      inGroup: false,
+      inGroup: null,
       photoURL: null,
       refreshToken: null,
       uid: null,
@@ -28,4 +28,5 @@ export default {
     app: null,
     fbProvider: null,
   },
+  posts: {},
 };
