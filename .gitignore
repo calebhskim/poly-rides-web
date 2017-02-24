@@ -16,6 +16,8 @@ build
 # ide stuff
 .idea
 
+# ignore coverage files
+coverage
 
 # Yarn Error Log
 yarn-error.log
