@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Login /> renders properly 1`] = `
+<Paper
+  circle={false}
+  rounded={true}
+  style={
+    Object {
+      "alignItems": "center",
+      "display": "flex",
+      "height": "100vh",
+      "justifyContent": "center",
+    }
+  }
+  transitionEnabled={true}
+  zDepth={1}
+>
+  <RaisedButton
+    backgroundColor="#3b5998"
+    disabled={false}
+    fullWidth={false}
+    icon={
+      <img
+        alt=""
+        src="/dist/facebook.svg"
+        style={
+          Object {
+            "height": "18px",
+            "marginTop": "-5px",
+            "width": "18px",
+          }
+        }
+      />
+    }
+    label="Login with Facebook"
+    labelColor="white"
+    labelPosition="after"
+    onClick={[Function]}
+    primary={false}
+    secondary={false}
+  />
+</Paper>
+`;

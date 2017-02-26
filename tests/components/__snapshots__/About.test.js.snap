@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<About /> renders properly 1`] = `
+<Paper
+  circle={false}
+  id="about"
+  rounded={true}
+  style={
+    Object {
+      "display": "flex",
+      "height": "100vh",
+    }
+  }
+  transitionEnabled={true}
+  zDepth={1}
+>
+  <View>
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+    >
+      About
+    </Text>
+  </View>
+</Paper>
+`;
