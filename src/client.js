@@ -64,7 +64,7 @@ store.dispatch(serverInit(fbApp));
 render(
   <Provider store={store}>
     <Router history={history}>
-      <Route path='/' component={App}
+      <Route path='/' component={App}>
         <IndexRoute component={Landing} />
         <Route path='about' component={About} />
         <Route path='contact' component={Contact} />
@@ -72,7 +72,7 @@ render(
           <IndexRoute component={Dashboard} />
           <Route path='feed' component={Feed} />
         </Route>
-        <Route path='n' component={NotInGroup} onEnter={groupLoadCheck(store)}/>
+        <Route path='n' component={NotInGroup} onEnter={groupLoadCheck(store)} />
         <Route path='*' component={NotFound} />
       </Route>
     </Router>
