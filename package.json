@@ -64,7 +64,6 @@
     "eslint-plugin-react": "^6.9.0",
     "eslint-plugin-react-native": "^2.2.1",
     "firebase-mock": "^1.0.3",
-    "firebase-server": "^0.9.1",
     "inquirer": "^2.0.0",
     "jest": "^19.0.1",
     "react-addons-test-utils": "^15.4.2",
