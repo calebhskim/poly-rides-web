@@ -13,7 +13,7 @@
     "members": "yarn run build_scripts && node ./scripts/build/members.js",
     "mockdata": "yarn run build_scripts && node ./scripts/build/mockdata.js",
     "start": "yarn run build && node ./build/server.js",
-    "test": "jest Feed.test.js About.test.js",
+    "test": "jest",
     "test:watch": "npm test -- --watch"
   },
   "engines": {
