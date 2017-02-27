@@ -1,17 +1,18 @@
-import lifecycles from './lifecycles';
-
 export default {
+  appState: {
+    status: null,
+  },
   auth: {
     error: {},
     fbToken: null,
-    lifecycle: lifecycles.AUTH_NOT_LOGGEDIN,
+    inGroup: null,
+    lifecycle: null,
     user: {
       displayName: '',
       email: null,
       emailVerified: false,
       fbId: null,
       isAnonymous: null,
-      inGroup: null,
       photoURL: null,
       refreshToken: null,
       uid: null,

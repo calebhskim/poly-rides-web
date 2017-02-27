@@ -13,9 +13,9 @@ class Landing extends Component {
   }
 
   render() {
-    const { inGroup, lifecycle } = this.props;
+    const { status } = this.props;
 
-    if (inGroup === null && lifecycle === lifecycles.AUTH_LOGGEDIN) {
+    if (status === lifecycles.LOADING) {
       return <Loading />;
     }
 
@@ -28,15 +28,13 @@ class Landing extends Component {
 }
 
 Landing.propTypes = {
-  inGroup: PropTypes.bool,
-  lifecycle: PropTypes.string,
+  status: PropTypes.string,
 };
 
 function mapStateToProps(state) {
-  const { auth: { lifecycle, user: { inGroup } } } = state;
+  const { appState: { status } } = state;
   return {
-    inGroup,
-    lifecycle,
+    status,
   };
 }
 

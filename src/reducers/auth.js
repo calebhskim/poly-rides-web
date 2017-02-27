@@ -75,17 +75,11 @@ const auth = (state = initialState.auth, { payload, response, type }) => {
     }
     case actions.IN_FB_GROUP:
       return Object.assign({}, state, {
-        user: {
-          ...state.user,
-          inGroup: true,
-        },
+        inGroup: true,
       });
     case actions.NOT_IN_FB_GROUP:
       return Object.assign({}, state, {
-        user: {
-          ...state.user,
-          inGroup: false,
-        },
+        inGroup: false,
       });
     default:
       return state;

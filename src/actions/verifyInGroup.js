@@ -1,6 +1,7 @@
 import { push } from 'react-router-redux';
 
 import actions from '../constants/actions';
+import signout from './signout';
 
 export default function verifyInGroup() {
   return (dispatch, getState) => {
@@ -15,7 +16,8 @@ export default function verifyInGroup() {
         dispatch({
           type: actions.NOT_IN_FB_GROUP,
         });
-        dispatch(push('/n'));
+        dispatch(signout());
+        dispatch(push('/'));
       }
     });
   };
