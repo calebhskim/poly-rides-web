@@ -73,7 +73,7 @@
   },
   "jest": {
     "preset": "react-native",
-    "collectCoverage": false,
+    "collectCoverage": true,
     "collectCoverageFrom": [
       "!src/server.js",
       "src/**/*.{js,jsx}"

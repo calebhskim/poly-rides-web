@@ -12,7 +12,7 @@ import { listenForRides, stopListenForRides } from '../actions/rides';
 import setNavTitle from '../actions/setNavTitle';
 
 
-class Feed extends Component {
+export class Feed extends Component {
   componentWillMount() {
     this.props.listenForRides();
   }

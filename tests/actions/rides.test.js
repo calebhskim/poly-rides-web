@@ -1,6 +1,8 @@
 import configureMockStore from 'redux-mock-store';
 import firebase from 'firebase';
+import map from 'lodash/map';
 import thunk from 'redux-thunk';
+import values from 'lodash/values';
 
 import actions from '../../src/constants/actions';
 import { listenForRides, stopListenForRides } from '../../src/actions/rides';
@@ -13,9 +15,7 @@ const mockStore = configureMockStore(middlewares);
 //  a local firebase server so we didn't have to use the internet. Now
 //  I see that it doesn't matter what the databaseURL is, it always
 //  works. Am I crazy?
-console.log("here we are");
 const fbRef = firebase.initializeApp({
-  apiKey: 'something',
   databaseURL: 'ws://127.0.1:5000', // i literally have 0 idea
 });
 const ref = fbRef.database().ref('rides');
@@ -46,6 +46,11 @@ const sampleRides = [
   },
 ];
 
+function getLastAction(curStore) {
+  const allActions = curStore.getActions();
+  return allActions[allActions.length - 1];
+}
+
 describe('ride actions', () => {
   beforeEach(() => {
     // clear db before
@@ -59,114 +64,148 @@ describe('ride actions', () => {
     });
   });
 
-  it('listenForRides shows existing rides', () => {
-    ref.push(sampleRides[0]);
+  describe('listenForRides', () => {
+    it('should show existing rides', () => {
+      ref.push(sampleRides[0]);
 
-    store.dispatch(listenForRides());
+      store.dispatch(listenForRides());
 
-    // sort of hacky but not that bad
-    const p = new Promise((resolve) => {
-      setTimeout(() => resolve(), waitDuration);
+      // sort of hacky but not that bad
+      const p = new Promise((resolve) => {
+        setTimeout(() => resolve(), waitDuration);
+      });
+
+      return p.then(() => {
+        const action = getLastAction(store);
+        const payloadValues = values(action.payload);
+
+        expect(action.type).toEqual(actions.CURRENT_RIDES_CHANGE);
+        expect(payloadValues[0]).toEqual(payloadValues[0]);
+      });
     });
+    it('should show newly added rides', () => {
+      store.dispatch(listenForRides());
 
-    return p.then(() => {
-      const fbAction = store.getActions()[0];
+      ref.push(sampleRides[0]);
 
-      expect(fbAction.type).toEqual(actions.CURRENT_RIDES_CHANGE);
-      expect(fbAction.payload[Object.keys(fbAction.payload)[0]])
-        .toEqual(sampleRides[0]);
+      // sort of hacky but not that bad
+      const p = new Promise((resolve) => {
+        setTimeout(() => resolve(), waitDuration);
+      });
+
+      return p.then(() => {
+        const testActions = store.getActions();
+        expect(testActions).toHaveLength(2);
+
+        // first one is null
+        expect(testActions[0].type).toEqual(actions.CURRENT_RIDES_CHANGE);
+        expect(testActions[0].payload).toBeNull();
+
+        const payloadValues = values(testActions[1].payload);
+
+        expect(testActions[1].type).toEqual(actions.CURRENT_RIDES_CHANGE);
+        expect(payloadValues[0]).toEqual(sampleRides[0]);
+      });
     });
-  });
-  it('listenForRides shows newly added rides', () => {
-    store.dispatch(listenForRides());
+    it('should only show most recent rides', () => {
+      store.dispatch(listenForRides());
 
-    ref.push(sampleRides[0]);
+      // num inserted should be greater than the number of feed items displayed
+      const numFeedItemsDisplayed = 10;
+      const numFeedItemsInserted = 15;
 
-    // sort of hacky but not that bad
-    const p = new Promise((resolve) => {
-      setTimeout(() => resolve(), waitDuration);
-    });
+      // add more rides then are displayed
+      for (let i = 0; i < numFeedItemsInserted; i += 1) {
+        ref.push({
+          postTimestamp: i,
+        });
+      }
 
-    return p.then(() => {
-      const testActions = store.getActions();
-      expect(testActions).toHaveLength(2);
+      // sort of hacky but not that bad
+      const p = new Promise((resolve) => {
+        setTimeout(() => resolve(), waitDuration);
+      });
 
-      // first one is null
-      expect(testActions[0].type).toEqual(actions.CURRENT_RIDES_CHANGE);
-      expect(testActions[0].payload).toBeNull();
+      return p.then(() => {
+        const action = getLastAction(store);
+        const payloadValues = values(action.payload);
 
-      expect(testActions[1].type).toEqual(actions.CURRENT_RIDES_CHANGE);
-      expect(testActions[1].payload[Object.keys(testActions[1].payload)[0]])
-        .toEqual(sampleRides[0]);
-    });
-  });
-  it('stopListenForRides stops listening to changes', () => {
-    // add something to db
-    ref.push(sampleRides[0]);
+        expect(action.type).toEqual(actions.CURRENT_RIDES_CHANGE);
 
-    store.dispatch(listenForRides());
+        const timestamps = map(payloadValues, 'postTimestamp');
+        const minTimestamp = Math.min(...timestamps);
 
-    // fire off action with first fb entry
-    store.dispatch(stopListenForRides());
-
-    // push something else
-    ref.push(sampleRides[1]);
-
-    // sort of hacky but not that bad
-    const p = new Promise((resolve) => {
-      setTimeout(() => resolve(), waitDuration);
-    });
-
-    return p.then(() => {
-      const testActions = store.getActions();
-
-      // only the one event should show
-      expect(testActions).toHaveLength(1);
-
-      const fbAction = testActions[0];
-
-      expect(fbAction.type).toEqual(actions.CURRENT_RIDES_CHANGE);
-      expect(fbAction.payload[Object.keys(fbAction.payload)[0]])
-        .toEqual(sampleRides[0]);
-    });
-  });
-  it('stopListenForRides stops listening to changes after new entry', () => {
-    // add something to db
-    ref.push(sampleRides[0]);
-
-    store.dispatch(listenForRides());
-
-    // push something else
-    ref.push(sampleRides[1]);
-
-    // fire off action with first fb entry
-    store.dispatch(stopListenForRides());
-
-    // push something else
-    ref.push(sampleRides[2]);
-
-    // sort of hacky but not that bad
-    const p = new Promise((resolve) => {
-      setTimeout(() => resolve(), waitDuration);
-    });
-
-    return p.then(() => {
-      const testActions = store.getActions();
-
-      // only the one event should show
-      expect(testActions).toHaveLength(2);
-
-      const fbAction1 = testActions[0];
-
-      expect(fbAction1.type).toEqual(actions.CURRENT_RIDES_CHANGE);
-      expect(fbAction1.payload[Object.keys(fbAction1.payload)[0]])
-        .toEqual(sampleRides[0]);
-
-      const fbAction2 = testActions[1];
-      expect(fbAction2.type).toEqual(actions.CURRENT_RIDES_CHANGE);
-      expect(fbAction2.payload[Object.keys(fbAction2.payload)[1]])
-        .toEqual(sampleRides[1]);
+        expect(minTimestamp).toEqual(numFeedItemsInserted - numFeedItemsDisplayed);
+      });
     });
   });
-  // TODO add a test for ordering
+  describe('stopListenForRides', () => {
+    it('should not listen to changes', () => {
+      // add something to db
+      ref.push(sampleRides[0]);
+
+      store.dispatch(listenForRides());
+
+      // fire off action with first fb entry
+      store.dispatch(stopListenForRides());
+
+      // push something else
+      ref.push(sampleRides[1]);
+
+      // sort of hacky but not that bad
+      const p = new Promise((resolve) => {
+        setTimeout(() => resolve(), waitDuration);
+      });
+
+      return p.then(() => {
+        const testActions = store.getActions();
+
+        // only the one event should show
+        expect(testActions).toHaveLength(1);
+
+        const action = testActions[0];
+
+        expect(action.type).toEqual(actions.CURRENT_RIDES_CHANGE);
+
+        const payloadValues = values(action.payload);
+
+        expect(payloadValues[0]).toEqual(sampleRides[0]);
+      });
+    });
+    it('should not see a new entry', () => {
+      // add something to db
+      ref.push(sampleRides[0]);
+
+      store.dispatch(listenForRides());
+
+      // push something else
+      ref.push(sampleRides[1]);
+
+      // fire off action with first fb entry
+      store.dispatch(stopListenForRides());
+
+      // push something else
+      ref.push(sampleRides[2]);
+
+      // sort of hacky but not that bad
+      const p = new Promise((resolve) => {
+        setTimeout(() => resolve(), waitDuration);
+      });
+
+      return p.then(() => {
+        const testActions = store.getActions();
+
+        // only the one event should show
+        expect(testActions).toHaveLength(2);
+
+        const action = getLastAction(store);
+        const payloadValues = values(action.payload);
+
+        expect(action.type).toEqual(actions.CURRENT_RIDES_CHANGE);
+
+        expect(payloadValues[0]).toEqual(sampleRides[0]);
+        expect(payloadValues[1]).toEqual(sampleRides[1]);
+      });
+    });
+  });
 });
