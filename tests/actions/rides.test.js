@@ -51,6 +51,14 @@ function getLastAction(curStore) {
   return allActions[allActions.length - 1];
 }
 
+// sort of hacky but not that bad
+// this is needed because firebase.on('value') is a listener
+function testWait() {
+  return new Promise((resolve) => {
+    setTimeout(() => resolve(), waitDuration);
+  });
+}
+
 describe('ride actions', () => {
   beforeEach(() => {
     // clear db before
@@ -70,12 +78,7 @@ describe('ride actions', () => {
 
       store.dispatch(listenForRides());
 
-      // sort of hacky but not that bad
-      const p = new Promise((resolve) => {
-        setTimeout(() => resolve(), waitDuration);
-      });
-
-      return p.then(() => {
+      return testWait().then(() => {
         const action = getLastAction(store);
         const payloadValues = values(action.payload);
 
@@ -88,12 +91,7 @@ describe('ride actions', () => {
 
       ref.push(sampleRides[0]);
 
-      // sort of hacky but not that bad
-      const p = new Promise((resolve) => {
-        setTimeout(() => resolve(), waitDuration);
-      });
-
-      return p.then(() => {
+      return testWait().then(() => {
         const testActions = store.getActions();
         expect(testActions).toHaveLength(2);
 
@@ -121,12 +119,7 @@ describe('ride actions', () => {
         });
       }
 
-      // sort of hacky but not that bad
-      const p = new Promise((resolve) => {
-        setTimeout(() => resolve(), waitDuration);
-      });
-
-      return p.then(() => {
+      return testWait().then(() => {
         const action = getLastAction(store);
         const payloadValues = values(action.payload);
 
@@ -152,23 +145,16 @@ describe('ride actions', () => {
       // push something else
       ref.push(sampleRides[1]);
 
-      // sort of hacky but not that bad
-      const p = new Promise((resolve) => {
-        setTimeout(() => resolve(), waitDuration);
-      });
-
-      return p.then(() => {
+      return testWait().then(() => {
         const testActions = store.getActions();
 
         // only the one event should show
         expect(testActions).toHaveLength(1);
 
         const action = testActions[0];
-
-        expect(action.type).toEqual(actions.CURRENT_RIDES_CHANGE);
-
         const payloadValues = values(action.payload);
 
+        expect(action.type).toEqual(actions.CURRENT_RIDES_CHANGE);
         expect(payloadValues[0]).toEqual(sampleRides[0]);
       });
     });
@@ -187,12 +173,7 @@ describe('ride actions', () => {
       // push something else
       ref.push(sampleRides[2]);
 
-      // sort of hacky but not that bad
-      const p = new Promise((resolve) => {
-        setTimeout(() => resolve(), waitDuration);
-      });
-
-      return p.then(() => {
+      return testWait().then(() => {
         const testActions = store.getActions();
 
         // only the one event should show

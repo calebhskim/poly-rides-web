@@ -26,9 +26,6 @@ describe('<Dashboard />', () => {
     const store = mockStore(modifiedState);
     const wrapper = shallow(<Dashboard store={store} />).shallow();
 
-    // https://github.com/reactjs/redux/issues/1534#issuecomment-205061049
-    // bless ^
-
     expect(wrapper.find(Loading)).toHaveLength(1);
     expect(wrapper.find(Text)).toHaveLength(0);
   });
@@ -43,6 +40,8 @@ describe('<Dashboard />', () => {
     expect(wrapper.find(Loading)).toHaveLength(0);
     expect(wrapper.find(Text)).toHaveLength(1);
     // this is pretty gross.
+    // text breaks up its contents into two groups so the later one is selcted to compare
+    //  to the displayname
     expect(wrapper.find(Text).children().last().text()).toEqual('bobby');
   });
 });
