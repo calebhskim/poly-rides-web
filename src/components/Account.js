@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import getCurrentUser from '../actions/getCurrentUser';
 import getFBId from '../actions/getFBId';
-import styles from '../styles/components/account';
+import styles from '../styles/components/general';
 import verifyInGroup from '../actions/verifyInGroup';
 
 class Account extends Component {

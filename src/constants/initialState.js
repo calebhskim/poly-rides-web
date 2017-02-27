@@ -1,10 +1,6 @@
 import lifecycles from './lifecycles';
 
 export default {
-  appState: {
-    feed: {},
-    status: lifecycles.LOADING,
-  },
   auth: {
     error: {},
     fbToken: null,
@@ -33,5 +29,4 @@ export default {
     app: null,
     fbProvider: null,
   },
-  posts: {},
 };

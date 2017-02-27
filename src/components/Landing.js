@@ -2,6 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { View } from 'react-native';
 
+import lifecycles from '../constants/lifecycles';
+import Loading from './Loading';
 import Login from './Login';
 
 class Landing extends Component {
@@ -11,6 +13,12 @@ class Landing extends Component {
   }
 
   render() {
+    const { inGroup, lifecycle } = this.props;
+
+    if (inGroup === null && lifecycle === lifecycles.AUTH_LOGGEDIN) {
+      return <Loading />;
+    }
+
     return (
       <View>
         <Login />
@@ -20,12 +28,14 @@ class Landing extends Component {
 }
 
 Landing.propTypes = {
+  inGroup: PropTypes.bool,
   lifecycle: PropTypes.string,
 };
 
 function mapStateToProps(state) {
-  const { auth: { lifecycle } } = state;
+  const { auth: { lifecycle, user: { inGroup } } } = state;
   return {
+    inGroup,
     lifecycle,
   };
 }

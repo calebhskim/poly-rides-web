@@ -1,7 +1,6 @@
 import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
 
-import appState from './appState';
 import auth from './auth';
 import config from './config';
 import data from './data';
@@ -9,7 +8,6 @@ import firebase from './firebase';
 
 // Map of reducers to pass to store
 const reducers = {
-  appState,
   auth,
   config,
   data,
