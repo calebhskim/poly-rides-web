@@ -42,7 +42,7 @@ describe('<Dashboard />', () => {
 
     expect(wrapper.find(Loading)).toHaveLength(0);
     expect(wrapper.find(Text)).toHaveLength(1);
-    // this is pretty gross. 
+    // this is pretty gross.
     expect(wrapper.find(Text).children().last().text()).toEqual('bobby');
   });
 });

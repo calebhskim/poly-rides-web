@@ -51,6 +51,11 @@ describe('ride actions', () => {
     });
   });
 
+  afterAll(() => {
+    // clear db after all
+    ref.remove();
+  });
+
   it('listenForRides shows existing rides', () => {
     ref.push(sampleRides[0]);
 
