@@ -4,17 +4,17 @@ import { routerReducer } from 'react-router-redux';
 import appState from './appState';
 import auth from './auth';
 import config from './config';
+import data from './data';
 import firebase from './firebase';
-import posts from './posts';
 
 // Map of reducers to pass to store
 const reducers = {
   appState,
   auth,
   config,
+  data,
   firebase,
   routing: routerReducer,
-  posts,
 };
 
 const rootReducer = combineReducers(reducers);

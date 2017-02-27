@@ -33,7 +33,7 @@ class Feed extends Component {
     };
 
     /* the rides returned are not sorted */
-    const flattenedFeed = values(this.props.posts);
+    const flattenedFeed = values(this.props.data.posts);
     const displayedFeed = orderBy(flattenedFeed, ['postTimestamp'], ['desc']).map(
       (feedItem, idx) => <FeedItem feedData={feedItem} key={idx} />);
 
@@ -50,17 +50,17 @@ class Feed extends Component {
 
 
 Feed.propTypes = {
+  data: PropTypes.objectOf(PropTypes.object),
   listenForRides: PropTypes.func,
-  posts: PropTypes.objectOf(PropTypes.object),
   setNavTitle: PropTypes.func,
   stopListenForRides: PropTypes.func,
 };
 
 function mapStateToProps(state) {
-  const { posts } = state;
+  const { data } = state;
 
   return {
-    posts,
+    data,
   };
 }
 

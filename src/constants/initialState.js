@@ -24,6 +24,11 @@ export default {
   config: {
     title: 'PolyRides',
   },
+  data: {
+    messages: null,
+    posts: null,
+    rides: null,
+  },
   firebase: {
     app: null,
     fbProvider: null,
