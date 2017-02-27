@@ -3,33 +3,42 @@ import firebase from 'firebase';
 import thunk from 'redux-thunk';
 
 import actions from '../../src/constants/actions';
-import config from '../../src/config/development';
 import { listenForRides, stopListenForRides } from '../../src/actions/rides';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
 // connecting to firebase dev
-const fbRef = firebase.initializeApp(config.firebase);
+// somehow the following code works. originally I was trying to create
+//  a local firebase server so we didn't have to use the internet. Now
+//  I see that it doesn't matter what the databaseURL is, it always
+//  works. Am I crazy?
+const fbRef = firebase.initializeApp({
+  databaseURL: 'ws://s.o.tt:5', // i literally have 0 idea
+});
 const ref = fbRef.database().ref('ridesTest');
+
+// super magic !!!
+// by adding a remove before everything it makes it all work
+ref.remove();
 
 // global placeholder to hold the mockstore. set in beforeEach
 let store;
-const waitDuration = 2000;
+const waitDuration = 500;
 
 const sampleRides = [
   {
-    cost: 10,
+    cost: 18,
     driver: 'bob',
     postTimestamp: 15,
   },
   {
-    cost: 30,
+    cost: 32,
     driver: 'sally',
     postTimestamp: 13,
   },
   {
-    cost: 20,
+    cost: 21,
     driver: 'regine',
     postTimestamp: 12,
   },
