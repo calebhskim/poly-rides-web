@@ -13,13 +13,15 @@ const mockStore = configureMockStore(middlewares);
 //  a local firebase server so we didn't have to use the internet. Now
 //  I see that it doesn't matter what the databaseURL is, it always
 //  works. Am I crazy?
+console.log("here we are");
 const fbRef = firebase.initializeApp({
-  databaseURL: 'ws://s.o.tt:5', // i literally have 0 idea
+  apiKey: 'something',
+  databaseURL: 'ws://127.0.1:5000', // i literally have 0 idea
 });
-const ref = fbRef.database().ref('ridesTest');
+const ref = fbRef.database().ref('rides');
 
 // super magic !!!
-// by adding a remove before everything it makes it all work
+// by adding a remove before everything it makes the database work
 ref.remove();
 
 // global placeholder to hold the mockstore. set in beforeEach
@@ -51,18 +53,10 @@ describe('ride actions', () => {
 
     // reset the store before
     store = mockStore({
-      config: {
-        ridesDBName: 'ridesTest',
-      },
       firebase: {
         app: fbRef,
       },
     });
-  });
-
-  afterAll(() => {
-    // clear db after all
-    ref.remove();
   });
 
   it('listenForRides shows existing rides', () => {
@@ -70,7 +64,7 @@ describe('ride actions', () => {
 
     store.dispatch(listenForRides());
 
-    // sort of hacky but not that bad. expect to see data within 2 seconds
+    // sort of hacky but not that bad
     const p = new Promise((resolve) => {
       setTimeout(() => resolve(), waitDuration);
     });
@@ -88,7 +82,7 @@ describe('ride actions', () => {
 
     ref.push(sampleRides[0]);
 
-    // sort of hacky but not that bad. expect to see data within 2 seconds
+    // sort of hacky but not that bad
     const p = new Promise((resolve) => {
       setTimeout(() => resolve(), waitDuration);
     });
@@ -119,7 +113,6 @@ describe('ride actions', () => {
     ref.push(sampleRides[1]);
 
     // sort of hacky but not that bad
-    // expect to see data within 2 seconds
     const p = new Promise((resolve) => {
       setTimeout(() => resolve(), waitDuration);
     });
@@ -153,7 +146,6 @@ describe('ride actions', () => {
     ref.push(sampleRides[2]);
 
     // sort of hacky but not that bad
-    // expect to see data within 2 seconds
     const p = new Promise((resolve) => {
       setTimeout(() => resolve(), waitDuration);
     });
@@ -176,4 +168,5 @@ describe('ride actions', () => {
         .toEqual(sampleRides[1]);
     });
   });
+  // TODO add a test for ordering
 });

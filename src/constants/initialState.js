@@ -22,7 +22,6 @@ export default {
     },
   },
   config: {
-    ridesDBName: 'rides',
     title: 'PolyRides',
   },
   firebase: {

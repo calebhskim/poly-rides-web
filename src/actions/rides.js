@@ -3,9 +3,9 @@ import actions from '../constants/actions';
 
 function listenForRides() {
   return (dispatch, getState) => {
-    const { firebase: { app }, config: { ridesDBName } } = getState();
+    const { firebase: { app } } = getState();
 
-    const ridesRef = app.database().ref(ridesDBName);
+    const ridesRef = app.database().ref('rides');
     const displayCount = 10;
 
     ridesRef.orderByChild('postTimestamp').limitToLast(displayCount).on('value', (snap) => {
@@ -22,9 +22,9 @@ function listenForRides() {
 
 function stopListenForRides() {
   return (dispatch, getState) => {
-    const { firebase: { app }, config: { ridesDBName } } = getState();
+    const { firebase: { app } } = getState();
 
-    const ridesRef = app.database().ref(ridesDBName);
+    const ridesRef = app.database().ref('rides');
 
     ridesRef.off();
   };
