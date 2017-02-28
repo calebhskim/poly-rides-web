@@ -18,6 +18,7 @@ class Login extends Component {
     this.handleRequestClose = this.handleRequestClose.bind(this);
     this.state = {
       open: false,
+      initial: true,
     };
   }
 
@@ -44,13 +45,16 @@ class Login extends Component {
 
   render() {
     const { loginButton: { backgroundColor, color } } = loginStyle;
-    
+
     // Note: Hack to have the snackbar slide in after redirect to Login page.
     // This takes advantage of the fact setState is async and is batched.
     setTimeout(() => {
-      this.setState({
-        open: this.props.inGroup !== null ? !this.props.inGroup : false,
-      });
+      if (this.state.initial) {
+        this.setState({
+          open: this.props.inGroup !== null ? !this.props.inGroup : false,
+          initial: false,
+        });
+      }
     }, 500);
 
     return (
