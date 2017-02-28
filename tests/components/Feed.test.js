@@ -20,7 +20,7 @@ describe('<Feed />', () => {
       </MuiThemeProvider>).shallow();
     expect(shallowToJson(wrapper)).toMatchSnapshot();
   });
-  it('shows feeditems', () => {
+  it('shows feeditems in proper order', () => {
     const props = {
       feed: {
         id1: {
