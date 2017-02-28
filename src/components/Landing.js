@@ -2,7 +2,6 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { View } from 'react-native';
 
-import lifecycles from '../constants/lifecycles';
 import Loading from './Loading';
 import Login from './Login';
 
@@ -13,9 +12,9 @@ class Landing extends Component {
   }
 
   render() {
-    const { status } = this.props;
+    const { isFetching } = this.props;
 
-    if (status === lifecycles.LOADING) {
+    if (isFetching) {
       return <Loading />;
     }
 
@@ -28,13 +27,13 @@ class Landing extends Component {
 }
 
 Landing.propTypes = {
-  status: PropTypes.string,
+  isFetching: PropTypes.bool,
 };
 
 function mapStateToProps(state) {
-  const { appState: { status } } = state;
+  const { auth: { isFetching } } = state;
   return {
-    status,
+    isFetching,
   };
 }
 

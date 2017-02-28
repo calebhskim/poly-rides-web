@@ -17,7 +17,7 @@ class Login extends Component {
     this.handleFBSignin = this.handleFBSignin.bind(this);
     this.handleRequestClose = this.handleRequestClose.bind(this);
     this.state = {
-      open: props.inGroup !== null ? !props.inGroup : false,
+      open: false,
     };
   }
 
@@ -44,6 +44,15 @@ class Login extends Component {
 
   render() {
     const { loginButton: { backgroundColor, color } } = loginStyle;
+    
+    // Note: Hack to have the snackbar slide in after redirect to Login page.
+    // This takes advantage of the fact setState is async and is batched.
+    setTimeout(() => {
+      this.setState({
+        open: this.props.inGroup !== null ? !this.props.inGroup : false,
+      });
+    }, 500);
+
     return (
       <div>
         <Paper style={Object.assign({}, cardStyle, loginStyle.loginCard)} >
@@ -61,7 +70,6 @@ class Login extends Component {
         </Paper>
         <Snackbar
           action='Join'
-          autoHideDuration={8000}
           message="Oh no! It looks like you're not in the Cal Poly Ride Share Group."
           onActionTouchTap={this.handleActionTouchTap}
           onRequestClose={this.handleRequestClose}

@@ -65,6 +65,11 @@ const auth = (state = initialState.auth, { payload, response, type }) => {
         },
       });
     }
+    case actions.GET_FB_ID_START: {
+      return Object.assign({}, state, {
+        isFetching: true,
+      });
+    }
     case actions.GET_FB_ID_SUCCESS: {
       return Object.assign({}, state, {
         user: {
@@ -75,10 +80,12 @@ const auth = (state = initialState.auth, { payload, response, type }) => {
     }
     case actions.IN_FB_GROUP:
       return Object.assign({}, state, {
+        isFetching: false,
         inGroup: true,
       });
     case actions.NOT_IN_FB_GROUP:
       return Object.assign({}, state, {
+        isFetching: false,
         inGroup: false,
       });
     default:
