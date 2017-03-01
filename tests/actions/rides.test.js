@@ -10,18 +10,16 @@ import { listenForRides, stopListenForRides } from '../../src/actions/rides';
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
-// connecting to firebase dev
-// somehow the following code works. originally I was trying to create
-//  a local firebase server so we didn't have to use the internet. Now
-//  I see that it doesn't matter what the databaseURL is, it always
-//  works. Am I crazy?
+// The following fbRef attempts to connect to a firebase server that
+//  does not exist. This causes it to operate in offline mode, waiting
+//  for it to come back online.
 const fbRef = firebase.initializeApp({
-  databaseURL: 'ws://127.0.1:5000', // i literally have 0 idea
+  databaseURL: 'ws://127.0.1:5000',
 });
 const ref = fbRef.database().ref('rides');
 
-// super magic !!!
-// by adding a remove before everything it makes the database work
+// call a remove before everything to tell the firebase client
+//  that it can ignore whatever data was on the server
 ref.remove();
 
 // global placeholder to hold the mockstore. set in beforeEach
