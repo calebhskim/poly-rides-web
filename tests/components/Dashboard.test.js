@@ -42,6 +42,7 @@ describe('<Dashboard />', () => {
     // this is pretty gross.
     // text breaks up its contents into two groups so the later one is selcted to compare
     //  to the displayname
+    //  TODO: figure out a better way to ensure that text is properly set
     expect(wrapper.find(Text).children().last().text()).toEqual('bobby');
   });
 });

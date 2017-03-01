@@ -26,7 +26,6 @@ ref.remove();
 
 // global placeholder to hold the mockstore. set in beforeEach
 let store;
-const waitDuration = 500;
 
 const sampleRides = [
   {
@@ -51,14 +50,6 @@ function getLastAction(curStore) {
   return allActions[allActions.length - 1];
 }
 
-// sort of hacky but not that bad
-// this is needed because firebase.on('value') is a listener
-function testWait() {
-  return new Promise((resolve) => {
-    setTimeout(() => resolve(), waitDuration);
-  });
-}
-
 describe('ride actions', () => {
   beforeEach(() => {
     // clear db before
@@ -78,32 +69,28 @@ describe('ride actions', () => {
 
       store.dispatch(listenForRides());
 
-      return testWait().then(() => {
-        const action = getLastAction(store);
-        const payloadValues = values(action.payload);
+      const action = getLastAction(store);
+      const payloadValues = values(action.payload);
 
-        expect(action.type).toEqual(actions.CURRENT_RIDES_CHANGE);
-        expect(payloadValues[0]).toEqual(payloadValues[0]);
-      });
+      expect(action.type).toEqual(actions.CURRENT_RIDES_CHANGE);
+      expect(payloadValues[0]).toEqual(sampleRides[0]);
     });
     it('should show newly added rides', () => {
       store.dispatch(listenForRides());
 
       ref.push(sampleRides[0]);
 
-      return testWait().then(() => {
-        const testActions = store.getActions();
-        expect(testActions).toHaveLength(2);
+      const testActions = store.getActions();
+      expect(testActions).toHaveLength(2);
 
-        // first one is null
-        expect(testActions[0].type).toEqual(actions.CURRENT_RIDES_CHANGE);
-        expect(testActions[0].payload).toBeNull();
+      // first one is null
+      expect(testActions[0].type).toEqual(actions.CURRENT_RIDES_CHANGE);
+      expect(testActions[0].payload).toBeNull();
 
-        const payloadValues = values(testActions[1].payload);
+      const payloadValues = values(testActions[1].payload);
 
-        expect(testActions[1].type).toEqual(actions.CURRENT_RIDES_CHANGE);
-        expect(payloadValues[0]).toEqual(sampleRides[0]);
-      });
+      expect(testActions[1].type).toEqual(actions.CURRENT_RIDES_CHANGE);
+      expect(payloadValues[0]).toEqual(sampleRides[0]);
     });
     it('should only show most recent rides', () => {
       store.dispatch(listenForRides());
@@ -119,17 +106,15 @@ describe('ride actions', () => {
         });
       }
 
-      return testWait().then(() => {
-        const action = getLastAction(store);
-        const payloadValues = values(action.payload);
+      const action = getLastAction(store);
+      const payloadValues = values(action.payload);
 
-        expect(action.type).toEqual(actions.CURRENT_RIDES_CHANGE);
+      expect(action.type).toEqual(actions.CURRENT_RIDES_CHANGE);
 
-        const timestamps = map(payloadValues, 'postTimestamp');
-        const minTimestamp = Math.min(...timestamps);
+      const timestamps = map(payloadValues, 'postTimestamp');
+      const minTimestamp = Math.min(...timestamps);
 
-        expect(minTimestamp).toEqual(numFeedItemsInserted - numFeedItemsDisplayed);
-      });
+      expect(minTimestamp).toEqual(numFeedItemsInserted - numFeedItemsDisplayed);
     });
   });
   describe('stopListenForRides', () => {
@@ -145,18 +130,16 @@ describe('ride actions', () => {
       // push something else
       ref.push(sampleRides[1]);
 
-      return testWait().then(() => {
-        const testActions = store.getActions();
+      const testActions = store.getActions();
 
-        // only the one event should show
-        expect(testActions).toHaveLength(1);
+      // only the one event should show
+      expect(testActions).toHaveLength(1);
 
-        const action = testActions[0];
-        const payloadValues = values(action.payload);
+      const action = testActions[0];
+      const payloadValues = values(action.payload);
 
-        expect(action.type).toEqual(actions.CURRENT_RIDES_CHANGE);
-        expect(payloadValues[0]).toEqual(sampleRides[0]);
-      });
+      expect(action.type).toEqual(actions.CURRENT_RIDES_CHANGE);
+      expect(payloadValues[0]).toEqual(sampleRides[0]);
     });
     it('should not see a new entry', () => {
       // add something to db
@@ -173,20 +156,18 @@ describe('ride actions', () => {
       // push something else
       ref.push(sampleRides[2]);
 
-      return testWait().then(() => {
-        const testActions = store.getActions();
+      const testActions = store.getActions();
 
-        // only the one event should show
-        expect(testActions).toHaveLength(2);
+      // only the one event should show
+      expect(testActions).toHaveLength(2);
 
-        const action = getLastAction(store);
-        const payloadValues = values(action.payload);
+      const action = getLastAction(store);
+      const payloadValues = values(action.payload);
 
-        expect(action.type).toEqual(actions.CURRENT_RIDES_CHANGE);
+      expect(action.type).toEqual(actions.CURRENT_RIDES_CHANGE);
 
-        expect(payloadValues[0]).toEqual(sampleRides[0]);
-        expect(payloadValues[1]).toEqual(sampleRides[1]);
-      });
+      expect(payloadValues[0]).toEqual(sampleRides[0]);
+      expect(payloadValues[1]).toEqual(sampleRides[1]);
     });
   });
 });
