@@ -2,16 +2,11 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 import getCurrentUser from '../actions/getCurrentUser';
-import getFBId from '../actions/getFBId';
 import styles from '../styles/components/general';
-import verifyInGroup from '../actions/verifyInGroup';
 
 class Account extends Component {
   componentWillMount() {
     this.props.getCurrentUser();
-    this.props.getFBId().then(() => {
-      this.props.verifyInGroup();
-    });
   }
 
   render() {
