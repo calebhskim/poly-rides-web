@@ -1,13 +1,11 @@
 import lifecycles from './lifecycles';
 
 export default {
-  appState: {
-    feed: {},
-    status: lifecycles.LOADING,
-  },
   auth: {
     error: {},
     fbToken: null,
+    inGroup: null,
+    isFetching: false,
     lifecycle: lifecycles.AUTH_NOT_LOGGEDIN,
     user: {
       displayName: '',
@@ -15,7 +13,6 @@ export default {
       emailVerified: false,
       fbId: null,
       isAnonymous: null,
-      inGroup: false,
       photoURL: null,
       refreshToken: null,
       uid: null,
@@ -23,6 +20,11 @@ export default {
   },
   config: {
     title: 'PolyRides',
+  },
+  data: {
+    messages: null,
+    posts: null,
+    rides: null,
   },
   firebase: {
     app: null,

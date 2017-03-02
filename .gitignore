@@ -6,12 +6,10 @@ node_modules
 # Build
 build
 
-
 # YCM files
 .tern-project
 
 .notes
-
 
 # ide stuff
 .idea
