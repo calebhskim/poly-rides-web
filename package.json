@@ -72,6 +72,9 @@
     "webpack-dev-server": "^1.16.2"
   },
   "jest": {
+    "globals": {
+      "navigator": { "userAgent": "all" }
+    },
     "preset": "react-native",
     "collectCoverage": false,
     "collectCoverageFrom": [

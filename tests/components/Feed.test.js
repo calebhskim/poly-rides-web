@@ -13,11 +13,11 @@ describe('<Feed />', () => {
       setNavTitle: jest.fn(),
       stopListenForRides: jest.fn(),
     };
-
     const wrapper = shallow(
       <MuiThemeProvider>
         <Feed {...props} />
       </MuiThemeProvider>).shallow();
+
     expect(shallowToJson(wrapper)).toMatchSnapshot();
   });
   it('shows feeditems in proper order', () => {
