@@ -10,21 +10,6 @@ import { listenForRides, stopListenForRides } from '../../src/actions/rides';
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
-// The following fbRef attempts to connect to a firebase server that
-//  does not exist. This causes it to operate in offline mode, waiting
-//  for it to come back online.
-const fbRef = firebase.initializeApp({
-  databaseURL: 'ws://127.0.1:5000',
-});
-const ref = fbRef.database().ref('rides');
-
-// call a remove before everything to tell the firebase client
-//  that it can ignore whatever data was on the server
-ref.remove();
-
-// global placeholder to hold the mockstore. set in beforeEach
-let store;
-
 const sampleRides = [
   {
     cost: 18,
@@ -43,129 +28,63 @@ const sampleRides = [
   },
 ];
 
-function getLastAction(curStore) {
-  const allActions = curStore.getActions();
-  return allActions[allActions.length - 1];
-}
-
 describe('ride actions', () => {
-  beforeEach(() => {
-    // clear db before
-    ref.remove();
+  let dispatch, getState, limitToLast, off, orderByChild, ridesRef, ref;
 
-    // reset the store before
-    store = mockStore({
+  beforeEach(() => {
+    dispatch = jest.fn();
+    getState = jest.fn();
+    getState.mockReturnValueOnce({
       firebase: {
-        app: fbRef,
+        app: { 
+          database: () => ({ ref })
+        }
       },
     });
+    limitToLast = jest.fn((count) => ({
+      on: (type, callback) => {
+        callback({
+          val: () => sampleRides[0]
+        });
+      }
+    }));
+    off = jest.fn();
+    orderByChild = jest.fn((order) => ({
+      limitToLast
+    }));
+    ref = jest.fn((table) => ridesRef);
+    ridesRef = {
+      orderByChild,
+      off
+    };
   });
 
   describe('listenForRides', () => {
-    it('should show existing rides', () => {
-      ref.push(sampleRides[0]);
-
-      store.dispatch(listenForRides());
-
-      const action = getLastAction(store);
-      const payloadValues = values(action.payload);
-
-      expect(action.type).toEqual(actions.CURRENT_RIDES_CHANGE);
-      expect(payloadValues[0]).toEqual(sampleRides[0]);
-    });
-    it('should show newly added rides', () => {
-      store.dispatch(listenForRides());
-
-      ref.push(sampleRides[0]);
-
-      const testActions = store.getActions();
-      expect(testActions).toHaveLength(2);
-
-      // first one is null
-      expect(testActions[0].type).toEqual(actions.CURRENT_RIDES_CHANGE);
-      expect(testActions[0].payload).toBeNull();
-
-      const payloadValues = values(testActions[1].payload);
-
-      expect(testActions[1].type).toEqual(actions.CURRENT_RIDES_CHANGE);
-      expect(payloadValues[0]).toEqual(sampleRides[0]);
-    });
-    it('should only show most recent rides', () => {
-      store.dispatch(listenForRides());
-
-      // num inserted should be greater than the number of feed items displayed
-      const numFeedItemsDisplayed = 10;
-      const numFeedItemsInserted = 15;
-
-      // add more rides then are displayed
-      for (let i = 0; i < numFeedItemsInserted; i += 1) {
-        ref.push({
-          postTimestamp: i,
-        });
-      }
-
-      const action = getLastAction(store);
-      const payloadValues = values(action.payload);
-
-      expect(action.type).toEqual(actions.CURRENT_RIDES_CHANGE);
-
-      const timestamps = map(payloadValues, 'postTimestamp');
-      const minTimestamp = Math.min(...timestamps);
-
-      expect(minTimestamp).toEqual(numFeedItemsInserted - numFeedItemsDisplayed);
+    it('given firebase returns rides should dispatch with correct rides payload', () => {
+      listenForRides()(dispatch, getState);
+      
+      expect(getState).toHaveBeenCalledTimes(1);
+      expect(ref).toHaveBeenCalledTimes(1);
+      expect(ref).toHaveBeenCalledWith('rides');
+      expect(orderByChild).toHaveBeenCalledTimes(1);
+      expect(orderByChild).toHaveBeenCalledWith('postTimestamp');
+      expect(limitToLast).toHaveBeenCalledTimes(1);
+      expect(limitToLast).toHaveBeenCalledWith(10);
+      expect(dispatch).toHaveBeenCalledTimes(1);
+      expect(dispatch).toHaveBeenCalledWith({
+        type: actions.CURRENT_RIDES_CHANGE,
+        payload: sampleRides[0]
+      });
     });
   });
+
   describe('stopListenForRides', () => {
     it('should not listen to changes', () => {
-      // add something to db
-      ref.push(sampleRides[0]);
+      stopListenForRides()(dispatch, getState);
 
-      store.dispatch(listenForRides());
-
-      // fire off action with first fb entry
-      store.dispatch(stopListenForRides());
-
-      // push something else
-      ref.push(sampleRides[1]);
-
-      const testActions = store.getActions();
-
-      // only the one event should show
-      expect(testActions).toHaveLength(1);
-
-      const action = testActions[0];
-      const payloadValues = values(action.payload);
-
-      expect(action.type).toEqual(actions.CURRENT_RIDES_CHANGE);
-      expect(payloadValues[0]).toEqual(sampleRides[0]);
-    });
-    it('should not see a new entry', () => {
-      // add something to db
-      ref.push(sampleRides[0]);
-
-      store.dispatch(listenForRides());
-
-      // push something else
-      ref.push(sampleRides[1]);
-
-      // fire off action with first fb entry
-      store.dispatch(stopListenForRides());
-
-      // push something else
-      ref.push(sampleRides[2]);
-
-      const testActions = store.getActions();
-
-      // only the one event should show
-      expect(testActions).toHaveLength(2);
-
-      const action = getLastAction(store);
-      const payloadValues = values(action.payload);
-
-      expect(action.type).toEqual(actions.CURRENT_RIDES_CHANGE);
-
-      expect(payloadValues[0]).toEqual(sampleRides[0]);
-      expect(payloadValues[1]).toEqual(sampleRides[1]);
+      expect(ref).toHaveBeenCalledTimes(1);
+      expect(ref).toHaveBeenCalledWith('rides');
+      expect(off).toHaveBeenCalledTimes(1);
     });
   });
 });
