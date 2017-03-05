@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { Text, View } from 'react-native';
 
 import cloneDeep from 'lodash/cloneDeep';
 import configureMockStore from 'redux-mock-store';
@@ -39,10 +39,7 @@ describe('<Dashboard />', () => {
 
     expect(wrapper.find(Loading)).toHaveLength(0);
     expect(wrapper.find(Text)).toHaveLength(1);
-    // this is pretty gross.
-    // text breaks up its contents into two groups so the later one is selcted to compare
-    //  to the displayname
-    //  TODO: figure out a better way to ensure that text is properly set
+    // TODO: figure out a better way to ensure that text is properly set
     expect(wrapper.find(Text).children().last().text()).toEqual('bobby');
   });
 });

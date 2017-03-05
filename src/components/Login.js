@@ -9,7 +9,7 @@ import fbPopupSignin from '../actions/fbPopupSignin';
 import loginStyle from '../styles/components/login';
 import setNavTitle from '../actions/setNavTitle';
 
-class Login extends Component {
+export class Login extends Component {
   constructor(props) {
     super(props);
     this.handleFBSignin = this.handleFBSignin.bind(this);
@@ -29,6 +29,7 @@ class Login extends Component {
       <Paper style={Object.assign({}, cardStyle, loginStyle.loginCard)} >
         <RaisedButton
           backgroundColor={backgroundColor}
+          id='loginButton'
           icon={<img
             src='/dist/facebook.svg'
             alt=''

@@ -32,6 +32,7 @@ exports[`<Login /> renders properly 1`] = `
         }
       />
     }
+    id="loginButton"
     label="Login with Facebook"
     labelColor="white"
     labelPosition="after"

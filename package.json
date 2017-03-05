@@ -13,7 +13,7 @@
     "members": "yarn run build_scripts && node ./scripts/build/members.js",
     "mockdata": "yarn run build_scripts && node ./scripts/build/mockdata.js",
     "start": "yarn run build && node ./build/server.js",
-    "test": "jest",
+    "test": "jest --forceExit --setupTestFrameworkScriptFile=./tests/setup.js",
     "test:watch": "npm test -- --watch"
   },
   "engines": {
@@ -27,6 +27,7 @@
     "express": "^4.14.0",
     "firebase": "^3.6.4",
     "html-webpack-plugin": "^2.24.1",
+    "jsdom": "^9.11.0",
     "lodash": "^4.17.4",
     "material-ui": "^0.16.7",
     "path": "^0.12.7",
@@ -72,9 +73,6 @@
     "webpack-dev-server": "^1.16.2"
   },
   "jest": {
-    "globals": {
-      "navigator": { "userAgent": "all" }
-    },
     "preset": "react-native",
     "collectCoverage": false,
     "collectCoverageFrom": [
