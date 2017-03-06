@@ -1,6 +1,5 @@
 import actions from '../constants/actions';
 
-
 function listenForRides() {
   return (dispatch, getState) => {
     const { firebase: { app } } = getState();

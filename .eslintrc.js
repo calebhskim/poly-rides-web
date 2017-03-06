@@ -13,6 +13,7 @@ module.exports = {
   },
   "rules": {
     "import/no-extraneous-dependencies": "off",
+    "import/no-named-as-default": 1,
     "jsx-quotes": ["error", "prefer-single"],
     "keyword-spacing": "off",
     "react/jsx-filename-extension": [1, { "extensions": [".js"] }],

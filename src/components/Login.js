@@ -10,7 +10,7 @@ import fbPopupSignin from '../actions/fbPopupSignin';
 import loginStyle from '../styles/components/login';
 import setNavTitle from '../actions/setNavTitle';
 
-class Login extends Component {
+export class Login extends Component {
   constructor(props) {
     super(props);
     this.handleActionTouchTap = this.handleActionTouchTap.bind(this);
