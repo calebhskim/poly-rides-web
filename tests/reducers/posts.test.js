@@ -1,10 +1,10 @@
 import actions from '../../src/constants/actions';
-import appStateReducer from '../../src/reducers/appState';
+import postsReducer from '../../src/reducers/posts';
 
-describe('appState reducer', () => {
+describe('posts reducer', () => {
   it('should handle a ride change', () => {
     expect(
-      appStateReducer({}, {
+      postsReducer({}, {
         type: actions.CURRENT_RIDES_CHANGE,
         payload: {
           ride1: true,
@@ -12,10 +12,8 @@ describe('appState reducer', () => {
         },
       }),
     ).toEqual({
-      feed: {
-        ride1: true,
-        ride2: true,
-      },
+      ride1: true,
+      ride2: true,
     });
   });
 });

@@ -33,7 +33,7 @@ export class Feed extends Component {
     };
 
     /* the rides returned are not sorted */
-    const flattenedFeed = values(this.props.data.posts);
+    const flattenedFeed = values(this.props.data.rides);
     const displayedFeed = orderBy(flattenedFeed, ['postTimestamp'], ['desc']).map(
       (feedItem, idx) => <FeedItem feedData={feedItem} key={idx} />);
 

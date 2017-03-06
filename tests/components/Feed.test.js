@@ -9,6 +9,7 @@ import { Feed } from '../../src/components/Feed';
 describe('<Feed />', () => {
   it('renders properly', () => {
     const props = {
+      data: {},
       listenForRides: jest.fn(),
       setNavTitle: jest.fn(),
       stopListenForRides: jest.fn(),
@@ -22,18 +23,20 @@ describe('<Feed />', () => {
   });
   it('shows feeditems in proper order', () => {
     const props = {
-      feed: {
-        id1: {
-          postTimestamp: 10,
-          dest: 'slo',
-        },
-        id2: {
-          postTimestamp: 12,
-          dest: 'la',
-        },
-        id3: {
-          postTimestamp: 8,
-          dest: 'sf',
+      data: {
+        rides: {
+          id1: {
+            postTimestamp: 10,
+            dest: 'slo',
+          },
+          id2: {
+            postTimestamp: 12,
+            dest: 'la',
+          },
+          id3: {
+            postTimestamp: 8,
+            dest: 'sf',
+          },
         },
       },
       listenForRides: jest.fn(),

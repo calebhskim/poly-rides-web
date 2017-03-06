@@ -67,6 +67,7 @@ export class Login extends Component {
               alt=''
               style={{ height: '18px', width: '18px', marginTop: '-5px' }}
             />}
+            id='loginButton'
             label='Login with Facebook'
             labelColor={color}
             onClick={this.handleFBSignin}

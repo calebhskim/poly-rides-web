@@ -30,8 +30,8 @@ describe('<Login />', () => {
       store = mockStore(initialState);
       wrapper = mount(
         <MuiThemeProvider>
-          <Login store={store} fbPopupSignin={fbPopupSignin} setNavTitle={setNavTitle}/>
-        </MuiThemeProvider>
+          <Login store={store} fbPopupSignin={fbPopupSignin} setNavTitle={setNavTitle} />
+        </MuiThemeProvider>,
       );
     });
 
