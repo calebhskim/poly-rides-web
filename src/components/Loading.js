@@ -1,7 +1,9 @@
 import React from 'react';
 
+import styles from '../styles/components/general';
+
 const Loading = () => (
-  <div>
+  <div style={styles.container}>
     <p>loading...</p>
   </div>
 );
