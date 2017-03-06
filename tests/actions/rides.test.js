@@ -1,14 +1,5 @@
-import configureMockStore from 'redux-mock-store';
-import firebase from 'firebase';
-import map from 'lodash/map';
-import thunk from 'redux-thunk';
-import values from 'lodash/values';
-
 import actions from '../../src/constants/actions';
 import { listenForRides, stopListenForRides } from '../../src/actions/rides';
-
-const middlewares = [thunk];
-const mockStore = configureMockStore(middlewares);
 
 const sampleRides = [
   {
@@ -29,40 +20,46 @@ const sampleRides = [
 ];
 
 describe('ride actions', () => {
-  let dispatch, getState, limitToLast, off, orderByChild, ridesRef, ref;
+  let dispatch;
+  let getState;
+  let limitToLast;
+  let off;
+  let orderByChild;
+  let ridesRef;
+  let ref;
 
   beforeEach(() => {
     dispatch = jest.fn();
     getState = jest.fn();
     getState.mockReturnValueOnce({
       firebase: {
-        app: { 
-          database: () => ({ ref })
-        }
+        app: {
+          database: () => ({ ref }),
+        },
       },
     });
-    limitToLast = jest.fn((count) => ({
+    limitToLast = jest.fn(() => ({
       on: (type, callback) => {
         callback({
-          val: () => sampleRides[0]
+          val: () => sampleRides[0],
         });
-      }
+      },
     }));
     off = jest.fn();
-    orderByChild = jest.fn((order) => ({
-      limitToLast
+    orderByChild = jest.fn(() => ({
+      limitToLast,
     }));
-    ref = jest.fn((table) => ridesRef);
+    ref = jest.fn(() => ridesRef);
     ridesRef = {
       orderByChild,
-      off
+      off,
     };
   });
 
   describe('listenForRides', () => {
     it('given firebase returns rides should dispatch with correct rides payload', () => {
       listenForRides()(dispatch, getState);
-      
+
       expect(getState).toHaveBeenCalledTimes(1);
       expect(ref).toHaveBeenCalledTimes(1);
       expect(ref).toHaveBeenCalledWith('rides');
@@ -73,7 +70,7 @@ describe('ride actions', () => {
       expect(dispatch).toHaveBeenCalledTimes(1);
       expect(dispatch).toHaveBeenCalledWith({
         type: actions.CURRENT_RIDES_CHANGE,
-        payload: sampleRides[0]
+        payload: sampleRides[0],
       });
     });
   });
