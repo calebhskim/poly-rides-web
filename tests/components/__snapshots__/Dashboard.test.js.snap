@@ -1,3 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<Dashboard /> renders properly 1`] = `<Loading />`;
+exports[`<Dashboard /> renders properly 1`] = `
+<View>
+  <Text
+    accessible={true}
+    allowFontScaling={true}
+    ellipsizeMode="tail"
+  >
+    Welcome 
+  </Text>
+</View>
+`;

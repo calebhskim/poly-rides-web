@@ -29,7 +29,6 @@ function mapStateToProps(state) {
   return {
     displayName,
     email,
-    status,
   };
 }
 

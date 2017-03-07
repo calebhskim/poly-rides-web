@@ -23,8 +23,7 @@ export default {
   },
   data: {
     messages: null,
-    posts: null,
-    rides: null,
+    rides: {},
   },
   firebase: {
     app: null,
