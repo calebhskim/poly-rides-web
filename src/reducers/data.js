@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
 
-import posts from './posts';
+import rides from './rides';
 
 // Map of data reducers
 const reducers = {
-  posts,
+  rides,
 };
 
 const data = combineReducers(reducers);

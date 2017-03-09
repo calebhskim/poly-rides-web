@@ -1,7 +1,7 @@
 import actions from '../constants/actions';
 import initialState from '../constants/initialState';
 
-const posts = (state = initialState.data.posts, { payload, type }) => {
+const rides = (state = initialState.data.rides, { payload, type }) => {
   switch(type) {
     case actions.CURRENT_RIDES_CHANGE:
       return Object.assign({}, state, payload);
@@ -10,4 +10,4 @@ const posts = (state = initialState.data.posts, { payload, type }) => {
   }
 };
 
-export default posts;
+export default rides;

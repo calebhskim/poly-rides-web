@@ -20,8 +20,6 @@ Account.propTypes = {
     React.PropTypes.node,
   ]),
   getCurrentUser: PropTypes.func,
-  getFBId: PropTypes.func,
-  verifyInGroup: PropTypes.func,
 };
 
 function mapStateToProps() {
@@ -30,8 +28,6 @@ function mapStateToProps() {
 
 const mapDispatchToProps = {
   getCurrentUser,
-  getFBId,
-  verifyInGroup,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Account);
