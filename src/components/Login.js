@@ -18,7 +18,6 @@ export class Login extends Component {
     this.handleRequestClose = this.handleRequestClose.bind(this);
     this.state = {
       open: false,
-      initial: true,
     };
   }
 
@@ -49,10 +48,9 @@ export class Login extends Component {
     // Note: Hack to have the snackbar slide in after redirect to Login page.
     // This takes advantage of the fact setState is async and is batched.
     setTimeout(() => {
-      if (this.state.initial) {
+      if (this.props.inGroup !== null && !this.props.inGroup) {
         this.setState({
-          open: this.props.inGroup !== null ? !this.props.inGroup : false,
-          initial: false,
+          open: true,
         });
       }
     }, 500);
