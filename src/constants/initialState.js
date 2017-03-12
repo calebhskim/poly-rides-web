@@ -23,7 +23,12 @@ export default {
   },
   data: {
     messages: null,
-    rides: {},
+    rides: {
+      hasNextPage: null,
+      isNextPageLoading: null,
+      loadedRowsMap: {},
+      list: [],
+    },
   },
   firebase: {
     app: null,

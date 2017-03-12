@@ -17,6 +17,7 @@ module.exports = {
     "jsx-quotes": ["error", "prefer-single"],
     "keyword-spacing": "off",
     "react/jsx-filename-extension": [1, { "extensions": [".js"] }],
+    "react/jsx-boolean-value": "off",
     "space-before-function-paren": "off",
   },
   "settings": {

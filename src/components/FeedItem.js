@@ -2,12 +2,13 @@ import React, { PropTypes } from 'react';
 import { Text } from 'react-native';
 import { Card, CardText } from 'material-ui/Card';
 
+import styles from '../styles/components/feedItem';
 
 const FeedItem = ({ feedData }) => {
   const { fromLocation, toLocation, postTimestamp, description } = feedData;
 
   return (
-    <Card>
+    <Card className='feedItem' style={styles.feedItemContainer}>
       <CardText>
         <Text>
           {fromLocation} {'->'} {toLocation} {'\n'}

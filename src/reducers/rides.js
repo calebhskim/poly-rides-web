@@ -4,7 +4,9 @@ import initialState from '../constants/initialState';
 const rides = (state = initialState.data.rides, { payload, type }) => {
   switch(type) {
     case actions.CURRENT_RIDES_CHANGE:
-      return Object.assign({}, state, payload);
+      return Object.assign({}, state, {
+        list: payload,
+      });
     default:
       return state;
   }
