@@ -11,7 +11,7 @@ import { Toolbar, ToolbarGroup } from 'material-ui/Toolbar';
 
 import FeedScroll from './FeedScroll';
 import feedStyle from '../styles/components/feed';
-import { listenForRides, stopListenForRides } from '../actions/rides';
+import { countRides, listenForRides, stopListenForRides } from '../actions/rides';
 import setNavTitle from '../actions/setNavTitle';
 
 const {
@@ -29,6 +29,7 @@ export class Feed extends Component {
   }
 
   componentWillMount() {
+    this.props.countRides();
     this.props.listenForRides();
   }
 
@@ -81,6 +82,7 @@ export class Feed extends Component {
 
 
 Feed.propTypes = {
+  countRides: PropTypes.func,
   listenForRides: PropTypes.func,
   setNavTitle: PropTypes.func,
   stopListenForRides: PropTypes.func,
@@ -91,6 +93,7 @@ function mapStateToProps() {
 }
 
 const mapDispatchToProps = {
+  countRides,
   listenForRides,
   setNavTitle,
   stopListenForRides,

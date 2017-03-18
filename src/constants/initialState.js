@@ -28,6 +28,7 @@ export default {
       isNextPageLoading: null,
       loadedRowsMap: {},
       list: [],
+      totalCount: 0,
     },
   },
   firebase: {
