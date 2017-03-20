@@ -15,7 +15,10 @@ export class FeedScroll extends Component {
   }
 
   componentWillMount() {
-    this.props.listenForRides();
+    this.props.fetchRides({
+      startIndex: 0,
+      stopIndex: this.props.displayCount - 1,
+    });
   }
 
   componentWillUnmount() {
@@ -23,36 +26,31 @@ export class FeedScroll extends Component {
   }
 
   isRowLoaded({ index }) {
-    const { totalCount } = this.props;
-    // return !!loadedRowsMap[index]; // STATUS_LOADING or STATUS_LOADED
-    return index < totalCount;
+    const { loadedRowsMap } = this.props;
+    return !!loadedRowsMap[index];
   }
 
   rowRenderer ({ index, key, style }) {
-    const { list } = this.props;
+    const { list, loadedRowsMap } = this.props;
     const row = list[index];
-    // const displayedFeed = orderBy(flattenedFeed, ['postTimestamp'], ['desc'])
-    // .map((feedItem, idx) => <FeedItem feedData={feedItem} key={idx} />);
 
     return (
       <div
         key={key}
         style={style}
       >
-        <FeedItem feedData={row} key={index} loading={!this.isRowLoaded({ index })} />
+        <FeedItem id={index} feedData={row} key={index} loading={!loadedRowsMap[index]} />
       </div>
     );
   }
 
   render() {
-    const { isNextLoading, list, totalCount } = this.props;
-    /* the rides returned are not sorted */
-
+    const { list } = this.props;
     return (
       <InfiniteLoader
         isRowLoaded={this.isRowLoaded}
-        loadMoreRows={isNextLoading ? () => {} : this.props.fetchRides}
-        rowCount={list.length < totalCount ? list.length + 1 : list.length}
+        loadMoreRows={this.props.fetchRides}
+        rowCount={10000} // Note: this can be arbitrarily high. Check docs.
       >
         {({ onRowsRendered, registerChild }) => (
           <AutoSizer>
@@ -76,19 +74,18 @@ export class FeedScroll extends Component {
 
 
 FeedScroll.propTypes = {
-  isNextLoading: PropTypes.bool,
+  displayCount: PropTypes.number,
   list: PropTypes.arrayOf(PropTypes.object),
-  listenForRides: PropTypes.func,
-  // loadedRowsMap: PropTypes.objectOf(PropTypes.number),
+  loadedRowsMap: PropTypes.objectOf(PropTypes.bool),
   fetchRides: PropTypes.func,
   stopListenForRides: PropTypes.func,
-  totalCount: PropTypes.number,
 };
 
 function mapStateToProps(state) {
   const {
     data: {
       rides: {
+        displayCount,
         isNextLoading,
         loadedRowsMap,
         list,
@@ -98,6 +95,7 @@ function mapStateToProps(state) {
   } = state;
 
   return {
+    displayCount,
     isNextLoading,
     list,
     loadedRowsMap,

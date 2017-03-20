@@ -5,8 +5,6 @@ import { Card, CardText } from 'material-ui/Card';
 import styles from '../styles/components/feedItem';
 
 const FeedItem = ({ feedData, loading }) => {
-  const { fromLocation, toLocation, postTimestamp, description } = feedData;
-
   if (loading) {
     return (
       <Card className='feedItem' style={styles.feedItemContainer}>
@@ -18,6 +16,8 @@ const FeedItem = ({ feedData, loading }) => {
       </Card>
     );
   }
+
+  const { fromLocation, toLocation, postTimestamp, description } = feedData;
 
   return (
     <Card className='feedItem' style={styles.feedItemContainer}>

@@ -1,11 +1,13 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
+import { countRides } from '../actions/rides';
 import getCurrentUser from '../actions/getCurrentUser';
 import styles from '../styles/components/general';
 
 class Account extends Component {
   componentWillMount() {
+    this.props.countRides();
     this.props.getCurrentUser();
   }
 
@@ -19,6 +21,7 @@ Account.propTypes = {
     React.PropTypes.arrayOf(React.PropTypes.node),
     React.PropTypes.node,
   ]),
+  countRides: PropTypes.func,
   getCurrentUser: PropTypes.func,
 };
 
@@ -27,6 +30,7 @@ function mapStateToProps() {
 }
 
 const mapDispatchToProps = {
+  countRides,
   getCurrentUser,
 };
 
