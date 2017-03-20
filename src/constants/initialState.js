@@ -24,10 +24,10 @@ export default {
   data: {
     messages: null,
     rides: {
-      hasNextPage: null,
-      isNextPageLoading: null,
-      loadedRowsMap: {},
+      displayCount: 10,
+      isNextLoading: false,
       list: [],
+      startFrom: {}, // Object to be passed to startAt e.g. { key: '', timestamp: '' }
       totalCount: 0,
     },
   },

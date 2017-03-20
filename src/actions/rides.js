@@ -1,9 +1,13 @@
 import axios from 'axios';
 import values from 'lodash/values';
+import orderBy from 'lodash/orderBy';
 
 import actions from '../constants/actions';
 
 const {
+  CURRENT_RIDES_CHANGE,
+  FETCH_RIDES_START,
+  FETCH_RIDES_SUCCESS,
   GET_RIDES_COUNT,
   GET_RIDES_COUNT_SUCCESS,
   GET_RIDES_COUNT_FAILURE,
@@ -32,15 +36,17 @@ function countRides() {
 
 function listenForRides() {
   return (dispatch, getState) => {
-    const { firebase: { app } } = getState();
+    const {
+      firebase: { app },
+      data: { rides: { displayCount } },
+    } = getState();
 
     const ridesRef = app.database().ref('rides');
-    const displayCount = 10;
-    
+
     // TODO: Update totalCount when this is fired
     ridesRef.orderByChild('postTimestamp').limitToLast(displayCount).on('value', (snap) => {
       dispatch({
-        type: actions.CURRENT_RIDES_CHANGE,
+        type: CURRENT_RIDES_CHANGE,
         payload: values(snap.val()),
       });
     }, (err) => {
@@ -50,25 +56,61 @@ function listenForRides() {
   };
 }
 
-function fetchRides({ startIndex, stopIndex }) {
+// const STATUS_LOADING = 1;
+// const STATUS_LOADED = 2;
+// const { data: { rides: { list, loadedRowsMap } } } = getState();
+// for (let i = startIndex; i <= stopIndex; i += 1) {
+//   loadedRowsMap[i] = STATUS_LOADING;
+// }
+//
+// setTimeout(() => {
+//   for (let i = startIndex; i <= stopIndex; i += 1) {
+//     loadedRowsMap[i] = STATUS_LOADED;
+//   }
+//
+//   dispatch({
+//     type: actions.CURRENT_RIDES_CHANGE,
+//     payload: [...list, ...list],
+//   });
+// }, 1000);
+
+function fetchRides() {
+  console.log('CALLED');
   return (dispatch, getState) => {
-    const STATUS_LOADING = 1;
-    const STATUS_LOADED = 2;
-    const { data: { rides: { list, loadedRowsMap } } } = getState();
-    for (let i = startIndex; i <= stopIndex; i += 1) {
-      loadedRowsMap[i] = STATUS_LOADING;
+    const {
+      firebase: { app },
+      data: { rides: { displayCount, startFrom: { key, timestamp } } },
+    } = getState();
+    let ridesRef = app.database().ref('rides').orderByChild('postTimestamp').limitToFirst(displayCount);
+
+    dispatch({
+      type: FETCH_RIDES_START,
+    });
+
+    // We've already loaded rides
+    if (key) {
+      ridesRef = ridesRef.startAt(timestamp, key);
     }
 
-    setTimeout(() => {
-      for (let i = startIndex; i <= stopIndex; i += 1) {
-        loadedRowsMap[i] = STATUS_LOADED;
-      }
-
+    ridesRef.once('value').then((snapshot) => {
+      const data = snapshot.val();
+      const rides = Object.keys(data).map(k => ({
+        ...data[k],
+        k,
+      }));
+      const sorted = orderBy(rides, ['postTimestamp'], ['desc']);
+      const last = sorted[sorted.length - 1];
       dispatch({
-        type: actions.CURRENT_RIDES_CHANGE,
-        payload: [...list, ...list],
+        type: FETCH_RIDES_SUCCESS,
+        payload: {
+          last: {
+            key: last.key,
+            timestamp: last.timestamp,
+          },
+          rides: sorted.slice(0, -1),
+        },
       });
-    }, 1000);
+    });
   };
 }
 

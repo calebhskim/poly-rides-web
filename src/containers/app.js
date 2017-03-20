@@ -7,7 +7,7 @@ import AppBar from 'material-ui/AppBar';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import DrawerMenu from '../components/DrawerMenu';
-import Title from '../components/Title';
+// import Title from '../components/Title';
 
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
@@ -42,7 +42,7 @@ class App extends Component {
         <View>
           <AppBar
             onLeftIconButtonTouchTap={this.handleToggle}
-            title={<Title />}
+            title={this.props.title}
           />
           { /* Add this for nested routes */ }
           { this.props.children }
@@ -63,10 +63,14 @@ App.propTypes = {
     React.PropTypes.arrayOf(React.PropTypes.node),
     React.PropTypes.node,
   ]),
+  title: PropTypes.string,
 };
 
-function mapStateToProps() {
-  return {};
+function mapStateToProps(state) {
+  const { config: { title } } = state;
+  return {
+    title,
+  };
 }
 
 const mapDispatchToProps = {

@@ -9,6 +9,19 @@ const rides = (state = initialState.data.rides, { payload, response, type }) => 
       return Object.assign({}, state, {
         list: payload,
       });
+    case actions.FETCH_RIDES_START: {
+      return Object.assign({}, state, {
+        isNextLoading: true,
+      });
+    }
+    case actions.FETCH_RIDES_SUCCESS: {
+      const { list } = state;
+      return Object.assign({}, state, {
+        isNextLoading: false,
+        list: [...list, ...payload.rides],
+        startFrom: { ...payload.last },
+      });
+    }
     case actions.GET_RIDES_COUNT_SUCCESS: {
       const data = get(response, 'data', {});
       return Object.assign({}, state, {

@@ -23,11 +23,16 @@ module.exports = {
   module: {
     loaders: [
       {
+        test: /\.css$/,
+        exclude: /node_modules/,
+        loaders: ['style-loader', 'css-loader']
+      },
+      {
         test: /\.js$/,
         exclude: /node_modules/,
         // note(ckim): Change to use { enforce: 'pre' ... } when upgrading webpack
         loaders: ['react-hot', 'babel-loader', 'eslint-loader']
-      }   
+      }
     ]
   },
   resolve: {

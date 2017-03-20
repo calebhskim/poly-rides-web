@@ -23,44 +23,36 @@ export class FeedScroll extends Component {
   }
 
   isRowLoaded({ index }) {
-    const { loadedRowsMap } = this.props;
-    return !!loadedRowsMap[index]; // STATUS_LOADING or STATUS_LOADED
+    const { totalCount } = this.props;
+    // return !!loadedRowsMap[index]; // STATUS_LOADING or STATUS_LOADED
+    return index < totalCount;
   }
 
   rowRenderer ({ index, key, style }) {
-    const { list, loadedRowsMap } = this.props;
+    const { list } = this.props;
     const row = list[index];
     // const displayedFeed = orderBy(flattenedFeed, ['postTimestamp'], ['desc'])
     // .map((feedItem, idx) => <FeedItem feedData={feedItem} key={idx} />);
-    let content;
-
-    if (loadedRowsMap[index] === 2) {
-      content = <FeedItem feedData={row} key={index} />;
-    } else {
-      content = (
-        <div>Loading...</div>
-      );
-    }
 
     return (
       <div
         key={key}
         style={style}
       >
-        {content}
+        <FeedItem feedData={row} key={index} loading={!this.isRowLoaded({ index })} />
       </div>
     );
   }
 
   render() {
-    const { list } = this.props;
+    const { isNextLoading, list, totalCount } = this.props;
     /* the rides returned are not sorted */
 
     return (
       <InfiniteLoader
         isRowLoaded={this.isRowLoaded}
-        loadMoreRows={this.props.fetchRides}
-        rowCount={list.length}
+        loadMoreRows={isNextLoading ? () => {} : this.props.fetchRides}
+        rowCount={list.length < totalCount ? list.length + 1 : list.length}
       >
         {({ onRowsRendered, registerChild }) => (
           <AutoSizer>
@@ -84,19 +76,32 @@ export class FeedScroll extends Component {
 
 
 FeedScroll.propTypes = {
+  isNextLoading: PropTypes.bool,
   list: PropTypes.arrayOf(PropTypes.object),
   listenForRides: PropTypes.func,
-  loadedRowsMap: PropTypes.objectOf(PropTypes.number),
+  // loadedRowsMap: PropTypes.objectOf(PropTypes.number),
   fetchRides: PropTypes.func,
   stopListenForRides: PropTypes.func,
+  totalCount: PropTypes.number,
 };
 
 function mapStateToProps(state) {
-  const { data: { rides: { loadedRowsMap, list } } } = state;
+  const {
+    data: {
+      rides: {
+        isNextLoading,
+        loadedRowsMap,
+        list,
+        totalCount,
+      },
+    },
+  } = state;
 
   return {
+    isNextLoading,
     list,
     loadedRowsMap,
+    totalCount,
   };
 }
 
