@@ -23,7 +23,7 @@ export class Feed extends Component {
   }
 
   componentWillMount() {
-    // this.props.listenForRides(); TODO: Implement this to handle updates with scrolling
+    this.props.listenForRides();
   }
 
   componentDidMount() {
@@ -51,6 +51,7 @@ export class Feed extends Component {
 
 
 Feed.propTypes = {
+  listenForRides: PropTypes.func,
   setNavTitle: PropTypes.func,
   stopListenForRides: PropTypes.func,
 };
