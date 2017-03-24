@@ -43,7 +43,7 @@ export class Feed extends Component {
 
   render() {
     return (
-      <Paper className={feedMedia.feedFull} style={feedContainer} id='feed'>
+      <Paper className={feedMedia.fullFeed} style={feedContainer} id='feed'>
         <PostRide />
         <FeedScroll />
       </Paper>

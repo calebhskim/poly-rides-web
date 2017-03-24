@@ -5,17 +5,18 @@ export default function post(ride) {
     const { firebase: { app } } = getState();
     const rides = app.database().ref('rides');
 
-    console.log('RIDE :: ', ride);
-    rides.push(ride, (err) => {
+    return rides.push(ride, (err) => {
       // TODO: Properly handle errors
       if (err) {
         console.log('POST ERR :: ', err);
-        return;
+        return Promise.reject();
       }
 
       dispatch({
         type: actions.POST_RIDE_SUCCESS,
       });
+
+      return Promise.resolve();
     });
   };
 }

@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 
 import AutoComplete from 'material-ui/AutoComplete';
 import ContentAdd from 'material-ui/svg-icons/content/add';
+import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
@@ -14,16 +16,19 @@ export class PostRide extends Component {
   constructor(props) {
     super(props);
     this.handleArriveInput = this.handleArriveInput.bind(this);
+    this.handleClose = this.handleClose.bind(this);
     this.handleDepartInput = this.handleDepartInput.bind(this);
     this.handleDescInput = this.handleDescInput.bind(this);
+    this.handleOpen = this.handleOpen.bind(this);
     this.handlePost = this.handlePost.bind(this);
     this.state = {
       arrive: '',
-      depart: '',
-      desc: '',
       arriveError: false,
+      depart: '',
       departError: false,
+      desc: '',
       descError: false,
+      open: false,
     };
   }
 
@@ -48,6 +53,14 @@ export class PostRide extends Component {
     });
   }
 
+  handleOpen() {
+    this.setState({ open: true });
+  }
+
+  handleClose() {
+    this.setState({ open: false });
+  }
+
   handlePost() {
     const { arrive, depart, desc } = this.state;
     if (!Date.now) {
@@ -67,41 +80,96 @@ export class PostRide extends Component {
       toLocation: depart,
       totalSeats: 42,
       postTimestamp: Date.now(),
+    }).then(() => {
+      this.handleClose();
+    }).catch(() => {
+      // TODO: Properly handle errors here
+      console.log('POST FAILED');
     });
   }
 
   render() {
     const { arrive, arriveError, depart, departError, desc, descError } = this.state;
     const disable = arriveError || departError || descError || !(arrive && depart && desc);
+    const actions = [
+      <FlatButton
+        label='Cancel'
+        primary={true}
+        onTouchTap={this.handleClose}
+      />,
+      <FlatButton
+        label='Submit'
+        primary={true}
+        onTouchTap={this.handlePost}
+      />,
+    ];
     // TODO: Do proper sanitization below
     return (
-      <Paper style={postStyles.container}>
-        <AutoComplete
-          dataSource={['SLO', 'LA', 'SF', 'Seattle', 'NY', 'Chapel Hill', 'Austin']}
-          errorText={departError && 'This field is required'}
-          hintText='Depart From'
-          onUpdateInput={this.handleDepartInput}
-        />
-        <AutoComplete
-          dataSource={['SLO', 'LA', 'SF', 'Seattle', 'NY', 'Chapel Hill', 'Austin']}
-          errorText={arriveError && 'This field is required'}
-          hintText='Arrive At'
-          onUpdateInput={this.handleArriveInput}
-        />
-        <TextField
-          errorText={descError && 'This field is required'}
-          hintText='Description'
-          onChange={this.handleDescInput}
-        />
-        <FloatingActionButton
-          disabled={disable}
-          mini={true}
-          onTouchTap={this.handlePost}
-          style={postStyles.actionButton}
-        >
-          <ContentAdd />
-        </FloatingActionButton>
-      </Paper>
+      <div>
+        <Paper className='hidden-md-down' style={postStyles.container}>
+          <AutoComplete
+            dataSource={['SLO', 'LA', 'SF', 'Seattle', 'NY', 'Chapel Hill', 'Austin']}
+            errorText={departError && 'This field is required'}
+            hintText='Depart From'
+            onUpdateInput={this.handleDepartInput}
+          />
+          <AutoComplete
+            dataSource={['SLO', 'LA', 'SF', 'Seattle', 'NY', 'Chapel Hill', 'Austin']}
+            errorText={arriveError && 'This field is required'}
+            hintText='Arrive At'
+            onUpdateInput={this.handleArriveInput}
+          />
+          <TextField
+            errorText={descError && 'This field is required'}
+            hintText='Description'
+            onChange={this.handleDescInput}
+          />
+          <FloatingActionButton
+            disabled={disable}
+            mini={true}
+            onTouchTap={this.handlePost}
+            style={postStyles.actionButton}
+          >
+            <ContentAdd />
+          </FloatingActionButton>
+        </Paper>
+        <Paper className='hidden-lg-up' style={postStyles.mobilePost}>
+          <FloatingActionButton
+            mini={true}
+            onTouchTap={this.handleOpen}
+            style={postStyles.actionButton}
+          >
+            <ContentAdd />
+          </FloatingActionButton>
+          <Dialog
+            title='Add a ride'
+            actions={actions}
+            modal={true}
+            open={this.state.open}
+            autoDetectWindowHeight={false}
+            actionsContainerStyle={{ height: '100vh' }}
+            contentStyle={{ width: '100%', transform: 'translate(0, 0)' }}
+          >
+            <AutoComplete
+              dataSource={['SLO', 'LA', 'SF', 'Seattle', 'NY', 'Chapel Hill', 'Austin']}
+              errorText={departError && 'This field is required'}
+              hintText='Depart From'
+              onUpdateInput={this.handleDepartInput}
+            />
+            <AutoComplete
+              dataSource={['SLO', 'LA', 'SF', 'Seattle', 'NY', 'Chapel Hill', 'Austin']}
+              errorText={arriveError && 'This field is required'}
+              hintText='Arrive At'
+              onUpdateInput={this.handleArriveInput}
+            />
+            <TextField
+              errorText={descError && 'This field is required'}
+              hintText='Description'
+              onChange={this.handleDescInput}
+            />
+          </Dialog>
+        </Paper>
+      </div>
     );
   }
 }
