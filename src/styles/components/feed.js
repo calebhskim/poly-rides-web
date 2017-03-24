@@ -1,7 +1,7 @@
 export default {
   feedContainer: {
     height: '100vh',
-    width: '768px',
+    width: '992px',
   },
   feedView: {
     flexDirection: 'column',

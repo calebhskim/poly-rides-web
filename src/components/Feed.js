@@ -6,6 +6,7 @@ import Paper from 'material-ui/Paper';
 import feedMedia from '../styles/css/feed.css';
 import FeedScroll from './FeedScroll';
 import feedStyle from '../styles/components/feed';
+import PostRide from './PostRide';
 import { listenForRides, stopListenForRides } from '../actions/rides';
 import setNavTitle from '../actions/setNavTitle';
 
@@ -43,6 +44,7 @@ export class Feed extends Component {
   render() {
     return (
       <Paper className={feedMedia.feedFull} style={feedContainer} id='feed'>
+        <PostRide />
         <FeedScroll />
       </Paper>
     );
