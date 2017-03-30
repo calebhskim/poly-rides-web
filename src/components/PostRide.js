@@ -3,14 +3,29 @@ import { connect } from 'react-redux';
 
 import AutoComplete from 'material-ui/AutoComplete';
 import ContentAdd from 'material-ui/svg-icons/content/add';
+import DatePicker from 'material-ui/DatePicker';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import TextField from 'material-ui/TextField';
-import TimePicker from 'material-ui/TimePicker';
 
 import post from '../actions/post';
 import postStyles from '../styles/components/postRide';
+
+const initialState = {
+  arrive: '',
+  arriveError: false,
+  cost: '',
+  costError: false,
+  depart: '',
+  departError: false,
+  departDate: {},
+  desc: '',
+  descError: false,
+  open: false,
+  seat: '',
+  seatError: false,
+};
 
 export class PostRide extends Component {
   constructor(props) {
@@ -24,20 +39,7 @@ export class PostRide extends Component {
     this.handleOpen = this.handleOpen.bind(this);
     this.handlePost = this.handlePost.bind(this);
     this.handleSeat = this.handleSeat.bind(this);
-    this.state = {
-      arrive: '',
-      arriveError: false,
-      cost: '',
-      costError: false,
-      depart: '',
-      departError: false,
-      departTime: null,
-      desc: '',
-      descError: false,
-      open: false,
-      seat: -1,
-      seatError: false,
-    };
+    this.state = initialState;
   }
 
   handleArriveInput(searchText) {
@@ -49,7 +51,7 @@ export class PostRide extends Component {
 
   handleDate(e, date) {
     this.setState({
-      departTime: date,
+      departDate: date,
     });
   }
 
@@ -91,13 +93,13 @@ export class PostRide extends Component {
   }
 
   handlePost() {
-    const { arrive, cost, depart, departTime, desc, seat } = this.state;
+    const { arrive, cost, depart, departDate, desc, seat } = this.state;
     const { uid } = this.props;
     const timestamp = new Date();
 
     this.props.post({
-      costPerSeat: cost,
-      departTimestamp: departTime.getTime(),
+      costPerSeat: cost ? parseInt(cost, 10) : cost,
+      departTimestamp: departDate.getTime(),
       description: desc,
       driver: uid,
       fromLocation: arrive,
@@ -106,11 +108,13 @@ export class PostRide extends Component {
       totalSeats: seat,
       postTimestamp: timestamp.getTime(),
     }).then(() => {
-      this.handleClose();
+      this.setState(initialState);
     }).catch(() => {
       // TODO: Properly handle errors here
       console.log('POST FAILED');
     });
+
+    this.handleClose();
   }
 
   render() {
@@ -120,14 +124,15 @@ export class PostRide extends Component {
       cost,
       costError,
       depart,
-      departTime,
+      departDate,
       departError,
       desc,
       descError,
+      seat,
       seatError,
     } = this.state;
     const disable = arriveError || departError || descError ||
-      !(arrive && depart && departTime && desc);
+      !(arrive && depart && departDate && desc);
     const actions = [
       <FlatButton
         label='Cancel'
@@ -141,6 +146,7 @@ export class PostRide extends Component {
         primary={true}
       />,
     ];
+
     // TODO: Do proper sanitization below
     return (
       <div style={postStyles.container}>
@@ -160,46 +166,53 @@ export class PostRide extends Component {
           actionsContainerStyle={{ height: '100vh' }}
           contentStyle={{ width: '100%', transform: 'translate(0, 0)' }}
         >
-          <div id='input' style={postStyles.inputForm}>
-            <AutoComplete
-              dataSource={['SLO', 'LA', 'SF', 'Seattle', 'NY', 'Chapel Hill', 'Austin']}
-              errorText={departError && 'This field is required'}
-              hintText='Depart From'
-              onUpdateInput={this.handleDepartInput}
-            />
-            <AutoComplete
-              dataSource={['SLO', 'LA', 'SF', 'Seattle', 'NY', 'Chapel Hill', 'Austin']}
-              errorText={arriveError && 'This field is required'}
-              hintText='Arrive At'
-              onUpdateInput={this.handleArriveInput}
-            />
-            <TimePicker
-              hintText='Departure time'
-              onChange={this.handleDate}
-            />
-            <TextField
-              errorText={seatError && 'This field must be a number'}
-              hintText='Number of Seats'
-              onChange={this.handleSeat}
-            />
-            <TextField
-              errorText={costError && 'This field must be a number'}
-              hintText='Cost per Seat'
-              onChange={this.handleCost}
-              value={`$${cost}`}
-            />
-          </div>
-          <div id='inputDesc'>
-            <TextField
-              errorText={descError && 'This field is required'}
-              hintText='Description'
-              fullWidth={true}
-              maxLength='500'
-              multiLine={true}
-              onChange={this.handleDescInput}
-              rowsMax={10}
-            />
-            <p>{desc.length} / 500</p>
+          <div>
+            <div id='input' style={postStyles.inputForm}>
+              <AutoComplete
+                dataSource={['SLO', 'LA', 'SF', 'Seattle', 'NY', 'Chapel Hill', 'Austin']}
+                errorText={departError && 'This field is required'}
+                hintText='Depart From'
+                onUpdateInput={this.handleDepartInput}
+                value={depart}
+              />
+              <AutoComplete
+                dataSource={['SLO', 'LA', 'SF', 'Seattle', 'NY', 'Chapel Hill', 'Austin']}
+                errorText={arriveError && 'This field is required'}
+                hintText='Arrive At'
+                onUpdateInput={this.handleArriveInput}
+                value={arrive}
+              />
+              <DatePicker
+                hintText='Departure Date'
+                onChange={this.handleDate}
+                value={departDate}
+              />
+              <TextField
+                errorText={seatError && 'This field must be a number'}
+                hintText='Number of Seats'
+                onChange={this.handleSeat}
+                value={seat}
+              />
+              <TextField
+                errorText={costError && 'This field must be a number'}
+                hintText='Cost per Seat'
+                onChange={this.handleCost}
+                value={`$${cost}`}
+              />
+            </div>
+            <div id='inputDesc'>
+              <TextField
+                errorText={descError && 'This field is required'}
+                hintText='Description'
+                fullWidth={true}
+                maxLength='500'
+                multiLine={true}
+                onChange={this.handleDescInput}
+                rowsMax={10}
+                value={desc}
+              />
+              <p>{desc.length} / 500</p>
+            </div>
           </div>
         </Dialog>
       </div>
@@ -214,7 +227,9 @@ PostRide.propTypes = {
 };
 
 function mapStateToProps(state) {
-  const { auth: { user: { uid } } } = state;
+  const {
+    auth: { user: { uid } },
+  } = state;
   return {
     uid,
   };
