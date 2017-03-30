@@ -8,4 +8,9 @@ export default {
     height: '100px',
     justifyContent: 'flex-end',
   },
+  inputForm: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+  },
 };

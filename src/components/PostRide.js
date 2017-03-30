@@ -27,7 +27,7 @@ export class PostRide extends Component {
     this.state = {
       arrive: '',
       arriveError: false,
-      cost: -1,
+      cost: '',
       costError: false,
       depart: '',
       departError: false,
@@ -70,12 +70,15 @@ export class PostRide extends Component {
   handleSeat(e, value) {
     this.setState({
       seat: value,
+      seatError: isNaN(value),
     });
   }
 
   handleCost(e, value) {
+    const val = value.slice(1);
     this.setState({
-      cost: value,
+      cost: val,
+      costError: isNaN(val),
     });
   }
 
@@ -90,21 +93,18 @@ export class PostRide extends Component {
   handlePost() {
     const { arrive, cost, depart, departTime, desc, seat } = this.state;
     const { uid } = this.props;
-
-    if (!Date.now) {
-      Date.now = () => new Date().getTime();
-    }
+    const timestamp = new Date();
 
     this.props.post({
       costPerSeat: cost,
-      departTimestamp: departTime.now(),
+      departTimestamp: departTime.getTime(),
       description: desc,
       driver: uid,
       fromLocation: arrive,
       passengers: {},
       toLocation: depart,
       totalSeats: seat,
-      postTimestamp: Date.now(),
+      postTimestamp: timestamp.getTime(),
     }).then(() => {
       this.handleClose();
     }).catch(() => {
@@ -117,6 +117,7 @@ export class PostRide extends Component {
     const {
       arrive,
       arriveError,
+      cost,
       costError,
       depart,
       departTime,
@@ -159,7 +160,7 @@ export class PostRide extends Component {
           actionsContainerStyle={{ height: '100vh' }}
           contentStyle={{ width: '100%', transform: 'translate(0, 0)' }}
         >
-          <div id='input'>
+          <div id='input' style={postStyles.inputForm}>
             <AutoComplete
               dataSource={['SLO', 'LA', 'SF', 'Seattle', 'NY', 'Chapel Hill', 'Austin']}
               errorText={departError && 'This field is required'}
@@ -177,11 +178,6 @@ export class PostRide extends Component {
               onChange={this.handleDate}
             />
             <TextField
-              errorText={descError && 'This field is required'}
-              hintText='Description'
-              onChange={this.handleDescInput}
-            />
-            <TextField
               errorText={seatError && 'This field must be a number'}
               hintText='Number of Seats'
               onChange={this.handleSeat}
@@ -190,7 +186,20 @@ export class PostRide extends Component {
               errorText={costError && 'This field must be a number'}
               hintText='Cost per Seat'
               onChange={this.handleCost}
+              value={`$${cost}`}
             />
+          </div>
+          <div id='inputDesc'>
+            <TextField
+              errorText={descError && 'This field is required'}
+              hintText='Description'
+              fullWidth={true}
+              maxLength='500'
+              multiLine={true}
+              onChange={this.handleDescInput}
+              rowsMax={10}
+            />
+            <p>{desc.length} / 500</p>
           </div>
         </Dialog>
       </div>
