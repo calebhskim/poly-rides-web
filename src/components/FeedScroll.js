@@ -4,7 +4,12 @@ import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer';
 import List from 'react-virtualized/dist/commonjs/List';
 
 import FeedItem from './FeedItem';
+import feedStyle from '../styles/components/feed';
 import { listenForRides, stopListenForRides } from '../actions/rides';
+
+const {
+  feedScroll,
+} = feedStyle;
 
 export class FeedScroll extends Component {
   constructor(props) {
@@ -42,6 +47,7 @@ export class FeedScroll extends Component {
       <AutoSizer>
         {({ height, width }) => (
           <List
+            style={feedScroll}
             height={height}
             rowCount={Math.max(list.length, displayCount)}
             rowHeight={100}

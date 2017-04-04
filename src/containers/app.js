@@ -6,12 +6,18 @@ import { View } from 'react-native';
 import AppBar from 'material-ui/AppBar';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
+import appStyle from '../styles/components/app';
 import DrawerMenu from '../components/DrawerMenu';
 // import Title from '../components/Title';
 
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
 injectTapEventPlugin();
+
+const {
+  appContainer,
+  componentContainer,
+} = appStyle;
 
 class App extends Component {
   constructor(props) {
@@ -39,13 +45,15 @@ class App extends Component {
   render() {
     return (
       <MuiThemeProvider>
-        <View>
+        <View style={appContainer}>
           <AppBar
             onLeftIconButtonTouchTap={this.handleToggle}
             title={this.props.title}
           />
           { /* Add this for nested routes */ }
-          { this.props.children }
+          <View style={componentContainer}>
+            { this.props.children }
+          </View>
           <DrawerMenu
             changeState={this.changeState}
             handleClose={this.handleClose}
