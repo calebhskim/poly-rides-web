@@ -1,7 +1,11 @@
 export default {
   feedContainer: {
-    height: '100vh',
+    marginTop: '24px',
+    height: '100%',
     width: '992px',
+  },
+  feedScroll: {
+    outline: 'none',
   },
   feedView: {
     flexDirection: 'column',
