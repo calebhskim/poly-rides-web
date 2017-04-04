@@ -4,6 +4,7 @@ import { View } from 'react-native';
 
 import Loading from './Loading';
 import Login from './Login';
+import styles from '../styles/components/general';
 
 class Landing extends Component {
   constructor(props) {
@@ -15,7 +16,11 @@ class Landing extends Component {
     const { isFetching } = this.props;
 
     if (isFetching) {
-      return <Loading />;
+      return (
+        <div style={styles.container}>
+          <Loading />
+        </div>
+      );
     }
 
     return (

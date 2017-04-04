@@ -5,13 +5,12 @@ export default {
   container: {
     alignItems: 'center',
     display: 'flex',
-    height: '75px',
-    justifyContent: 'space-around',
-  },
-  mobilePost: {
-    alignItems: 'center',
-    display: 'flex',
-    height: '75px',
+    height: '100px',
     justifyContent: 'flex-end',
+  },
+  inputForm: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
   },
 };
