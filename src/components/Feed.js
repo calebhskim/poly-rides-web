@@ -1,18 +1,27 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { View } from 'react-native';
 
 import Paper from 'material-ui/Paper';
-import orderBy from 'lodash/orderBy';
-import values from 'lodash/values';
 
-import cardStyle from '../styles/components/card';
-import FeedItem from './FeedItem';
+import feedMedia from '../styles/css/feed.css';
+import FeedScroll from './FeedScroll';
+import feedStyle from '../styles/components/feed';
 import { listenForRides, stopListenForRides } from '../actions/rides';
 import setNavTitle from '../actions/setNavTitle';
 
+const {
+  feedContainer,
+} = feedStyle;
 
 export class Feed extends Component {
+  constructor(props) {
+    super(props);
+    this.handleUpdateInput = this.handleUpdateInput.bind(this);
+    this.state = {
+      start: '',
+    };
+  }
+
   componentWillMount() {
     this.props.listenForRides();
   }
@@ -25,24 +34,16 @@ export class Feed extends Component {
     this.props.stopListenForRides();
   }
 
+  handleUpdateInput(value) {
+    this.setState({
+      start: value,
+    });
+  }
+
   render() {
-    const feedContainerStyle = {
-      flexDirection: 'column',
-      justifyContent: 'flex-start',
-      alignItems: 'center',
-    };
-
-    /* the rides returned are not sorted */
-    const flattenedFeed = values(this.props.data.rides);
-    const displayedFeed = orderBy(flattenedFeed, ['postTimestamp'], ['desc']).map(
-      (feedItem, idx) => <FeedItem feedData={feedItem} key={idx} />);
-
     return (
-      <Paper style={cardStyle} id='about'>
-        <View style={feedContainerStyle}>
-          <h1>Feed Header</h1>
-          {displayedFeed}
-        </View>
+      <Paper className={feedMedia.feedFull} style={feedContainer} id='feed'>
+        <FeedScroll />
       </Paper>
     );
   }
@@ -50,18 +51,13 @@ export class Feed extends Component {
 
 
 Feed.propTypes = {
-  data: PropTypes.objectOf(PropTypes.object),
   listenForRides: PropTypes.func,
   setNavTitle: PropTypes.func,
   stopListenForRides: PropTypes.func,
 };
 
-function mapStateToProps(state) {
-  const { data } = state;
-
-  return {
-    data,
-  };
+function mapStateToProps() {
+  return {};
 }
 
 const mapDispatchToProps = {

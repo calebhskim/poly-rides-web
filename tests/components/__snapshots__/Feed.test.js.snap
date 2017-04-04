@@ -3,83 +3,35 @@
 exports[`<Feed /> renders properly 1`] = `
 <Paper
   circle={false}
-  id="about"
+  id="feed"
   rounded={true}
   style={
     Object {
-      "display": "flex",
       "height": "100vh",
+      "width": "768px",
     }
   }
   transitionEnabled={true}
   zDepth={1}
 >
-  <View
-    style={
-      Object {
-        "alignItems": "center",
-        "flexDirection": "column",
-        "justifyContent": "flex-start",
-      }
-    }
-  >
-    <h1>
-      Feed Header
-    </h1>
-  </View>
+  <Connect(FeedScroll) />
 </Paper>
 `;
 
 exports[`<Feed /> shows feeditems in proper order 1`] = `
 <Paper
   circle={false}
-  id="about"
+  id="feed"
   rounded={true}
   style={
     Object {
-      "display": "flex",
       "height": "100vh",
+      "width": "768px",
     }
   }
   transitionEnabled={true}
   zDepth={1}
 >
-  <View
-    style={
-      Object {
-        "alignItems": "center",
-        "flexDirection": "column",
-        "justifyContent": "flex-start",
-      }
-    }
-  >
-    <h1>
-      Feed Header
-    </h1>
-    <FeedItem
-      feedData={
-        Object {
-          "dest": "la",
-          "postTimestamp": 12,
-        }
-      }
-    />
-    <FeedItem
-      feedData={
-        Object {
-          "dest": "slo",
-          "postTimestamp": 10,
-        }
-      }
-    />
-    <FeedItem
-      feedData={
-        Object {
-          "dest": "sf",
-          "postTimestamp": 8,
-        }
-      }
-    />
-  </View>
+  <Connect(FeedScroll) />
 </Paper>
 `;

@@ -48,6 +48,11 @@ describe('ride actions', () => {
     off = jest.fn();
     orderByChild = jest.fn(() => ({
       limitToLast,
+      on: (type, callback) => {
+        callback({
+          val: () => sampleRides[0],
+        });
+      },
     }));
     ref = jest.fn(() => ridesRef);
     ridesRef = {
@@ -65,8 +70,6 @@ describe('ride actions', () => {
       expect(ref).toHaveBeenCalledWith('rides');
       expect(orderByChild).toHaveBeenCalledTimes(1);
       expect(orderByChild).toHaveBeenCalledWith('postTimestamp');
-      expect(limitToLast).toHaveBeenCalledTimes(1);
-      expect(limitToLast).toHaveBeenCalledWith(10);
       expect(dispatch).toHaveBeenCalledTimes(1);
       expect(dispatch).toHaveBeenCalledWith({
         type: actions.CURRENT_RIDES_CHANGE,

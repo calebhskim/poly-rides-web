@@ -44,6 +44,7 @@ const auth = (state = initialState.auth, { payload, response, type }) => {
 
       return Object.assign({}, state, {
         fbToken: credential.accessToken,
+        isFetching: true,
         lifecycle: lifecycles.AUTH_LOGGEDIN,
         user: {
           ...state.user,

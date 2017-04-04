@@ -23,7 +23,14 @@ export default {
   },
   data: {
     messages: null,
-    rides: {},
+    rides: {
+      displayCount: 10,
+      isNextLoading: false,
+      list: [],
+      loadedRowsMap: {}, // True is loaded, false is loading
+      startFrom: {}, // Object to be passed to startAt e.g. { key: '', timestamp: '' }
+      totalCount: 0,
+    },
   },
   firebase: {
     app: null,

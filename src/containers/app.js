@@ -7,6 +7,7 @@ import AppBar from 'material-ui/AppBar';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import DrawerMenu from '../components/DrawerMenu';
+// import Title from '../components/Title';
 
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
@@ -36,12 +37,13 @@ class App extends Component {
   }
 
   render() {
-    const { title } = this.props;
-
     return (
       <MuiThemeProvider>
         <View>
-          <AppBar onLeftIconButtonTouchTap={this.handleToggle} title={title} />
+          <AppBar
+            onLeftIconButtonTouchTap={this.handleToggle}
+            title={this.props.title}
+          />
           { /* Add this for nested routes */ }
           { this.props.children }
           <DrawerMenu

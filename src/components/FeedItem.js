@@ -2,12 +2,25 @@ import React, { PropTypes } from 'react';
 import { Text } from 'react-native';
 import { Card, CardText } from 'material-ui/Card';
 
+import styles from '../styles/components/feedItem';
 
-const FeedItem = ({ feedData }) => {
+const FeedItem = ({ feedData, loading }) => {
+  if (loading) {
+    return (
+      <Card className='feedItem' style={styles.feedItemContainer}>
+        <CardText>
+          <div style={{ height: '16px', width: '10%', background: 'grey', marginBottom: '5px' }} />
+          <div style={{ height: '16px', width: '15%', background: 'grey', marginBottom: '5px' }} />
+          <div style={{ height: '16px', width: '25%', background: 'grey', marginBottom: '5px' }} />
+        </CardText>
+      </Card>
+    );
+  }
+
   const { fromLocation, toLocation, postTimestamp, description } = feedData;
 
   return (
-    <Card>
+    <Card className='feedItem' style={styles.feedItemContainer}>
       <CardText>
         <Text>
           {fromLocation} {'->'} {toLocation} {'\n'}
@@ -35,6 +48,7 @@ FeedItem.propTypes = {
     toLocation: PropTypes.string,
     totalSeats: PropTypes.number,
   }),
+  loading: PropTypes.bool,
 };
 
 export default FeedItem;

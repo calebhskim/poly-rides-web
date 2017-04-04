@@ -1,10 +1,10 @@
 import actions from '../../src/constants/actions';
-import postsReducer from '../../src/reducers/posts';
+import ridesReducer from '../../src/reducers/rides';
 
-describe('posts reducer', () => {
+describe('rides reducer', () => {
   it('should handle a ride change', () => {
     expect(
-      postsReducer({}, {
+      ridesReducer({ list: [] }, {
         type: actions.CURRENT_RIDES_CHANGE,
         payload: {
           ride1: true,
@@ -12,8 +12,11 @@ describe('posts reducer', () => {
         },
       }),
     ).toEqual({
-      ride1: true,
-      ride2: true,
+      list: [{
+        ride1: true,
+        ride2: true,
+      }],
+      loadedRowsMap: { 0: true },
     });
   });
 });

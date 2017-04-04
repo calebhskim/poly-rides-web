@@ -4,10 +4,12 @@ import { View } from 'react-native';
 
 import Avatar from 'material-ui/Avatar';
 
+import styles from '../styles/components/profile';
+
 const Profile = (props) => {
   const { photoURL } = props;
   return (
-    <View>
+    <View style={styles.profileContainer}>
       <Avatar src={photoURL} />
     </View>
   );
