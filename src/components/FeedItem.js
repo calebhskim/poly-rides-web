@@ -44,7 +44,7 @@ const FeedItem = ({ feedData, loading }) => {
 
   const name = displayName || 'PolyRides';
   const profile = photoURL ? <Avatar src={photoURL} /> : <Avatar>{name[0]}</Avatar>;
-  const seatPrice = `$${costPerSeat}` || 'unavailable';
+  const seatPrice = costPerSeat ? `$${costPerSeat}` : 'unavailable';
 
   return (
     <Card className='feedItem' style={feedItemContainer}>
@@ -59,7 +59,6 @@ const FeedItem = ({ feedData, loading }) => {
           </div>
           <h7 style={itemTitle}><Seat />: {seatPrice}</h7>
           <h7>{`Departing: ${timestampToDate(departTimestamp)}`}</h7>
-          
           <h7>{`Description: ${description}`}</h7>
         </CardText>
       </div>

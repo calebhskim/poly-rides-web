@@ -26,5 +26,5 @@ export default {
     fontSize: '90%',
     marginBottom: '0.5rem',
     marginLeft: '5px',
-  }
+  },
 };
