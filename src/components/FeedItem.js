@@ -1,8 +1,20 @@
 import React, { PropTypes } from 'react';
-import { Text } from 'react-native';
 import { Card, CardText } from 'material-ui/Card';
 
+import Avatar from 'material-ui/Avatar';
+import Seat from 'material-ui/svg-icons/action/event-seat';
 import styles from '../styles/components/feedItem';
+
+import timestampToDate from '../utils/timestampToDate';
+
+const {
+  itemTitle,
+  feedItemCardText,
+  feedItemContainer,
+  feedItemContent,
+  feedItemProfile,
+  postTime,
+} = styles;
 
 const FeedItem = ({ feedData, loading }) => {
   if (loading) {
@@ -17,21 +29,40 @@ const FeedItem = ({ feedData, loading }) => {
     );
   }
 
-  const { fromLocation, toLocation, postTimestamp, description } = feedData;
+  const {
+    costPerSeat,
+    departTimestamp,
+    description,
+    driver: {
+      displayName,
+      photoURL,
+    },
+    fromLocation,
+    postTimestamp,
+    toLocation,
+  } = feedData;
+
+  const name = displayName || 'PolyRides';
+  const profile = photoURL ? <Avatar src={photoURL} /> : <Avatar>{name[0]}</Avatar>;
+  const seatPrice = `$${costPerSeat}` || 'unavailable';
 
   return (
-    <Card className='feedItem' style={styles.feedItemContainer}>
-      <CardText>
-        <Text>
-          {fromLocation} {'->'} {toLocation} {'\n'}
-        </Text>
-        <Text style={{ fontWeight: '100' }}>
-          Posted: {postTimestamp} {'\n'}
-        </Text>
-        <Text style={{ fontWeight: '200' }}>
-          Description: {description}
-        </Text>
-      </CardText>
+    <Card className='feedItem' style={feedItemContainer}>
+      <div style={feedItemContent}>
+        <div style={feedItemProfile}>
+          {profile}
+        </div>
+        <CardText style={feedItemCardText}>
+          <div style={itemTitle}>
+            <h6>{`${fromLocation} -> ${toLocation}`}</h6>
+            <h7 style={postTime}>{timestampToDate(postTimestamp)}</h7>
+          </div>
+          <h7 style={itemTitle}><Seat />: {seatPrice}</h7>
+          <h7>{`Departing: ${timestampToDate(departTimestamp)}`}</h7>
+          
+          <h7>{`Description: ${description}`}</h7>
+        </CardText>
+      </div>
     </Card>
   );
 };
@@ -41,7 +72,7 @@ FeedItem.propTypes = {
     costPerSeat: PropTypes.number,
     departTimestamp: PropTypes.number,
     description: PropTypes.string,
-    driver: PropTypes.number,
+    driver: PropTypes.objectOf(PropTypes.string),
     fromLocation: PropTypes.string,
     passengers: PropTypes.objectOf(PropTypes.bool),
     postTimestamp: PropTypes.number,

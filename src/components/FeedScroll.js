@@ -5,6 +5,7 @@ import List from 'react-virtualized/dist/commonjs/List';
 
 import FeedItem from './FeedItem';
 import feedStyle from '../styles/components/feed';
+import feedItemStyle from '../styles/components/feedItem';
 import { listenForRides, stopListenForRides } from '../actions/rides';
 
 const {
@@ -50,7 +51,7 @@ export class FeedScroll extends Component {
             style={feedScroll}
             height={height}
             rowCount={Math.max(list.length, displayCount)}
-            rowHeight={100}
+            rowHeight={feedItemStyle.infiniteValues.height}
             rowRenderer={this.rowRenderer}
             width={width}
           />
