@@ -13,6 +13,10 @@ export default {
   },
   feedItemContent: {
     display: 'flex',
+    justifyContent: 'space-between',
+  },
+  feedItemInfo: {
+    display: 'flex',
   },
   feedItemProfile: {
     alignItems: 'center',

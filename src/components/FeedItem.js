@@ -5,6 +5,7 @@ import Avatar from 'material-ui/Avatar';
 import Seat from 'material-ui/svg-icons/action/event-seat';
 import styles from '../styles/components/feedItem';
 
+import RequestRideButton from './RequestRideButton';
 import timestampToDate from '../utils/timestampToDate';
 
 const {
@@ -12,7 +13,9 @@ const {
   feedItemCardText,
   feedItemContainer,
   feedItemContent,
+  feedItemInfo,
   feedItemProfile,
+  feedItemRequest,
   postTime,
 } = styles;
 
@@ -49,18 +52,23 @@ const FeedItem = ({ feedData, loading }) => {
   return (
     <Card className='feedItem' style={feedItemContainer}>
       <div style={feedItemContent}>
-        <div style={feedItemProfile}>
-          {profile}
-        </div>
-        <CardText style={feedItemCardText}>
-          <div style={itemTitle}>
-            <h6>{`${fromLocation} -> ${toLocation}`}</h6>
-            <h7 style={postTime}>{timestampToDate(postTimestamp)}</h7>
+        <div style={feedItemInfo}>
+          <div style={feedItemProfile}>
+            {profile}
           </div>
-          <h7 style={itemTitle}><Seat />: {seatPrice}</h7>
-          <h7>{`Departing: ${timestampToDate(departTimestamp)}`}</h7>
-          <h7>{`Description: ${description}`}</h7>
-        </CardText>
+          <CardText style={feedItemCardText}>
+            <div style={itemTitle}>
+              <h6>{`${fromLocation} -> ${toLocation}`}</h6>
+              <h7 style={postTime}>{timestampToDate(postTimestamp)}</h7>
+            </div>
+            <h7 style={itemTitle}><Seat />: {seatPrice}</h7>
+            <h7>{`Departing: ${timestampToDate(departTimestamp)}`}</h7>
+            <h7>{`Description: ${description}`}</h7>
+          </CardText>
+        </div>
+        <div style={feedItemRequest}>
+          <RequestRideButton driver={name} />
+        </div>
       </div>
     </Card>
   );
