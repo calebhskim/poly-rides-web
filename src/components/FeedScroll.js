@@ -7,6 +7,7 @@ import FeedItem from './FeedItem';
 import feedStyle from '../styles/components/feed';
 import feedItemStyle from '../styles/components/feedItem';
 import { listenForRides, stopListenForRides } from '../actions/rides';
+import updateRowHeight from '../actions/updateRowHeight';
 
 const {
   feedScroll,
@@ -15,6 +16,8 @@ const {
 export class FeedScroll extends Component {
   constructor(props) {
     super(props);
+    this.changeRowHeight = this.changeRowHeight.bind(this);
+    this.isRowExpanded = this.isRowExpanded.bind(this);
     this.isRowLoaded = this.isRowLoaded.bind(this);
     this.rowRenderer = this.rowRenderer.bind(this);
   }
@@ -28,6 +31,17 @@ export class FeedScroll extends Component {
     return !!loadedRowsMap[index];
   }
 
+  isRowExpanded({ index }) {
+    const rowHeight = feedItemStyle.infiniteValues.height;
+    return this.props.clickedRowsMap[index] ? 2 * rowHeight : rowHeight;
+  }
+
+  changeRowHeight(index) {
+    this.props.updateRowHeight(index).then(() => {
+      this.listRef.recomputeRowHeights();
+    });
+  }
+
   rowRenderer ({ index, key, style }) {
     const { list, loadedRowsMap } = this.props;
     const row = list[index];
@@ -37,7 +51,13 @@ export class FeedScroll extends Component {
         key={key}
         style={style}
       >
-        <FeedItem id={index} feedData={row} key={index} loading={!loadedRowsMap[index]} />
+        <FeedItem
+          id={index}
+          feedData={row}
+          key={index}
+          loading={!loadedRowsMap[index]}
+          changeRowHeight={this.changeRowHeight}
+        />
       </div>
     );
   }
@@ -50,8 +70,11 @@ export class FeedScroll extends Component {
           <List
             style={feedScroll}
             height={height}
+            ref={(child) => {
+              this.listRef = child;
+            }}
             rowCount={Math.max(list.length, displayCount)}
-            rowHeight={feedItemStyle.infiniteValues.height}
+            rowHeight={this.isRowExpanded}
             rowRenderer={this.rowRenderer}
             width={width}
           />
@@ -63,16 +86,19 @@ export class FeedScroll extends Component {
 
 
 FeedScroll.propTypes = {
+  clickedRowsMap: PropTypes.objectOf(PropTypes.bool),
   displayCount: PropTypes.number,
   list: PropTypes.arrayOf(PropTypes.object),
   loadedRowsMap: PropTypes.objectOf(PropTypes.bool),
   stopListenForRides: PropTypes.func,
+  updateRowHeight: PropTypes.func,
 };
 
 function mapStateToProps(state) {
   const {
     data: {
       rides: {
+        clickedRowsMap,
         displayCount,
         isNextLoading,
         loadedRowsMap,
@@ -83,6 +109,7 @@ function mapStateToProps(state) {
   } = state;
 
   return {
+    clickedRowsMap,
     displayCount,
     isNextLoading,
     list,
@@ -94,6 +121,7 @@ function mapStateToProps(state) {
 const mapDispatchToProps = {
   listenForRides,
   stopListenForRides,
+  updateRowHeight,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(FeedScroll);

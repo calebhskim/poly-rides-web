@@ -29,6 +29,7 @@ export default {
       isPosting: '', // uid of current user used as boolean and id
       list: [],
       loadedRowsMap: {}, // True is loaded, false is loading
+      clickedRowsMap: {},
       startFrom: {}, // Object to be passed to startAt e.g. { key: '', timestamp: '' }
       totalCount: 0,
     },

@@ -8,7 +8,7 @@ export default {
     flexDirection: 'column',
   },
   feedItemContainer: {
-    height: '120px', // Note: This has to match height below
+    height: '100%',
     width: '100%',
   },
   feedItemContent: {
