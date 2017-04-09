@@ -1,12 +1,17 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { Motion, spring } from 'react-motion';
 
 import Avatar from 'material-ui/Avatar';
 import { Card, CardText } from 'material-ui/Card';
+import RaisedButton from 'material-ui/RaisedButton';
 import Seat from 'material-ui/svg-icons/action/event-seat';
-import styles from '../styles/components/feedItem';
+import ExpandLess from 'material-ui/svg-icons/navigation/expand-less';
+import ExpandMore from 'material-ui/svg-icons/navigation/expand-more';
+import TextField from 'material-ui/TextField';
 
-import RequestRideButton from './RequestRideButton';
+import buttonStyles from '../styles/components/requestRideButton';
+import styles from '../styles/components/feedItem';
 import timestampToDate from '../utils/timestampToDate';
 
 const {
@@ -20,18 +25,73 @@ const {
   postTime,
 } = styles;
 
+function initialStyles() {
+  return {
+    buttonWidth: spring(0),
+    height: spring(0),
+    width: spring(0),
+  };
+}
+
+function finalStyles() {
+  return {
+    buttonWidth: spring(92),
+    height: spring(100),
+    width: spring(100),
+  };
+}
+
 class FeedItem extends Component {
   constructor(props) {
     super(props);
     this.handleClick = this.handleClick.bind(this);
+    this.handleClose = this.handleClose.bind(this);
+    this.handleRequest = this.handleRequest.bind(this);
+    this.handleRequestMessage = this.handleRequestMessage.bind(this);
+    this.handleTouchTap = this.handleTouchTap.bind(this);
+    this.state = {
+      boxOpen: false,
+      message: '',
+      requestOpen: false,
+    };
+  }
+
+  handleClose() {
+    this.setState({
+      requestOpen: false,
+    });
   }
 
   handleClick() {
     this.props.changeRowHeight(this.props.id);
+    this.setState({
+      boxOpen: !this.state.boxOpen,
+    });
+  }
+
+  handleRequest() {
+    this.setState({
+      requestOpen: false,
+    });
+  }
+
+  handleRequestMessage(e, value) {
+    this.setState({
+      message: value,
+    });
+  }
+
+  handleTouchTap(e) {
+    // This prevents ghost click
+    e.preventDefault();
+    this.setState({
+      requestOpen: !this.state.requestOpen,
+    });
   }
 
   render() {
     const { feedData, loading } = this.props;
+    const { boxOpen, requestOpen } = this.state;
 
     if (loading) {
       return (
@@ -58,12 +118,16 @@ class FeedItem extends Component {
       toLocation,
     } = feedData;
 
+    const expand = boxOpen ?
+      <ExpandLess onClick={this.handleClick} /> : <ExpandMore onClick={this.handleClick} />;
     const name = displayName || 'PolyRides';
     const profile = photoURL ? <Avatar src={photoURL} /> : <Avatar>{name[0]}</Avatar>;
     const seatPrice = costPerSeat ? `$${costPerSeat}` : 'unavailable';
+    const style = requestOpen ? finalStyles() : initialStyles();
+    const driver = displayName || 'PolyRides';
 
     return (
-      <Card className='feedItem' onClick={this.handleClick} style={feedItemContainer}>
+      <Card className='feedItem' style={feedItemContainer}>
         <div style={feedItemContent}>
           <div style={feedItemInfo}>
             <div style={feedItemProfile}>
@@ -80,8 +144,48 @@ class FeedItem extends Component {
             </CardText>
           </div>
           <div style={feedItemRequest}>
-            <RequestRideButton driver={name} />
+            <div>
+              <RaisedButton
+                label={requestOpen ? 'Cancel' : 'Request'}
+                onTouchTap={requestOpen ? this.handleClose : this.handleTouchTap}
+                primary={!requestOpen}
+                secondary={requestOpen}
+                style={buttonStyles.requestButton}
+              />
+            </div>
+            {
+              requestOpen ?
+                <RaisedButton
+                  label={'Request'}
+                  onTouchTap={this.handleRequest}
+                  primary={true}
+                /> : expand
+            }
           </div>
+          <Motion style={style}>
+            {({ height, width }) =>
+              <div
+                style={{
+                  width: `${width}%`,
+                  height: `${height}%`,
+                  position: 'absolute',
+                  backgroundColor: 'white',
+                  paddingRight: '140px',
+                  marginLeft: '16px',
+                }}
+              >
+                <TextField
+                  hintText={requestOpen ? `Let ${driver} know why you're coming!` : ''}
+                  id={'requestField'}
+                  fullWidth={true}
+                  maxLength='500'
+                  multiLine={true}
+                  rowsMax={10}
+                  onChange={this.handleRequestMessage}
+                />
+              </div>
+            }
+          </Motion>
         </div>
       </Card>
     );

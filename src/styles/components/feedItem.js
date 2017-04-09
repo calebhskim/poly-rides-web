@@ -22,6 +22,11 @@ export default {
     alignItems: 'center',
     padding: '16px 0px 16px 16px',
   },
+  feedItemRequest: {
+    alignItems: 'center',
+    display: 'flex',
+    flexDirection: 'column',
+  },
   infiniteValues: {
     height: 120, // Note: This has to match height above
   },
