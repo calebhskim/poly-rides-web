@@ -28,3 +28,29 @@ We support [`stage-1`](https://babeljs.io/docs/plugins/preset-stage-1/#community
 * Setup production
 * Connect to Firebase
 * Update to webpack 2
+
+## DATA:
+* Rides Object:
+```
+{
+ id: "vCxcrCsnmJU3T8uvF1ZOucozad123asd",
+ costPerSeat: 5,
+ departTimestamp: 1490894453265,
+ description: "test",
+ driver: {
+  uid: "vCxcrCsnmJU3T8uvF1ZOucozadx1",
+  displayName: "Bob Doe",
+  photoURL: "http://asdf.asdf"
+ },
+ fromLocation: "Seattle",
+ postTimestamp: 1490890559240,
+ requests: {
+  "vCxcrCsnmJU3T_some_uid": {
+   message: "hello",
+   requestTimeStamp: 1490894453263 
+  },
+ },
+ toLocation: "Austin",
+ totalSeats: 4
+}
+```
