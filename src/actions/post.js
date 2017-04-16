@@ -7,13 +7,20 @@ export default function post(ride) {
       firebase: { app },
     } = getState();
     const rides = app.database().ref('rides');
+    const newPostKey = rides.push().key;
+    const newRide = {};
 
     dispatch({
       type: actions.POST_RIDE_START,
       payload: uid,
     });
 
-    return rides.push(ride, (err) => {
+    newRide[`/${newPostKey}/`] = {
+      id: newPostKey,
+      ...ride,
+    };
+
+    return rides.update(newRide, (err) => {
       // TODO: Properly handle errors
       if (err) {
         console.log('POST ERR :: ', err);

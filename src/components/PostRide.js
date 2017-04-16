@@ -116,7 +116,7 @@ export class PostRide extends Component {
       fromLocation: arrive,
       passengers: {},
       toLocation: depart,
-      totalSeats: seat,
+      totalSeats: seat ? parseInt(seat, 10) : seat,
       postTimestamp: timestamp.getTime(),
     }).then(() => {
       this.setState(initialState);

@@ -52,10 +52,15 @@ const rides = (state = initialState.data.rides, { payload, response, type }) => 
         loadedRowsMap: Object.assign({}, state.loadedRowsMap, loadedRows),
       });
     }
-    case actions.POST_RIDE_SUCCESS:
+    case actions.POST_RIDE_SUCCESS: {
+      const { list } = state;
+      const newlist = list.slice(1);
+
       return Object.assign({}, state, {
         isPosting: '',
+        list: newlist,
       });
+    }
     default:
       return state;
   }

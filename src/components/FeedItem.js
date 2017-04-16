@@ -4,6 +4,7 @@ import { Motion, spring } from 'react-motion';
 
 import Avatar from 'material-ui/Avatar';
 import { Card, CardText } from 'material-ui/Card';
+import CheckCircle from 'material-ui/svg-icons/action/check-circle';
 import RaisedButton from 'material-ui/RaisedButton';
 import Seat from 'material-ui/svg-icons/action/event-seat';
 import ExpandLess from 'material-ui/svg-icons/navigation/expand-less';
@@ -11,6 +12,7 @@ import ExpandMore from 'material-ui/svg-icons/navigation/expand-more';
 import TextField from 'material-ui/TextField';
 
 import buttonStyles from '../styles/components/requestRideButton';
+import request from '../actions/request';
 import styles from '../styles/components/feedItem';
 import timestampToDate from '../utils/timestampToDate';
 
@@ -46,12 +48,13 @@ class FeedItem extends Component {
     super(props);
     this.handleClick = this.handleClick.bind(this);
     this.handleClose = this.handleClose.bind(this);
-    this.handleRequest = this.handleRequest.bind(this);
+    this.handleConfirm = this.handleConfirm.bind(this);
     this.handleRequestMessage = this.handleRequestMessage.bind(this);
     this.handleTouchTap = this.handleTouchTap.bind(this);
     this.state = {
       boxOpen: false,
       message: '',
+      messageError: false,
       requestOpen: false,
     };
   }
@@ -69,15 +72,38 @@ class FeedItem extends Component {
     });
   }
 
-  handleRequest() {
+  handleConfirm() {
+    const {
+      feedData: {
+        driver: { uid },
+        id,
+        requests,
+      },
+    } = this.props;
+    const newRequests = {
+      ...requests,
+    };
+    const timestamp = new Date();
+
+    newRequests[uid] = {
+      message: this.state.message,
+      requestTimestamp: timestamp.getTime(),
+    };
+
     this.setState({
       requestOpen: false,
+    });
+
+    this.props.request({
+      newRequests,
+      rideId: id,
     });
   }
 
   handleRequestMessage(e, value) {
     this.setState({
       message: value,
+      messageError: !value,
     });
   }
 
@@ -91,7 +117,7 @@ class FeedItem extends Component {
 
   render() {
     const { feedData, loading } = this.props;
-    const { boxOpen, requestOpen } = this.state;
+    const { boxOpen, message, messageError, requestOpen } = this.state;
 
     if (loading) {
       return (
@@ -112,19 +138,25 @@ class FeedItem extends Component {
       driver: {
         displayName,
         photoURL,
+        uid,
       },
       fromLocation,
       postTimestamp,
+      requests,
       toLocation,
     } = feedData;
 
+    const driver = displayName || 'PolyRides';
+    const disable = messageError || !message;
     const expand = boxOpen ?
       <ExpandLess onClick={this.handleClick} /> : <ExpandMore onClick={this.handleClick} />;
     const name = displayName || 'PolyRides';
     const profile = photoURL ? <Avatar src={photoURL} /> : <Avatar>{name[0]}</Avatar>;
+    const requested = uid && requests && uid in requests; // TODO: update once mockdata is updated
+    const requestAction = requestOpen ? 'Cancel' : 'Request';
+    const requestLabel = requested ? '' : requestAction;
     const seatPrice = costPerSeat ? `$${costPerSeat}` : 'unavailable';
     const style = requestOpen ? finalStyles() : initialStyles();
-    const driver = displayName || 'PolyRides';
 
     return (
       <Card className='feedItem' style={feedItemContainer}>
@@ -146,7 +178,9 @@ class FeedItem extends Component {
           <div style={feedItemRequest}>
             <div>
               <RaisedButton
-                label={requestOpen ? 'Cancel' : 'Request'}
+                disabled={requested}
+                icon={requested && <CheckCircle />}
+                label={requestLabel}
                 onTouchTap={requestOpen ? this.handleClose : this.handleTouchTap}
                 primary={!requestOpen}
                 secondary={requestOpen}
@@ -156,8 +190,9 @@ class FeedItem extends Component {
             {
               requestOpen ?
                 <RaisedButton
-                  label={'Request'}
-                  onTouchTap={this.handleRequest}
+                  disabled={disable}
+                  label={'Confirm'}
+                  onTouchTap={this.handleConfirm}
                   primary={true}
                 /> : expand
             }
@@ -175,6 +210,7 @@ class FeedItem extends Component {
                 }}
               >
                 <TextField
+                  errorText={requestOpen && messageError && 'This field is required'}
                   hintText={requestOpen ? `Let ${driver} know why you're coming!` : ''}
                   id={'requestField'}
                   fullWidth={true}
@@ -199,6 +235,10 @@ FeedItem.propTypes = {
     departTimestamp: PropTypes.number,
     description: PropTypes.string,
     driver: PropTypes.objectOf(PropTypes.string),
+    id: PropTypes.string,
+    requests: PropTypes.objectOf(
+      PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
+    ),
     fromLocation: PropTypes.string,
     passengers: PropTypes.objectOf(PropTypes.bool),
     postTimestamp: PropTypes.number,
@@ -207,12 +247,15 @@ FeedItem.propTypes = {
   }),
   id: PropTypes.number,
   loading: PropTypes.bool,
+  request: PropTypes.func,
 };
 
 function mapStateToProps() {
   return {};
 }
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  request,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(FeedItem);

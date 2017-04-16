@@ -33,7 +33,7 @@ export class FeedScroll extends Component {
 
   isRowExpanded({ index }) {
     const rowHeight = feedItemStyle.infiniteValues.height;
-    return this.props.clickedRowsMap[index] ? 2.5 * rowHeight : rowHeight;
+    return this.props.clickedRowsMap[index] ? 2 * rowHeight : rowHeight;
   }
 
   changeRowHeight(index) {
