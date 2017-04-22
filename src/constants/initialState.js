@@ -27,7 +27,9 @@ export default {
       displayCount: 10,
       isNextLoading: false,
       isPosting: '', // uid of current user used as boolean and id
+      isSearching: false, // in the middle of a search
       list: [],
+      tempList: [], // holds entries outside of search
       loadedRowsMap: {}, // True is loaded, false is loading
       startFrom: {}, // Object to be passed to startAt e.g. { key: '', timestamp: '' }
       totalCount: 0,
