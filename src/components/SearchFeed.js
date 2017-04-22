@@ -57,9 +57,9 @@ export class SearchFeed extends Component {
         placeId,
       }, (res, status) => {
         if (status === 'OK') {
-          const lat = res.geometry.location.lat();
-          const lng = res.geometry.location.lng();
-          resolve({ lat, lng });
+          const latitude = res.geometry.location.lat();
+          const longitude = res.geometry.location.lng();
+          resolve({ latitude, longitude });
         } else {
           reject('Invalid place_id');
         }
@@ -148,25 +148,21 @@ export class SearchFeed extends Component {
       departDate,
     } = this.state;
 
-    const p1 = this.getPlaceDetails(arrive.placeId);
-    const p2 = this.getPlaceDetails(depart.placeId);
+    if (this.validateInput()) {
+      const p1 = this.getPlaceDetails(arrive.placeId);
+      const p2 = this.getPlaceDetails(depart.placeId);
 
-    Promise.all([p1, p2]).then((values) => {
-      const arrivePos = values[0];
-      const departPos = values[1];
+      Promise.all([p1, p2]).then((values) => {
+        const arrivePos = values[0];
+        const departPos = values[1];
 
-      this.props.searchFeed(departPos, arrivePos, departDate);
-    }).catch((reason) => {
-      console.log(reason);
-    });
+        this.props.searchFeed(departPos, arrivePos, departDate);
+      }).catch((reason) => {
+        console.log(reason);
+      });
 
-    // if (this.validateInput()) {
-    //   console.log('input is valid');
-
-    //   this.props.searchFeed(depart, arrive, departDate);
-    // } else {
-    //   console.log('input is invalid');
-    // }
+      this.props.searchFeed(depart, arrive, departDate);
+    }
   }
 
   render() {
