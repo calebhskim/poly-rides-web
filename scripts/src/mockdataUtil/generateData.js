@@ -1,5 +1,16 @@
-/* eslint no-throw-literal: "off" */
+/* eslint no-throw-literal: "off", prefer-template: "off" */
 import { rideSchema, possibleValues } from './databaseSchema';
+
+function s4() {
+  return Math.floor((1 + Math.random()) * 0x10000)
+    .toString(16)
+    .substring(1);
+}
+
+function guid() {
+  return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+    s4() + '-' + s4() + s4() + s4();
+}
 
 
 function getRandomTimestamp(daysShift, dayRange) {
@@ -42,6 +53,23 @@ function getRandomBody() {
   return res.join(' ');
 }
 
+function getRandomRequest(min, max) {
+  const res = {};
+
+  const numRequests = getRandomInteger(min, max);
+
+  for (let i = 0; i < numRequests; i += 1) {
+    const uid = guid();
+
+    res[uid] = {
+      message: 'Give me a ride please!',
+      requestTimestamp: getRandomTimestamp(3, 4),
+    };
+  }
+
+  return res;
+}
+
 function getMockValue(entry) {
   if (typeof entry !== 'object') {
     return entry;
@@ -50,6 +78,9 @@ function getMockValue(entry) {
   let res;
 
   switch (entry.type) {
+    case 'guid':
+      res = guid();
+      break;
     case 'integer':
       res = getRandomInteger(entry.min, entry.max);
       break;
@@ -64,6 +95,9 @@ function getMockValue(entry) {
       break;
     case 'placeholder':
       res = getRandomBody();
+      break;
+    case 'request':
+      res = getRandomRequest(entry.min, entry.max);
       break;
     default:
       throw 'database schemea contains invalid type';

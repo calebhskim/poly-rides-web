@@ -1,4 +1,7 @@
 export const rideSchema = {
+  id: {
+    type: 'guid',
+  },
   driver: {
     type: 'integer',
     min: 1,
@@ -22,6 +25,11 @@ export const rideSchema = {
   arriveLocation: {
     type: 'location',
     name: 'arriveLocation',
+  },
+  requests: {
+    type: 'request',
+    min: 0,
+    max: 2,
   },
   passengers: {
     type: 'passengers',
