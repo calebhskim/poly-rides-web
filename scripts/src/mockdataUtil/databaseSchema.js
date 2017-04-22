@@ -62,25 +62,25 @@ export const possibleValues = {
   departLocation: [
     {
       name: 'slo',
-      lat: 35.2828,
-      lng: -120.6596,
+      latitude: 35.2828,
+      longitude: -120.6596,
     },
     {
       name: 'fresno',
-      lat: 36.7468,
-      lng: -119.7726,
+      latitude: 36.7468,
+      longitude: -119.7726,
     },
   ],
   arriveLocation: [
     {
       name: 'sf',
-      lat: 37.7749,
-      lng: -122.4194,
+      latitude: 37.7749,
+      longitude: -122.4194,
     },
     {
       name: 'la',
-      lat: 34.0522,
-      lng: -118.2437,
+      latitude: 34.0522,
+      longitude: -118.2437,
     },
   ],
   placeholder: [
