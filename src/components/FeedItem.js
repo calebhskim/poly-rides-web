@@ -53,6 +53,7 @@ class FeedItem extends Component {
     this.handleTouchTap = this.handleTouchTap.bind(this);
     this.state = {
       boxOpen: false,
+      hasRequested: false,
       message: '',
       messageError: false,
       requestOpen: false,
@@ -91,6 +92,7 @@ class FeedItem extends Component {
     };
 
     this.setState({
+      hasRequested: true,
       requestOpen: false,
     });
 
@@ -116,8 +118,8 @@ class FeedItem extends Component {
   }
 
   render() {
-    const { feedData, loading } = this.props;
-    const { boxOpen, message, messageError, requestOpen } = this.state;
+    const { feedData, loading, uid } = this.props;
+    const { boxOpen, hasRequested, message, messageError, requestOpen } = this.state;
 
     if (loading) {
       return (
@@ -140,7 +142,6 @@ class FeedItem extends Component {
       driver: {
         displayName,
         photoURL,
-        uid,
       },
       postTimestamp,
       requests,
@@ -152,7 +153,7 @@ class FeedItem extends Component {
       <ExpandLess onClick={this.handleClick} /> : <ExpandMore onClick={this.handleClick} />;
     const name = displayName || 'PolyRides';
     const profile = photoURL ? <Avatar src={photoURL} /> : <Avatar>{name[0]}</Avatar>;
-    const requested = uid && requests && uid in requests; // TODO: update once mockdata is updated
+    const requested = (uid && requests && uid in requests) || hasRequested;
     const requestAction = requestOpen ? 'Cancel' : 'Request';
     const requestLabel = requested ? '' : requestAction;
     const seatPrice = costPerSeat ? `$${costPerSeat}` : 'unavailable';
