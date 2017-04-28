@@ -24,6 +24,24 @@ const questions = [{
   },
 }];
 
+function pushData(ridesRef, count) {
+  if (count <= 0) {
+    return Promise.resolve();
+  }
+
+  const entry = generateEntry();
+  const newKey = ridesRef.push().key;
+  entry.id = newKey;
+  return ridesRef.child(`${newKey}`).set(entry).then(() => {
+    return pushData(ridesRef, count - 1);
+  }).catch((err) => {
+    if (err) {
+      console.log('ERR :: ', err);
+    }
+    console.log('Failed to set new ride entry');
+  });
+}
+
 inquirer.prompt(questions).then((ans) => {
   const rides = firebaseRef.database().ref('rides');
 
@@ -32,22 +50,11 @@ inquirer.prompt(questions).then((ans) => {
   }
 
   const n = parseInt(ans.numEntries, 10);
-  const spinner = new clui.Spinner(`Inputting entry 1 of ${n}`);
+  const spinner = new clui.Spinner('Adding entries');
   spinner.start();
 
-  let entryNum = 0;
-
-  const pushHandler = () => {
-    entryNum += 1;
-    spinner.message(`Inputting entry ${entryNum} of ${n}`);
-
-    if (entryNum === n) {
-      firebaseRef.database().goOffline();
-      spinner.stop();
-    }
-  };
-
-  for (let i = 0; i < n; i += 1) {
-    rides.push(generateEntry(), pushHandler);
-  }
+  pushData(rides, n).then(() => {
+    spinner.stop(); 
+    process.exit();
+  });
 });
