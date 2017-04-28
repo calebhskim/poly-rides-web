@@ -1,7 +1,4 @@
 export const rideSchema = {
-  id: {
-    type: 'guid',
-  },
   driver: {
     type: 'driver',
   },
