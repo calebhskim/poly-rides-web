@@ -16,6 +16,7 @@ import initialState from './constants/initialState';
 import Landing from './components/Landing';
 import lifecycles from './constants/lifecycles';
 import NotFound from './components/NotFound';
+import Rides from './components/Rides';
 import serverInit from './actions/serverInit';
 import Store from './store';
 
@@ -59,6 +60,7 @@ render(
         <Route path='dashboard' component={Account} onEnter={authCheck(store)}>
           <IndexRoute component={Dashboard} />
           <Route path='feed' component={Feed} />
+          <Route path='rides' component={Rides} />
         </Route>
         <Route path='*' component={NotFound} />
       </Route>
