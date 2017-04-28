@@ -8,7 +8,6 @@ import FeedScroll from './FeedScroll';
 import feedStyle from '../styles/components/feed';
 import PostRide from './PostRide';
 import { listenForRides, stopListenForRides } from '../actions/rides';
-import SearchFeed from './SearchFeed';
 import setNavTitle from '../actions/setNavTitle';
 
 const {
@@ -45,7 +44,6 @@ export class Feed extends Component {
   render() {
     return (
       <Paper className={feedMedia.fullFeed} style={feedContainer} id='feed'>
-        <SearchFeed />
         <PostRide />
         <FeedScroll />
       </Paper>
