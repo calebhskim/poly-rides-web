@@ -8,6 +8,7 @@ import FeedScroll from './FeedScroll';
 import feedStyle from '../styles/components/feed';
 import PostRide from './PostRide';
 import { listenForRides, stopListenForRides } from '../actions/rides';
+import Loading from './Loading';
 import SearchFeed from './SearchFeed';
 import setNavTitle from '../actions/setNavTitle';
 
@@ -21,6 +22,7 @@ export class Feed extends Component {
     this.handleUpdateInput = this.handleUpdateInput.bind(this);
     this.state = {
       start: '',
+      // add isSearching to local state. remove
     };
   }
 
@@ -43,11 +45,22 @@ export class Feed extends Component {
   }
 
   render() {
+    const {
+      isSearching,
+      isLoading,
+      list,
+      searchResults,
+    } = this.props;
+
+    const feedData = isSearching ? searchResults : list;
+
+    const feed = isLoading ? Loading : <FeedScroll list={feedData} />;
+
     return (
       <Paper className={feedMedia.fullFeed} style={feedContainer} id='feed'>
         <SearchFeed />
         <PostRide />
-        <FeedScroll />
+        {feed}
       </Paper>
     );
   }
@@ -55,13 +68,33 @@ export class Feed extends Component {
 
 
 Feed.propTypes = {
+  list: PropTypes.arrayOf(PropTypes.object),
+  searchResults: PropTypes.arrayOf(PropTypes.object),
+  isSearching: PropTypes.bool,
+  isLoading: PropTypes.bool,
   listenForRides: PropTypes.func,
   setNavTitle: PropTypes.func,
   stopListenForRides: PropTypes.func,
 };
 
-function mapStateToProps() {
-  return {};
+function mapStateToProps(state) {
+  const {
+    data: {
+      rides: {
+        list,
+        isSearching,
+        isLoading,
+        searchResults,
+      },
+    },
+  } = state;
+
+  return {
+    isSearching,
+    isLoading,
+    list,
+    searchResults,
+  };
 }
 
 const mapDispatchToProps = {

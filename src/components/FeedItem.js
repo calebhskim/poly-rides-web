@@ -17,13 +17,13 @@ const FeedItem = ({ feedData, loading }) => {
     );
   }
 
-  const { fromLocation, toLocation, postTimestamp, description } = feedData;
+  const { arriveLocation, departLocation, postTimestamp, description } = feedData;
 
   return (
     <Card className='feedItem' style={styles.feedItemContainer}>
       <CardText>
         <Text>
-          {fromLocation} {'->'} {toLocation} {'\n'}
+          {departLocation.name} {'->'} {arriveLocation.name} {'\n'}
         </Text>
         <Text style={{ fontWeight: '100' }}>
           Posted: {postTimestamp} {'\n'}

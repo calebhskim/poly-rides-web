@@ -2,12 +2,13 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 import SearchIcon from 'material-ui/svg-icons/action/search';
+import ClearIcon from 'material-ui/svg-icons/content/clear';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import GooglePlaceAutocomplete from 'material-ui-places';
 import DatePicker from 'material-ui/DatePicker';
 import Paper from 'material-ui/Paper';
 
-import searchFeed from '../actions/searchFeed';
+import { clearSearch, searchFeed } from '../actions/searchFeed';
 
 const sloCoords = ({ lat: 35.2828, lng: -120.6596 });
 const usBoundne = ({ lat: 48.957565, lng: -66.962897 });
@@ -22,11 +23,11 @@ export class SearchFeed extends Component {
     return date < today;
   }
 
-
   constructor(props) {
     super(props);
     this.handleDate = this.handleDate.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
+    this.clearSearch = this.clearSearch.bind(this);
 
     this.departChange = this.handleSearchChange.bind(this, 'depart');
     this.departRequest = this.handleNewRequest.bind(this, 'depart');
@@ -61,7 +62,7 @@ export class SearchFeed extends Component {
           const longitude = res.geometry.location.lng();
           resolve({ latitude, longitude });
         } else {
-          reject('Invalid place_id');
+          reject(`Invalid place_id. status: ${status}`);
         }
       });
     });
@@ -141,6 +142,10 @@ export class SearchFeed extends Component {
     return validInput;
   }
 
+  clearSearch() {
+    this.props.clearSearch();
+  }
+
   handleSearch() {
     const {
       arrive,
@@ -160,8 +165,6 @@ export class SearchFeed extends Component {
       }).catch((reason) => {
         console.log(reason);
       });
-
-      this.props.searchFeed(depart, arrive, departDate);
     }
   }
 
@@ -175,6 +178,17 @@ export class SearchFeed extends Component {
 
     // Disable the search button if one of the errors is true
     const disable = arrive.error || depart.error || departDateError;
+
+    const clearSearchButton = this.props.isSearching ?
+      (<div style={{ alignSelf: 'center' }}>
+        <FloatingActionButton
+          mini={true}
+          onTouchTap={this.clearSearch}
+        >
+          <ClearIcon />
+        </FloatingActionButton>
+      </div>) : null;
+
 
     return (
       <Paper style={{ display: 'flex' }}>
@@ -218,6 +232,7 @@ export class SearchFeed extends Component {
             <SearchIcon />
           </FloatingActionButton>
         </div>
+        {clearSearchButton}
       </Paper>
     );
   }
@@ -225,14 +240,25 @@ export class SearchFeed extends Component {
 
 
 SearchFeed.propTypes = {
+  isSearching: PropTypes.bool,
+  clearSearch: PropTypes.func,
   searchFeed: PropTypes.func,
 };
 
-function mapStateToProps() {
-  return {};
+function mapStateToProps(state) {
+  const {
+    data: {
+      rides: {
+        isSearching,
+      },
+    },
+  } = state;
+
+  return { isSearching };
 }
 
 const mapDispatchToProps = {
+  clearSearch,
   searchFeed,
 };
 

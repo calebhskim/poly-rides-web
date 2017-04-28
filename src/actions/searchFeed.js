@@ -4,7 +4,9 @@ import actions from '../constants/actions';
 
 
 const {
-  SEARCH_FEED,
+  RIDES_SEARCH_RESULTS,
+  RIDES_SEARCH_START,
+  RIDES_SEARCH_STOP,
 } = actions;
 
 
@@ -24,6 +26,14 @@ function sortRides(depart, arrive, possibleRides) {
   return orderedRides;
 }
 
+function clearSearch() {
+  return (dispatch) => {
+    dispatch({
+      type: RIDES_SEARCH_STOP,
+    });
+  };
+}
+
 function searchFeed(depart, arrive, date) {
   return (dispatch, getState) => {
     const {
@@ -36,28 +46,25 @@ function searchFeed(depart, arrive, date) {
     if (isSearching) {
       console.log('Error: Cannot search while in the middle of a search');
     } else {
+      dispatch({
+        type: RIDES_SEARCH_START,
+      });
+
       const searchDate = date.getTime();
 
       rides.orderByChild('departTimestamp').startAt(searchDate).once('value', (snap) => {
         const possibleRides = snap.val();
+        const orderedRides = possibleRides ? sortRides(depart, arrive, possibleRides) : {};
 
-        console.log(possibleRides);
-
-        if (possibleRides != null) {
-          const orderedRides = sortRides(depart, arrive, possibleRides);
-
-          console.log(orderedRides);
-        }
-
-        // dispatch({
-        //   type: SEARCH_FEED,
-        //   payload: {
-        //     orderedRides,
-        //   },
-        // });
+        dispatch({
+          type: RIDES_SEARCH_RESULTS,
+          payload: {
+            searchResults: orderedRides,
+          },
+        });
       });
     }
   };
 }
 
-export default searchFeed;
+export { clearSearch, searchFeed };
