@@ -43,6 +43,14 @@ function getRandomPassengers(min, max) {
   return passengers;
 }
 
+function getRandomDriver() {
+  return {
+    uid: guid(),
+    displayName: getRandomFromDefined('passengers'),
+    photoURL: 'https://s-media-cache-ak0.pinimg.com/736x/08/8d/48/088d48f5d8ccff3e04a0f9680e880107.jpg' 
+  };
+}
+
 function getRandomBody() {
   const res = [];
 
@@ -78,6 +86,9 @@ function getMockValue(entry) {
   let res;
 
   switch (entry.type) {
+    case 'driver':
+      res = getRandomDriver();
+      break;
     case 'guid':
       res = guid();
       break;

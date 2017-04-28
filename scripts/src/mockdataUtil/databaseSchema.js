@@ -3,9 +3,7 @@ export const rideSchema = {
     type: 'guid',
   },
   driver: {
-    type: 'integer',
-    min: 1,
-    max: 10,
+    type: 'driver',
   },
   totalSeats: 4,
   departTimestamp: {
