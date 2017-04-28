@@ -93,19 +93,30 @@ export class PostRide extends Component {
   }
 
   handlePost() {
-    const { arrive, cost, depart, departDate, desc, seat } = this.state;
-    const { uid } = this.props;
+    const {
+      arrive,
+      cost,
+      depart,
+      departDate,
+      desc,
+      seat,
+    } = this.state;
+    const { displayName, photoURL, uid } = this.props;
     const timestamp = new Date();
 
     this.props.post({
       costPerSeat: cost ? parseInt(cost, 10) : cost,
       departTimestamp: departDate.getTime(),
       description: desc,
-      driver: uid,
+      driver: {
+        displayName,
+        photoURL,
+        uid,
+      },
       fromLocation: arrive,
       passengers: {},
       toLocation: depart,
-      totalSeats: seat,
+      totalSeats: seat ? parseInt(seat, 10) : seat,
       postTimestamp: timestamp.getTime(),
     }).then(() => {
       this.setState(initialState);
@@ -222,15 +233,25 @@ export class PostRide extends Component {
 
 
 PostRide.propTypes = {
+  displayName: PropTypes.string,
+  photoURL: PropTypes.string,
   post: PropTypes.func,
   uid: PropTypes.string,
 };
 
 function mapStateToProps(state) {
   const {
-    auth: { user: { uid } },
+    auth: {
+      user: {
+        displayName,
+        photoURL,
+        uid,
+      },
+    },
   } = state;
   return {
+    displayName,
+    photoURL,
     uid,
   };
 }

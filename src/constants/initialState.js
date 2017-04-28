@@ -31,6 +31,7 @@ export default {
       list: [],
       tempList: [], // holds entries outside of search
       loadedRowsMap: {}, // True is loaded, false is loading
+      clickedRowsMap: {},
       startFrom: {}, // Object to be passed to startAt e.g. { key: '', timestamp: '' }
       totalCount: 0,
     },
