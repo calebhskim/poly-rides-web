@@ -75,10 +75,10 @@ class FeedItem extends Component {
   handleConfirm() {
     const {
       feedData: {
-        driver: { uid },
         id,
         requests,
       },
+      uid,
     } = this.props;
     const newRequests = {
       ...requests,
@@ -132,7 +132,9 @@ class FeedItem extends Component {
     }
 
     const {
+      arriveLocation,
       costPerSeat,
+      departLocation,
       departTimestamp,
       description,
       driver: {
@@ -140,10 +142,8 @@ class FeedItem extends Component {
         photoURL,
         uid,
       },
-      fromLocation,
       postTimestamp,
       requests,
-      toLocation,
     } = feedData;
 
     const driver = displayName || 'PolyRides';
@@ -167,7 +167,7 @@ class FeedItem extends Component {
             </div>
             <CardText style={feedItemCardText}>
               <div style={itemTitle}>
-                <h6>{`${fromLocation} -> ${toLocation}`}</h6>
+                <h6>{`${departLocation.name} -> ${arriveLocation.name}`}</h6>
                 <h7 style={postTime}>{timestampToDate(postTimestamp)}</h7>
               </div>
               <h7 style={itemTitle}><Seat />: {seatPrice}</h7>
@@ -235,23 +235,28 @@ FeedItem.propTypes = {
     departTimestamp: PropTypes.number,
     description: PropTypes.string,
     driver: PropTypes.objectOf(PropTypes.string),
-    id: PropTypes.string,
+    id: PropTypes.string, // ride id
     requests: PropTypes.objectOf(
       PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
     ),
-    fromLocation: PropTypes.string,
+    fromLocation: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
     passengers: PropTypes.objectOf(PropTypes.bool),
     postTimestamp: PropTypes.number,
-    toLocation: PropTypes.string,
+    toLocation: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
     totalSeats: PropTypes.number,
   }),
-  id: PropTypes.number,
+  id: PropTypes.number, // ride index
   loading: PropTypes.bool,
   request: PropTypes.func,
+  uid: PropTypes.string,
 };
 
-function mapStateToProps() {
-  return {};
+function mapStateToProps(state) {
+  const { auth: { user: { uid } } } = state;
+
+  return {
+    uid,
+  };
 }
 
 const mapDispatchToProps = {
