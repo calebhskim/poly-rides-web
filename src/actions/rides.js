@@ -45,19 +45,19 @@ function fetchUserRides() {
 
     ridesRef.orderByChild(`passengers/${uid}`).equalTo(true).on('value', (snap) => {
       dispatch({
-        type: actions.USER_PASSENGER_RIDES,
+        type: actions.USERRIDES_RIDES,
         payload: snap.val(),
       });
     });
     ridesRef.orderByChild(`requests/${uid}`).equalTo(true).on('value', (snap) => {
       dispatch({
-        type: actions.USER_PASSENGER_REQUESTS,
+        type: actions.USERRIDES_REQUESTS,
         payload: snap.val(),
       });
     });
     ridesRef.orderByChild('driver/uid').equalTo(uid).on('value', (snap) => {
       dispatch({
-        type: actions.USER_PASSENGER_DRIVES,
+        type: actions.USERRIDES_DRIVES,
         payload: snap.val(),
       });
     });

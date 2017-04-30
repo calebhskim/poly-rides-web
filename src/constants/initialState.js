@@ -34,8 +34,12 @@ export default {
       totalCount: 0,
     },
     userRides: {
-      isLoading: false,
-      list: [],
+      isDrivesLoading: false,
+      isRidesLoading: false,
+      isRequestsLoading: false,
+      drives: [],
+      rides: [],
+      requests: [],
     },
   },
   firebase: {
