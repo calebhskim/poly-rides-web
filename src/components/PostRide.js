@@ -105,7 +105,13 @@ export class PostRide extends Component {
     const timestamp = new Date();
 
     this.props.post({
+      arriveLocation: {
+        name: arrive, // TODO: add latitude and longitude
+      },
       costPerSeat: cost ? parseInt(cost, 10) : cost,
+      departLocation: {
+        name: depart, // TODO: add latitude and longitude
+      },
       departTimestamp: departDate.getTime(),
       description: desc,
       driver: {
@@ -113,9 +119,7 @@ export class PostRide extends Component {
         photoURL,
         uid,
       },
-      fromLocation: arrive,
       passengers: {},
-      toLocation: depart,
       totalSeats: seat ? parseInt(seat, 10) : seat,
       postTimestamp: timestamp.getTime(),
     }).then(() => {

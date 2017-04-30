@@ -7,20 +7,10 @@ export default function post(ride) {
       firebase: { app },
     } = getState();
     const rides = app.database().ref('rides');
+    const users = app.database().ref('users');
     const newPostKey = rides.push().key;
     const newRide = {};
-
-    dispatch({
-      type: actions.POST_RIDE_START,
-      payload: uid,
-    });
-
-    newRide[`/${newPostKey}/`] = {
-      id: newPostKey,
-      ...ride,
-    };
-
-    return rides.update(newRide, (err) => {
+    const postCB = (err) => {
       // TODO: Properly handle errors
       if (err) {
         console.log('POST ERR :: ', err);
@@ -32,6 +22,23 @@ export default function post(ride) {
       });
 
       return Promise.resolve();
+    };
+
+    dispatch({
+      type: actions.POST_RIDE_START,
+      payload: uid,
     });
+
+    newRide[`/${newPostKey}/`] = {
+      id: newPostKey,
+      ...ride,
+    };
+
+    const updateActions = [
+      rides.update(newRide, postCB),
+      users.child(`${uid}/posts/${newPostKey}`).set(true),
+    ];
+
+    return Promise.all(updateActions);
   };
 }

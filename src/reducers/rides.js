@@ -54,11 +54,13 @@ const rides = (state = initialState.data.rides, { payload, response, type }) => 
     }
     case actions.POST_RIDE_SUCCESS: {
       const { list } = state;
+      const loadedRows = { 0: true };
       const newlist = list.slice(1);
 
       return Object.assign({}, state, {
         isPosting: '',
         list: newlist,
+        loadedRowsMap: Object.assign({}, state.loadedRowsMap, loadedRows),
       });
     }
     default:
