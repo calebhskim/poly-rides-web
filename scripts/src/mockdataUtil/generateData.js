@@ -1,4 +1,16 @@
+/* eslint no-throw-literal: "off", prefer-template: "off" */
 import { rideSchema, possibleValues } from './databaseSchema';
+
+function s4() {
+  return Math.floor((1 + Math.random()) * 0x10000)
+    .toString(16)
+    .substring(1);
+}
+
+function guid() {
+  return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+    s4() + '-' + s4() + s4() + s4();
+}
 
 
 function getRandomTimestamp(daysShift, dayRange) {
@@ -20,9 +32,9 @@ function getRandomFromDefined(groupTitle) {
   return array[Math.floor(Math.random() * array.length)];
 }
 
-function getRandomPassengers(start, end) {
+function getRandomPassengers(min, max) {
   const passengers = {};
-  const numPassengers = getRandomInteger(start, end);
+  const numPassengers = getRandomInteger(min, max);
 
   for (let i = 0; i < numPassengers; i += 1) {
     passengers[getRandomFromDefined('passengers')] = true;
@@ -31,55 +43,88 @@ function getRandomPassengers(start, end) {
   return passengers;
 }
 
-function getRandomBody(groupTitle) {
+function getRandomDriver() {
+  return {
+    uid: guid(),
+    displayName: getRandomFromDefined('passengers'),
+    photoURL: 'https://s-media-cache-ak0.pinimg.com/736x/08/8d/48/088d48f5d8ccff3e04a0f9680e880107.jpg' 
+  };
+}
+
+function getRandomBody() {
   const res = [];
 
   for (let i = 0; i < 12; i += 1) {
-    res.push(getRandomFromDefined(groupTitle));
+    res.push(getRandomFromDefined('placeholder'));
   }
 
   return res.join(' ');
 }
 
-function getMockValue(typeString) {
-  if (typeof typeString === 'number') {
-    return typeString;
+function getRandomRequest(min, max) {
+  const res = {};
+
+  const numRequests = getRandomInteger(min, max);
+
+  for (let i = 0; i < numRequests; i += 1) {
+    const uid = guid();
+
+    res[uid] = {
+      message: 'Give me a ride please!',
+      requestTimestamp: getRandomTimestamp(3, 4),
+    };
+  }
+
+  return res;
+}
+
+function getMockValue(entry) {
+  if (typeof entry !== 'object') {
+    return entry;
   }
 
   let res;
-  const type = typeString.split(' ')[0];
-  const details = typeString.split(' ').slice(1).map(n => parseInt(n, 10));
 
-  switch (type) {
+  switch (entry.type) {
+    case 'driver':
+      res = getRandomDriver();
+      break;
+    case 'guid':
+      res = guid();
+      break;
     case 'integer':
-      res = getRandomInteger(details[0], details[1]);
+      res = getRandomInteger(entry.min, entry.max);
       break;
     case 'timestamp':
-      res = getRandomTimestamp(details[0], details[1]);
+      res = getRandomTimestamp(entry.dayShift, entry.dayRange);
       break;
     case 'location':
-      res = getRandomFromDefined(type);
+      res = getRandomFromDefined(entry.name);
       break;
     case 'passengers':
-      res = getRandomPassengers(details[0], details[1]);
+      res = getRandomPassengers(entry.min, entry.max);
       break;
     case 'placeholder':
-      res = getRandomBody(type);
+      res = getRandomBody();
+      break;
+    case 'request':
+      res = getRandomRequest(entry.min, entry.max);
       break;
     default:
-      res = type;
+      throw 'database schemea contains invalid type';
   }
 
   return res;
 }
 
 export default function generateEntry() {
-  let entry;
   const resEntry = {};
 
-  for (let i = 0; i < rideSchema.length; i += 1) {
-    entry = rideSchema[i];
-    resEntry[entry[0]] = getMockValue(entry[1]);
+  const keys = Object.keys(rideSchema);
+
+  for (let i = 0; i < keys.length; i += 1) {
+    const key = keys[i];
+    resEntry[key] = getMockValue(rideSchema[key]);
   }
 
   return resEntry;
