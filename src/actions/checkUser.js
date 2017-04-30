@@ -4,7 +4,7 @@ export default function checkUser() {
       auth: { user },
       firebase: { app },
     } = getState();
-    const userRef = app.database().ref(`users/${uid}`);
+    const userRef = app.database().ref(`users/${user.uid}`);
 
     userRef.once('value', (snapshot) => {
       if (snapshot.val() === null) {
