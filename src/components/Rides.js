@@ -3,15 +3,20 @@ import { connect } from 'react-redux';
 
 import Paper from 'material-ui/Paper';
 
-import feedStyle from '../styles/components/feed';
+import { fetchUserRides } from '../actions/rides';
 import media from '../styles/css/media.css';
+import ridesStyle from '../styles/components/rides';
 import setNavTitle from '../actions/setNavTitle';
 
 const {
-  feedContainer,
-} = feedStyle;
+  ridesContainer,
+} = ridesStyle;
 
 export class Rides extends Component {
+  componentWillMount() {
+    this.props.fetchUserRides();
+  }
+
   componentDidMount() {
     this.props.setNavTitle('Rides');
   }
@@ -24,7 +29,7 @@ export class Rides extends Component {
 
   render() {
     return (
-      <Paper className={media.fullMedia} style={feedContainer} id='feed'>
+      <Paper className={media.fullMedia} style={ridesContainer} id='feed'>
       Rides
       </Paper>
     );
@@ -33,6 +38,7 @@ export class Rides extends Component {
 
 
 Rides.propTypes = {
+  fetchUserRides: PropTypes.func,
   setNavTitle: PropTypes.func,
 };
 
@@ -41,6 +47,7 @@ function mapStateToProps() {
 }
 
 const mapDispatchToProps = {
+  fetchUserRides,
   setNavTitle,
 };
 
