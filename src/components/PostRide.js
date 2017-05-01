@@ -160,7 +160,7 @@ export class PostRide extends Component {
 
     // TODO: Do proper sanitization below
     return (
-      <div style={postStyles.container}>
+      <div>
         <FloatingActionButton
           mini={true}
           onTouchTap={this.handleOpen}
@@ -169,12 +169,12 @@ export class PostRide extends Component {
           <ContentAdd />
         </FloatingActionButton>
         <Dialog
-          title='Add a ride'
+          title='Post a ride'
           actions={actions}
-          modal={true}
+          modal={false}
           open={this.state.open}
           autoDetectWindowHeight={false}
-          actionsContainerStyle={{ height: '100vh' }}
+          onRequestClose={this.handleClose}
           contentStyle={{ width: '100%', transform: 'translate(0, 0)' }}
         >
           <div>

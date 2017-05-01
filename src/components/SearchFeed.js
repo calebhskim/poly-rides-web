@@ -9,6 +9,14 @@ import DatePicker from 'material-ui/DatePicker';
 import Paper from 'material-ui/Paper';
 
 import { clearSearch, searchFeed } from '../actions/searchFeed';
+import searchStyle from '../styles/components/search';
+
+const {
+  autocompleteFieldLeft,
+  autocompleteField,
+  datePicker,
+  searchButton,
+} = searchStyle;
 
 const sloCoords = ({ lat: 35.2828, lng: -120.6596 });
 const usBoundne = ({ lat: 48.957565, lng: -66.962897 });
@@ -189,9 +197,8 @@ export class SearchFeed extends Component {
         </FloatingActionButton>
       </div>) : null;
 
-
     return (
-      <Paper style={{ display: 'flex' }}>
+      <div style={{ display: 'flex' }}>
         <GooglePlaceAutocomplete
           floatingLabelText='Depart From'
           onChange={this.departChange}
@@ -202,6 +209,8 @@ export class SearchFeed extends Component {
           location={sloCoords}
           types={validTypes}
           errorText={depart.error && 'This field requires a valid address'}
+          style={autocompleteFieldLeft}
+          fullWidth={true}
         />
         <GooglePlaceAutocomplete
           floatingLabelText='Arrive From'
@@ -213,6 +222,8 @@ export class SearchFeed extends Component {
           location={sloCoords}
           types={validTypes}
           errorText={arrive.error && 'This field requires a valid address'}
+          style={autocompleteField}
+          fullWidth={true}
         />
         <DatePicker
           floatingLabelText='Departure Date'
@@ -222,8 +233,10 @@ export class SearchFeed extends Component {
           value={departDate}
           shouldDisableDate={SearchFeed.validDates}
           errorText={departDateError && 'This field is required'}
+          textFieldStyle={datePicker}
+          style={datePicker}
         />
-        <div style={{ alignSelf: 'center' }}>
+        <div style={searchButton}>
           <FloatingActionButton
             disabled={disable}
             mini={true}
@@ -233,7 +246,7 @@ export class SearchFeed extends Component {
           </FloatingActionButton>
         </div>
         {clearSearchButton}
-      </Paper>
+      </div>
     );
   }
 }
