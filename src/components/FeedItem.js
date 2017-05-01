@@ -89,6 +89,7 @@ class FeedItem extends Component {
     newRequests[uid] = {
       message: this.state.message,
       requestTimestamp: timestamp.getTime(),
+      uid,
     };
 
     this.setState({

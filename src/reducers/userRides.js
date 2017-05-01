@@ -1,5 +1,3 @@
-import values from 'lodash/values';
-
 import actions from '../constants/actions';
 import initialState from '../constants/initialState';
 
@@ -12,21 +10,53 @@ const rides = (state = initialState.data.userRides, { payload, type }) => {
         isRequestsLoading: true,
       });
     case actions.USERRIDES_RIDES: {
+      let userRides;
+      if (payload === null) {
+        userRides = [];
+      } else {
+        userRides = Object.keys(payload).map(k => ({
+          ...payload[k],
+          type: 'ride',
+        }));
+      }
+
       return Object.assign({}, state, {
         isRidesLoading: false,
-        rides: values(payload),
+        rides: userRides,
       });
     }
-    case actions.USERRIDES_REQUESTS:
+    case actions.USERRIDES_REQUESTS: {
+      let requests;
+      if (payload === null) {
+        requests = [];
+      } else {
+        requests = Object.keys(payload).map(k => ({
+          ...payload[k],
+          type: 'request',
+        }));
+      }
+
       return Object.assign({}, state, {
         isRequestsLoading: false,
-        requests: values(payload),
+        requests,
       });
-    case actions.USERRIDES_DRIVES:
+    }
+    case actions.USERRIDES_DRIVES: {
+      let drives;
+      if (payload === null) {
+        drives = [];
+      } else {
+        drives = Object.keys(payload).map(k => ({
+          ...payload[k],
+          type: 'drive',
+        }));
+      }
+
       return Object.assign({}, state, {
-        drives: values(payload),
         isDrivesLoading: false,
+        drives,
       });
+    }
     default:
       return state;
   }

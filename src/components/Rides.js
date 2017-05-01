@@ -7,6 +7,7 @@ import { fetchUserRides } from '../actions/rides';
 import Loading from './Loading';
 import media from '../styles/css/media.css';
 import ridesStyle from '../styles/components/rides';
+import RidesWrapper from '../components/RidesWrapper';
 import setNavTitle from '../actions/setNavTitle';
 import styles from '../styles/components/general';
 
@@ -46,8 +47,8 @@ export class Rides extends Component {
     }
 
     return (
-      <Paper className={media.fullMedia} style={ridesContainer} id='feed'>
-      Rides
+      <Paper className={media.fullMedia} style={ridesContainer} id='rides'>
+        <RidesWrapper />
       </Paper>
     );
   }
