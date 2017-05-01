@@ -199,9 +199,9 @@ export class PostRide extends Component {
           photoURL,
           uid,
         },
-        fromLocation: depart,
+        departLocation: depart,
         passengers: {},
-        toLocation: arrive,
+        arriveLocation: arrive,
         totalSeats: seat ? parseInt(seat, 10) : seat,
         postTimestamp: timestamp.getTime(),
       }).then(() => {

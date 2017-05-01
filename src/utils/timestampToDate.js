@@ -6,7 +6,7 @@ export default (timestamp) => {
   const hour = hours === 0 ? 12 : hours % 12;
   const min = date.getMinutes();
   const minutes = min < 10 ? `0${min}` : min;
-  const month = date.getMonth();
+  const month = date.getMonth() + 1; // javascript months are 0 indexed
   const year = date.getFullYear();
 
   return `${month}/${day}/${year} ${hour}:${minutes} ${ampm}`;
