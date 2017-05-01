@@ -9,12 +9,16 @@ export default {
     padding: '8px',
   },
   datePicker: {
-    width: 130,
+    width: 120,
     padding: '8px',
     paddingRight: '32px',
+  },
+  datePickerInside: {
+    width: 110,
   },
   searchButton: {
     alignSelf: 'center',
     paddingLeft: '32px',
+    paddingRight: '8px',
   },
 };

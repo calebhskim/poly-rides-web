@@ -1,24 +1,32 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-import AutoComplete from 'material-ui/AutoComplete';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import DatePicker from 'material-ui/DatePicker';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
+import GooglePlaceAutocomplete from 'material-ui-places';
 import TextField from 'material-ui/TextField';
 
 import post from '../actions/post';
 import postStyles from '../styles/components/postRide';
 
 const initialState = {
-  arrive: '',
+  arrive: {
+    name: '',
+    latitude: '',
+    longitude: '',
+  },
   arriveError: false,
+  depart: {
+    name: '',
+    latitude: '',
+    longitude: '',
+  },
+  departError: false,
   cost: '',
   costError: false,
-  depart: '',
-  departError: false,
   departDate: {},
   desc: '',
   descError: false,
@@ -27,38 +35,99 @@ const initialState = {
   seatError: false,
 };
 
+const sloCoords = ({ lat: 35.2828, lng: -120.6596 });
+const usBoundne = ({ lat: 48.957565, lng: -66.962897 });
+const usBoundsw = ({ lat: 27.529683, lng: -124.358654 });
+const searchBounds = { ne: usBoundne, sw: usBoundsw };
+const validTypes = ['(cities)'];
+
 export class PostRide extends Component {
+  static validDates(date) {
+    const today = new Date();
+    today.setDate(today.getDate() - 1);
+
+    return date < today;
+  }
+
   constructor(props) {
     super(props);
-    this.handleArriveInput = this.handleArriveInput.bind(this);
+    this.departChange = this.handleInputChange.bind(this, 'depart');
+    this.departRequest = this.handleNewRequest.bind(this, 'depart');
+    this.arriveChange = this.handleInputChange.bind(this, 'arrive');
+    this.arriveRequest = this.handleNewRequest.bind(this, 'arrive');
+
     this.handleClose = this.handleClose.bind(this);
     this.handleCost = this.handleCost.bind(this);
     this.handleDate = this.handleDate.bind(this);
-    this.handleDepartInput = this.handleDepartInput.bind(this);
     this.handleDescInput = this.handleDescInput.bind(this);
     this.handleOpen = this.handleOpen.bind(this);
     this.handlePost = this.handlePost.bind(this);
     this.handleSeat = this.handleSeat.bind(this);
     this.state = initialState;
+
+    this.placesService = new window.google.maps.places.PlacesService(document.createElement('div'));
   }
 
-  handleArriveInput(searchText) {
-    this.setState({
-      arrive: searchText,
-      arriveError: !searchText,
+  getPlaceDetails(placeId) {
+    return new Promise((resolve, reject) => {
+      this.placesService.getDetails({
+        placeId,
+      }, (res, status) => {
+        if (status === 'OK') {
+          const latitude = res.geometry.location.lat();
+          const longitude = res.geometry.location.lng();
+          resolve({ latitude, longitude });
+        } else {
+          reject(`Invalid place_id. status: ${status}`);
+        }
+      });
     });
   }
+
+  handleInputChange(name, e) {
+    const temp = {};
+
+    if (e.target) {
+      temp[name] = {
+        name: e.target.value,
+        latitude: '',
+        longitude: '',
+      };
+
+      this.setState(temp);
+    }
+  }
+
+  handleNewRequest(name, newLocation) {
+    const temp = {};
+
+    if (!newLocation) {
+      temp[`${name}Error`] = true;
+
+      this.setState(temp);
+    } else {
+      this.getPlaceDetails(newLocation.place_id).then((res) => {
+        temp[name] = {
+          name: newLocation.description,
+          latitude: res.latitude,
+          longitude: res.longitude,
+        };
+        temp[`${name}Error`] = false;
+
+        this.setState(temp);
+      }).catch((reason) => {
+        console.log(reason);
+        temp[`${name}Error`] = true;
+
+        this.setState(temp);
+      });
+    }
+  }
+
 
   handleDate(e, date) {
     this.setState({
       departDate: date,
-    });
-  }
-
-  handleDepartInput(searchText) {
-    this.setState({
-      depart: searchText,
-      departError: !searchText,
     });
   }
 
@@ -104,28 +173,46 @@ export class PostRide extends Component {
     const { displayName, photoURL, uid } = this.props;
     const timestamp = new Date();
 
-    this.props.post({
-      costPerSeat: cost ? parseInt(cost, 10) : cost,
-      departTimestamp: departDate.getTime(),
-      description: desc,
-      driver: {
-        displayName,
-        photoURL,
-        uid,
-      },
-      fromLocation: arrive,
-      passengers: {},
-      toLocation: depart,
-      totalSeats: seat ? parseInt(seat, 10) : seat,
-      postTimestamp: timestamp.getTime(),
-    }).then(() => {
-      this.setState(initialState);
-    }).catch(() => {
-      // TODO: Properly handle errors here
-      console.log('POST FAILED');
-    });
+    let error = false;
 
-    this.handleClose();
+    // Check to see if depart and arrive are valid
+    if (arrive.latitude === '') {
+      error = true;
+      this.setState({
+        arriveError: true,
+      });
+    }
+    if (depart.latitude === '') {
+      error = true;
+      this.setState({
+        departError: true,
+      });
+    }
+
+    if (!error) {
+      this.props.post({
+        costPerSeat: cost ? parseInt(cost, 10) : cost,
+        departTimestamp: departDate.getTime(),
+        description: desc,
+        driver: {
+          displayName,
+          photoURL,
+          uid,
+        },
+        fromLocation: depart,
+        passengers: {},
+        toLocation: arrive,
+        totalSeats: seat ? parseInt(seat, 10) : seat,
+        postTimestamp: timestamp.getTime(),
+      }).then(() => {
+        this.setState(initialState);
+      }).catch(() => {
+        // TODO: Properly handle errors here
+        console.log('POST FAILED');
+      });
+
+      this.handleClose();
+    }
   }
 
   render() {
@@ -135,8 +222,8 @@ export class PostRide extends Component {
       cost,
       costError,
       depart,
-      departDate,
       departError,
+      departDate,
       desc,
       descError,
       seat,
@@ -179,24 +266,33 @@ export class PostRide extends Component {
         >
           <div>
             <div id='input' style={postStyles.inputForm}>
-              <AutoComplete
-                dataSource={['SLO', 'LA', 'SF', 'Seattle', 'NY', 'Chapel Hill', 'Austin']}
-                errorText={departError && 'This field is required'}
-                hintText='Depart From'
-                onUpdateInput={this.handleDepartInput}
-                value={depart}
+              <GooglePlaceAutocomplete
+                floatingLabelText='Depart From'
+                errorText={departError && 'Field requires a valid address'}
+                onChange={this.departChange}
+                onNewRequest={this.departRequest}
+                bounds={searchBounds}
+                location={sloCoords}
+                types={validTypes}
+                searchText={depart.name}
               />
-              <AutoComplete
-                dataSource={['SLO', 'LA', 'SF', 'Seattle', 'NY', 'Chapel Hill', 'Austin']}
-                errorText={arriveError && 'This field is required'}
-                hintText='Arrive At'
-                onUpdateInput={this.handleArriveInput}
-                value={arrive}
+              <GooglePlaceAutocomplete
+                floatingLabelText='Arrive At'
+                errorText={arriveError && 'Field requires a valid address'}
+                onChange={this.arriveChange}
+                onNewRequest={this.arriveRequest}
+                bounds={searchBounds}
+                location={sloCoords}
+                types={validTypes}
+                searchText={arrive.name}
               />
               <DatePicker
                 hintText='Departure Date'
                 onChange={this.handleDate}
+                autoOk={true}
+                locale='en-US'
                 value={departDate}
+                shouldDisableDate={PostRide.validDates}
               />
               <TextField
                 errorText={seatError && 'This field must be a number'}

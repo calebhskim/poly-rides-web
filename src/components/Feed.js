@@ -59,7 +59,7 @@ export class Feed extends Component {
 
     return (
       <div style={feedContainer}>
-        <Paper style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }} id='feed'>
+        <Paper style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', maxHeight: '88px' }} id='feed'>
           <SearchFeed />
           <PostRide />
         </Paper>

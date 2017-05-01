@@ -6,7 +6,6 @@ import ClearIcon from 'material-ui/svg-icons/content/clear';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import GooglePlaceAutocomplete from 'material-ui-places';
 import DatePicker from 'material-ui/DatePicker';
-import Paper from 'material-ui/Paper';
 
 import { clearSearch, searchFeed } from '../actions/searchFeed';
 import searchStyle from '../styles/components/search';
@@ -15,6 +14,7 @@ const {
   autocompleteFieldLeft,
   autocompleteField,
   datePicker,
+  datePickerInside,
   searchButton,
 } = searchStyle;
 
@@ -27,6 +27,7 @@ const validTypes = ['(cities)'];
 export class SearchFeed extends Component {
   static validDates(date) {
     const today = new Date();
+    today.setDate(today.getDate() - 1);
 
     return date < today;
   }
@@ -55,7 +56,7 @@ export class SearchFeed extends Component {
         placeId: '',
         error: false,
       },
-      departDate: null,
+      departDate: new Date(),
       departDateError: false,
     };
   }
@@ -191,6 +192,7 @@ export class SearchFeed extends Component {
       (<div style={{ alignSelf: 'center' }}>
         <FloatingActionButton
           mini={true}
+          secondary={true}
           onTouchTap={this.clearSearch}
         >
           <ClearIcon />
@@ -208,12 +210,12 @@ export class SearchFeed extends Component {
           bounds={searchBounds}
           location={sloCoords}
           types={validTypes}
-          errorText={depart.error && 'This field requires a valid address'}
+          errorText={depart.error && 'Field requires a valid address'}
           style={autocompleteFieldLeft}
           fullWidth={true}
         />
         <GooglePlaceAutocomplete
-          floatingLabelText='Arrive From'
+          floatingLabelText='Arrive At'
           onChange={this.arriveChange}
           onNewRequest={this.arriveRequest}
           name={'arrive'}
@@ -221,7 +223,7 @@ export class SearchFeed extends Component {
           bounds={searchBounds}
           location={sloCoords}
           types={validTypes}
-          errorText={arrive.error && 'This field requires a valid address'}
+          errorText={arrive.error && 'Field requires a valid address'}
           style={autocompleteField}
           fullWidth={true}
         />
@@ -232,8 +234,9 @@ export class SearchFeed extends Component {
           autoOk={true}
           value={departDate}
           shouldDisableDate={SearchFeed.validDates}
-          errorText={departDateError && 'This field is required'}
-          textFieldStyle={datePicker}
+          errorText={departDateError && 'Field is required'}
+          locale='en-US'
+          textFieldStyle={datePickerInside}
           style={datePicker}
         />
         <div style={searchButton}>

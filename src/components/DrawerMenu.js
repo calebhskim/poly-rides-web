@@ -32,7 +32,7 @@ class DrawerMenu extends Component {
 
     if (lifecycle === lifecycles.AUTH_LOGGEDIN) {
       items.push(<MenuItem key='signout' onTouchTap={this.handleSignout}>Signout</MenuItem>);
-      items.push(<Link key='feed' style={linkStyles} to='/dashboard/feed'>
+      items.push(<Link key='feed' style={linkStyles} to='/dashboard'>
         <MenuItem onTouchTap={handleClose}>Feed</MenuItem></Link>);
     } else {
       items.push(<Link key='login' style={linkStyles} to='/'>

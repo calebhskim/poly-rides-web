@@ -10,7 +10,6 @@ import Account from './components/Account';
 import App from './containers/App';
 import config from './config';
 import Contact from './components/Contact';
-import Dashboard from './components/Dashboard';
 import Feed from './components/Feed';
 import initialState from './constants/initialState';
 import Landing from './components/Landing';
