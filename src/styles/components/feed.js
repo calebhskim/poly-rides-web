@@ -5,7 +5,7 @@ export default {
     width: '992px',
   },
   feedScrollContainer: {
-    marginTop: '16',
+    marginTop: '16px',
     height: '95%',
     width: '992px',
   },

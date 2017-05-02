@@ -4,24 +4,23 @@ import { connect } from 'react-redux';
 import SearchIcon from 'material-ui/svg-icons/action/search';
 import ClearIcon from 'material-ui/svg-icons/content/clear';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
-import GooglePlaceAutocomplete from 'material-ui-places';
 import DatePicker from 'material-ui/DatePicker';
 
 import { clearSearch, searchFeed } from '../actions/searchFeed';
+import GooglePlaceAutocomplete from './GooglePlaceAutocomplete';
 import searchStyle from '../styles/components/search';
 
 const {
-  autocompleteFieldLeft,
-  autocompleteField,
+  departSearchField,
+  arriveSearchField,
   datePicker,
   datePickerInside,
   searchButton,
 } = searchStyle;
 
 const sloCoords = ({ lat: 35.2828, lng: -120.6596 });
-const usBoundne = ({ lat: 48.957565, lng: -66.962897 });
-const usBoundsw = ({ lat: 27.529683, lng: -124.358654 });
-const searchBounds = { ne: usBoundne, sw: usBoundsw };
+const searchRadius = 450000;
+const searchRegion = { country: 'us' };
 const validTypes = ['(cities)'];
 
 export class SearchFeed extends Component {
@@ -77,16 +76,16 @@ export class SearchFeed extends Component {
     });
   }
 
-  handleSearchChange(name, e) {
-    const temp = {};
+  handleSearchChange(locationType, e) {
+    const newState = {};
     if (e.target) {
-      temp[name] = {
+      newState[locationType] = {
         name: e.target.value,
         placeId: '',
         error: false,
       };
 
-      this.setState(temp);
+      this.setState(newState);
     }
   }
 
@@ -97,23 +96,23 @@ export class SearchFeed extends Component {
     });
   }
 
-  handleNewRequest(name, newLocation) {
-    const temp = {};
+  handleNewRequest(locationType, newLocation) {
+    const newState = {};
     if (newLocation) {
-      temp[name] = {
+      newState[locationType] = {
         name: newLocation.description,
         placeId: newLocation.place_id,
         error: false,
       };
     } else {
-      temp[name] = {
-        name: this.state[name].name,
+      newState[locationType] = {
+        name: this.state[locationType].name,
         placeId: '',
         error: false,
       };
     }
 
-    this.setState(temp);
+    this.setState(newState);
   }
 
   // returns whether or not the input was valid. Appropriately sets local state
@@ -207,11 +206,12 @@ export class SearchFeed extends Component {
           onNewRequest={this.departRequest}
           name={'depart'}
           searchText={depart.name}
-          bounds={searchBounds}
           location={sloCoords}
+          componentRestrictions={searchRegion}
+          radius={searchRadius}
           types={validTypes}
           errorText={depart.error && 'Field requires a valid address'}
-          style={autocompleteFieldLeft}
+          style={departSearchField}
           fullWidth={true}
         />
         <GooglePlaceAutocomplete
@@ -220,11 +220,12 @@ export class SearchFeed extends Component {
           onNewRequest={this.arriveRequest}
           name={'arrive'}
           searchText={arrive.name}
-          bounds={searchBounds}
           location={sloCoords}
+          componentRestrictions={searchRegion}
+          radius={searchRadius}
           types={validTypes}
           errorText={arrive.error && 'Field requires a valid address'}
-          style={autocompleteField}
+          style={arriveSearchField}
           fullWidth={true}
         />
         <DatePicker

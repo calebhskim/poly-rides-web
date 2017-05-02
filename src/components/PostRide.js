@@ -6,9 +6,9 @@ import DatePicker from 'material-ui/DatePicker';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
-import GooglePlaceAutocomplete from 'material-ui-places';
 import TextField from 'material-ui/TextField';
 
+import GooglePlaceAutocomplete from './GooglePlaceAutocomplete';
 import post from '../actions/post';
 import postStyles from '../styles/components/postRide';
 
@@ -36,9 +36,8 @@ const initialState = {
 };
 
 const sloCoords = ({ lat: 35.2828, lng: -120.6596 });
-const usBoundne = ({ lat: 48.957565, lng: -66.962897 });
-const usBoundsw = ({ lat: 27.529683, lng: -124.358654 });
-const searchBounds = { ne: usBoundne, sw: usBoundsw };
+const searchRadius = 450000;
+const searchRegion = { country: 'us' };
 const validTypes = ['(cities)'];
 
 export class PostRide extends Component {
@@ -84,42 +83,42 @@ export class PostRide extends Component {
     });
   }
 
-  handleInputChange(name, e) {
-    const temp = {};
+  handleInputChange(locationType, e) {
+    const newState = {};
 
     if (e.target) {
-      temp[name] = {
+      newState[locationType] = {
         name: e.target.value,
         latitude: '',
         longitude: '',
       };
 
-      this.setState(temp);
+      this.setState(newState);
     }
   }
 
-  handleNewRequest(name, newLocation) {
-    const temp = {};
+  handleNewRequest(locationType, newLocation) {
+    const newState = {};
 
     if (!newLocation) {
-      temp[`${name}Error`] = true;
+      newState[`${locationType}Error`] = true;
 
-      this.setState(temp);
+      this.setState(newState);
     } else {
       this.getPlaceDetails(newLocation.place_id).then((res) => {
-        temp[name] = {
+        newState[locationType] = {
           name: newLocation.description,
           latitude: res.latitude,
           longitude: res.longitude,
         };
-        temp[`${name}Error`] = false;
+        newState[`${locationType}Error`] = false;
 
-        this.setState(temp);
+        this.setState(newState);
       }).catch((reason) => {
         console.log(reason);
-        temp[`${name}Error`] = true;
+        newState[`${locationType}Error`] = true;
 
-        this.setState(temp);
+        this.setState(newState);
       });
     }
   }
@@ -271,7 +270,8 @@ export class PostRide extends Component {
                 errorText={departError && 'Field requires a valid address'}
                 onChange={this.departChange}
                 onNewRequest={this.departRequest}
-                bounds={searchBounds}
+                componentRestrictions={searchRegion}
+                radius={searchRadius}
                 location={sloCoords}
                 types={validTypes}
                 searchText={depart.name}
@@ -281,7 +281,8 @@ export class PostRide extends Component {
                 errorText={arriveError && 'Field requires a valid address'}
                 onChange={this.arriveChange}
                 onNewRequest={this.arriveRequest}
-                bounds={searchBounds}
+                componentRestrictions={searchRegion}
+                radius={searchRadius}
                 location={sloCoords}
                 types={validTypes}
                 searchText={arrive.name}

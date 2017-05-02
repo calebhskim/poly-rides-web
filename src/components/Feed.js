@@ -55,7 +55,7 @@ export class Feed extends Component {
 
     const feedData = isSearching ? searchResults : list;
 
-    const feed = isLoading ? Loading : <FeedScroll list={feedData} />;
+    const feed = isLoading ? <Loading /> : <FeedScroll list={feedData} />;
 
     return (
       <div style={feedContainer}>

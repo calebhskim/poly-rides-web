@@ -1,20 +1,20 @@
 export default {
-  autocompleteFieldLeft: {
-    width: 300,
+  departSearchField: {
+    width: '300px',
     padding: '8px',
     paddingLeft: '16px',
   },
-  autocompleteField: {
-    width: 300,
+  arriveSearchField: {
+    width: '300px',
     padding: '8px',
   },
   datePicker: {
-    width: 120,
+    width: '120px',
     padding: '8px',
     paddingRight: '32px',
   },
   datePickerInside: {
-    width: 110,
+    width: '110px',
   },
   searchButton: {
     alignSelf: 'center',
