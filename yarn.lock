@@ -3246,6 +3246,10 @@ hash.js@^1.0.0:
   dependencies:
     inherits "^2.0.1"
 
+haversine@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/haversine/-/haversine-1.0.2.tgz#7872a584383230e1565875477da02f18c518c3e5"
+
 hawk@~3.1.3:
   version "3.1.3"
   resolved "https://registry.yarnpkg.com/hawk/-/hawk-3.1.3.tgz#078444bd7c1640b0fe540d2c9b73d59678e8e1c4"
@@ -4504,9 +4508,9 @@ makeerror@1.0.x:
   dependencies:
     tmpl "1.0.x"
 
-material-ui-places@^1.1.2:
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/material-ui-places/-/material-ui-places-1.1.2.tgz#eb9f00fd01d52a6610febd1f2197d1763854f99b"
+material-ui-places@^1.1.3:
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/material-ui-places/-/material-ui-places-1.1.3.tgz#59893d202438f48db081ba682b9c37891b41863d"
 
 material-ui@^0.17.1:
   version "0.17.1"

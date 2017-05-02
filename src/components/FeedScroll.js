@@ -102,7 +102,6 @@ function mapStateToProps(state) {
         displayCount,
         isNextLoading,
         loadedRowsMap,
-        list,
         totalCount,
       },
     },
@@ -112,7 +111,6 @@ function mapStateToProps(state) {
     clickedRowsMap,
     displayCount,
     isNextLoading,
-    list,
     loadedRowsMap,
     totalCount,
   };

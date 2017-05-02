@@ -61,6 +61,25 @@ const rides = (state = initialState.data.rides, { payload, response, type }) => 
         list: newlist,
       });
     }
+    case actions.RIDES_SEARCH_START: {
+      return Object.assign({}, state, {
+        isLoading: true,
+        isSearching: true,
+      });
+    }
+    case actions.RIDES_SEARCH_RESULTS: {
+      const { searchResults } = payload;
+      return Object.assign({}, state, {
+        searchResults,
+        isLoading: false,
+        isSearching: true,
+      });
+    }
+    case actions.RIDES_SEARCH_STOP:
+      return Object.assign({}, state, {
+        isLoading: false,
+        isSearching: false,
+      });
     default:
       return state;
   }
