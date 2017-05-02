@@ -9,6 +9,7 @@
   "scripts": {
     "build": "node_modules/.bin/webpack",
     "build_scripts": "./node_modules/.bin/babel ./scripts/src -d ./scripts/build",
+    "deploy": "yarn run build && firebase deploy --only 'hosting'",
     "local": "yarn run build && ./node_modules/.bin/webpack-dev-server --content-base build/",
     "members": "yarn run build_scripts && node ./scripts/build/members.js",
     "mockdata": "yarn run build_scripts && node ./scripts/build/mockdata.js",
