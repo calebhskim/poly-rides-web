@@ -1,8 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
+import RidesRequests from './RidesRequests';
+import RidesPassengers from './RidesPassengers';
+import RidesDetails from './RidesDetails';
 import styles from '../styles/components/ridesInfo';
-import timestampToDate from '../utils/timestampToDate';
 
 const {
   infoContainer,
@@ -21,22 +23,18 @@ export class RidesInfo extends Component {
 
     const {
       data: {
-        arriveLocation,
-        departLocation,
-        departTimestamp,
-        description,
-        driver: { displayName },
+        requests,
+        passengers,
+        driver,
+        ...tripInfo
       },
     } = this.props;
 
     return (
       <div style={infoContainer}>
-        <div>
-          <h6>{`${departLocation.name} -> ${arriveLocation.name}`}</h6>
-        </div>
-        <h7>{displayName}</h7>
-        <h7>{`Departing: ${timestampToDate(departTimestamp)}`}</h7>
-        <h7>{description}</h7>
+        <RidesRequests requests={requests} />
+        <RidesPassengers passengers={passengers} driver={driver} />
+        <RidesDetails {...tripInfo} />
       </div>
     );
   }
@@ -52,11 +50,12 @@ RidesInfo.propTypes = {
     requests: PropTypes.objectOf(
       PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
     ),
-    fromLocation: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
+    departLocation: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
     passengers: PropTypes.objectOf(PropTypes.bool),
     postTimestamp: PropTypes.number,
-    toLocation: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
+    arriveLocation: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
     totalSeats: PropTypes.number,
+    type: PropTypes.string,
   }),
 };
 

@@ -47,9 +47,9 @@ export class Rides extends Component {
     }
 
     return (
-      <Paper className={media.fullMedia} style={ridesContainer} id='rides'>
+      <div className={media.fullMedia} style={ridesContainer} id='rides'>
         <RidesWrapper />
-      </Paper>
+      </div>
     );
   }
 }
