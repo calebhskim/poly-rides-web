@@ -38,7 +38,8 @@ class RidesRequests extends Component {
       requests,
     } = this.props;
 
-    let requestItems = values(requests).map(req => <RequestItem message={req.message} />);
+    let requestItems = values(requests).map(
+      (req, idx) => <RequestItem key={idx} message={req.message} />);
 
     if (requestItems.length === 0) {
       requestItems = 'It appears you have no requests';

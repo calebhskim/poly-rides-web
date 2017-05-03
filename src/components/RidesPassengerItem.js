@@ -5,7 +5,7 @@ import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
 import Popover from 'material-ui/Popover';
 
-export default class PassengerItem extends Component {
+export default class RidesPassengerItem extends Component {
   constructor(props) {
     super(props);
 
@@ -65,6 +65,6 @@ export default class PassengerItem extends Component {
   }
 }
 
-PassengerItem.propTypes = {
+RidesPassengerItem.propTypes = {
   name: PropTypes.string,
 };

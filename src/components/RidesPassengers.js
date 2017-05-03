@@ -3,14 +3,14 @@ import { connect } from 'react-redux';
 
 import { Card, CardTitle, CardText } from 'material-ui/Card';
 
-import PassengerItem from './RidesPassengerItem';
+import RidesPassengerItem from './RidesPassengerItem';
 import styles from '../styles/components/ridesInfo';
 
 const {
   rideInfoCard,
 } = styles;
 
-class RidesRequests extends Component {
+class RidesPassengers extends Component {
   render() {
     const {
       passengers,
@@ -22,14 +22,10 @@ class RidesRequests extends Component {
     passNames.push(driver.displayName);
 
     if (passengers) {
-      const passengerKeys = Object.keys(passengers);
-
-      for (let i = 0; passengerKeys.length; i += 1) {
-        passNames.push(passengerKeys[i]);
-      }
+      Object.keys(passengers).map(k => passNames.push(k));
     }
 
-    const peopleItems = passNames.map(p => <PassengerItem name={p} />);
+    const peopleItems = passNames.map(p => <RidesPassengerItem name={p} />);
 
     return (
       <Card style={rideInfoCard}>
@@ -49,11 +45,11 @@ function mapStateToProps() {
   return {};
 }
 
-RidesRequests.propTypes = {
+RidesPassengers.propTypes = {
   passengers: PropTypes.objectOf(PropTypes.bool),
   driver: PropTypes.objectOf(PropTypes.string),
 };
 
 const mapDispatchToProps = {};
 
-export default connect(mapStateToProps, mapDispatchToProps)(RidesRequests);
+export default connect(mapStateToProps, mapDispatchToProps)(RidesPassengers);
