@@ -21,12 +21,28 @@ const RidesDetails = (props) => {
     type,
   } = props;
 
+  let role;
+
+  if (type === 'drive') {
+    role = 'the driver';
+  } else if (type === 'ride') {
+    role = 'a passenger';
+  } else if (type === 'request') {
+    role = 'a pending passenger';
+  }
+
   return (
     <Card style={rideInfoCard}>
       <CardTitle title='Trip Info' subtitle={`${departLocation.name} -> ${arriveLocation.name}`} />
       <CardText>
-        <h7>{`Departing: ${timestampToDate(departTimestamp)}`}</h7>
-        <h7>{description}</h7>
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <h7>{`Departing: ${timestampToDate(departTimestamp)}`}</h7>
+          <h7>{`Cost per seat: $${costPerSeat}`}</h7>
+          <h7>{`Total seats: ${totalSeats}`}</h7>
+          <h7>{`Description: ${description}`}</h7>
+          <h7>{`Posted: ${postTimestamp}`}</h7>
+          <h7>{`You are ${role}`}</h7>
+        </div>
       </CardText>
     </Card>
   );
