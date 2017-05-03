@@ -1,8 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-import Paper from 'material-ui/Paper';
-
 import { fetchUserRides } from '../actions/rides';
 import Loading from './Loading';
 import media from '../styles/css/media.css';
