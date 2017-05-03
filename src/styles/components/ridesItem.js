@@ -1,5 +1,5 @@
 export default {
-  height: '100px',
+  height: 100,
   ridesItemContainer: {
     height: '100%',
     width: '95%',

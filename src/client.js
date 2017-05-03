@@ -2,7 +2,7 @@ import React from 'react';
 import * as firebase from 'firebase';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
-import { browserHistory, IndexRoute, Router, Route } from 'react-router';
+import { browserHistory, IndexRedirect, IndexRoute, Router, Route } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 
 import About from './components/About';
@@ -10,7 +10,6 @@ import Account from './components/Account';
 import App from './containers/App';
 import config from './config';
 import Contact from './components/Contact';
-import Dashboard from './components/Dashboard';
 import Feed from './components/Feed';
 import initialState from './constants/initialState';
 import Landing from './components/Landing';
@@ -58,7 +57,7 @@ render(
         <Route path='about' component={About} />
         <Route path='contact' component={Contact} />
         <Route path='dashboard' component={Account} onEnter={authCheck(store)}>
-          <IndexRoute component={Dashboard} />
+          <IndexRedirect to={'/dashboard/feed'} />
           <Route path='feed' component={Feed} />
           <Route path='rides' component={Rides} />
         </Route>
