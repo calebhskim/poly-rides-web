@@ -23,17 +23,23 @@ export class RidesInfo extends Component {
 
     const {
       data: {
+        id,
         requests,
         passengers,
         driver,
         ...tripInfo
       },
+      uid,
     } = this.props;
+    const isDriver = uid === driver.uid;
 
     return (
       <div style={infoContainer}>
-        <RidesRequests requests={requests} />
-        <RidesPassengers passengers={passengers} driver={driver} />
+        {isDriver && <RidesRequests rideId={id} requests={requests} />}
+        {
+          (isDriver || uid in passengers) &&
+          <RidesPassengers passengers={passengers} driver={driver} isDriver={isDriver} />
+        }
         <RidesDetails {...tripInfo} />
       </div>
     );
@@ -57,10 +63,14 @@ RidesInfo.propTypes = {
     totalSeats: PropTypes.number,
     type: PropTypes.string,
   }),
+  uid: PropTypes.string,
 };
 
-function mapStateToProps() {
-  return {};
+function mapStateToProps(state) {
+  const { auth: { user: { uid } } } = state;
+  return {
+    uid,
+  };
 }
 
 const mapDispatchToProps = {};

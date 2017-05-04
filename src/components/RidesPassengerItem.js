@@ -34,13 +34,21 @@ export default class RidesPassengerItem extends Component {
   }
 
   render() {
+    const { isDriver, name } = this.props;
+    // Note: If the user is not the driver do not allow them to modify passengers
+    if (!isDriver) {
+      return (
+        <h6>{name}</h6> 
+      );
+    }
+
     return (
       <div>
         {/* instead of being a button this should be the profile of the user */}
         {/* this is lower priority than getting the actions below working */}
         <FlatButton
           onTouchTap={this.handleTouchTap}
-          label={this.props.name}
+          label={name}
         />
         <Popover
           open={this.state.open}
@@ -66,5 +74,6 @@ export default class RidesPassengerItem extends Component {
 }
 
 RidesPassengerItem.propTypes = {
+  isDriver: PropTypes.bool,
   name: PropTypes.string,
 };

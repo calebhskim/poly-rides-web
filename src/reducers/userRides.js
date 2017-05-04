@@ -57,6 +57,25 @@ const rides = (state = initialState.data.userRides, { payload, type }) => {
         drives,
       });
     }
+    case actions.ACCEPT_REQUEST_SUCCESS: {
+      const { drives } = state;
+      const { name, rideId, uid } = payload;
+      const newDrives = drives.map((drive) => {
+        const newDrive = JSON.parse(JSON.stringify(drive));
+        if (!newDrive.passengers) {
+          newDrive.passengers = {};
+        }
+
+        if (newDrive.id === rideId) {
+          newDrive.passengers[name] = uid;
+        }
+
+        return newDrive;
+      });
+      return Object.assign({}, state, {
+        drives: newDrives,
+      });
+    }
     default:
       return state;
   }
