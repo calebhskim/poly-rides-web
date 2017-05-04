@@ -68,6 +68,7 @@ const rides = (state = initialState.data.userRides, { payload, type }) => {
 
         if (newDrive.id === rideId) {
           newDrive.passengers[name] = uid;
+          delete newDrive.requests[uid];
         }
 
         return newDrive;

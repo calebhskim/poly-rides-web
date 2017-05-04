@@ -36,7 +36,7 @@ class RidesRequestsItem extends Component {
             {message}
           </p>
           <FlatButton secondary={true} label='Ignore' style={{ marginLeft: 'auto' }} />
-          <FlatButton primary={true} label='Accept' />
+          <FlatButton primary={true} label='Accept' onTouchTap={this.handleAccept} />
         </div>
       </div>
     );
@@ -45,7 +45,7 @@ class RidesRequestsItem extends Component {
 
 RidesRequestsItem.propTypes = {
   acceptRequest: PropTypes.func,
-  req: PropTypes.objectOf(PropTypes.oneOf([PropTypes.number, PropTypes.string])),
+  req: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.number, PropTypes.string])),
   rideId: PropTypes.string,
   uid: PropTypes.string,
 };

@@ -38,7 +38,7 @@ export default class RidesPassengerItem extends Component {
     // Note: If the user is not the driver do not allow them to modify passengers
     if (!isDriver) {
       return (
-        <h6>{name}</h6> 
+        <h6>{name}</h6>
       );
     }
 
