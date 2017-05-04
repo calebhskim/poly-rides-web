@@ -34,9 +34,10 @@ export default class RidesPassengerItem extends Component {
   }
 
   render() {
-    const { isDriver, name } = this.props;
-    // Note: If the user is not the driver do not allow them to modify passengers
-    if (!isDriver) {
+    const { driverName, isDriver, name } = this.props;
+    // Note: If the user is not the driver do not allow them to modify passengers.
+    // Also a driver should not be able to remove themselves as a passenger.
+    if (!isDriver || driverName === name) {
       return (
         <h6>{name}</h6>
       );
@@ -74,6 +75,7 @@ export default class RidesPassengerItem extends Component {
 }
 
 RidesPassengerItem.propTypes = {
+  driverName: PropTypes.string,
   isDriver: PropTypes.bool,
   name: PropTypes.string,
 };

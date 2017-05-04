@@ -26,8 +26,12 @@ class RidesPassengers extends Component {
       Object.keys(passengers).map(k => passNames.push(k));
     }
 
-    const peopleItems = passNames.map(
-      (p, idx) => <RidesPassengerItem k={idx} name={p} isDriver={isDriver} />);
+    const peopleItems = passNames.map((p, idx) => <RidesPassengerItem
+      k={idx}
+      driverName={driver.displayName}
+      isDriver={isDriver}
+      name={p}
+    />);
 
     return (
       <Card style={rideInfoCard}>
@@ -43,15 +47,15 @@ class RidesPassengers extends Component {
   }
 }
 
-function mapStateToProps() {
-  return {};
-}
-
 RidesPassengers.propTypes = {
   driver: PropTypes.objectOf(PropTypes.string),
   isDriver: PropTypes.bool,
   passengers: PropTypes.objectOf(PropTypes.bool),
 };
+
+function mapStateToProps() {
+  return {};
+}
 
 const mapDispatchToProps = {};
 
