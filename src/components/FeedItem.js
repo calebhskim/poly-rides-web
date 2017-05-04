@@ -245,7 +245,7 @@ FeedItem.propTypes = {
       PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
     ),
     fromLocation: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
-    passengers: PropTypes.objectOf(PropTypes.bool),
+    passengers: PropTypes.objectOf(PropTypes.string),
     postTimestamp: PropTypes.number,
     toLocation: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
     totalSeats: PropTypes.number,

@@ -4,11 +4,13 @@ import { connect } from 'react-redux';
 import FlatButton from 'material-ui/FlatButton';
 
 import acceptRequest from '../actions/acceptRequest';
+import rejectRequest from '../actions/rejectRequest';
 
 class RidesRequestsItem extends Component {
   constructor(props) {
     super(props);
     this.handleAccept = this.handleAccept.bind(this);
+    this.handleReject = this.handleReject.bind(this);
   }
 
   handleAccept() {
@@ -23,6 +25,15 @@ class RidesRequestsItem extends Component {
     this.props.acceptRequest(displayName, rideId, uid);
   }
 
+  handleReject() {
+    const {
+      rideId,
+      uid,
+    } = this.props;
+
+    this.props.rejectRequest(rideId, uid);
+  }
+
   render() {
     const {
       req: { displayName, message },
@@ -35,7 +46,7 @@ class RidesRequestsItem extends Component {
           <p>
             {message}
           </p>
-          <FlatButton secondary={true} label='Ignore' style={{ marginLeft: 'auto' }} />
+          <FlatButton secondary={true} label='Ignore' style={{ marginLeft: 'auto' }} onTouchTap={this.handleReject} />
           <FlatButton primary={true} label='Accept' onTouchTap={this.handleAccept} />
         </div>
       </div>
@@ -45,6 +56,7 @@ class RidesRequestsItem extends Component {
 
 RidesRequestsItem.propTypes = {
   acceptRequest: PropTypes.func,
+  rejectRequest: PropTypes.func,
   req: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.number, PropTypes.string])),
   rideId: PropTypes.string,
   uid: PropTypes.string,
@@ -56,6 +68,7 @@ function mapStateToProps() {
 
 const mapDispatchToProps = {
   acceptRequest,
+  rejectRequest,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(RidesRequestsItem);

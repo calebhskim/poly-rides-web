@@ -77,6 +77,23 @@ const rides = (state = initialState.data.userRides, { payload, type }) => {
         drives: newDrives,
       });
     }
+    case actions.REJECT_REQUEST_SUCCESS: {
+      const { requests } = state;
+      const { rideId, uid } = payload;
+      const newRequests = requests.map((req) => {
+        const newReq = JSON.parse(JSON.stringify(req));
+
+        if (newReq.id === rideId) {
+          delete newReq.requests[uid];
+        }
+
+        return newReq;
+      });
+
+      return Object.assign({}, state, {
+        requests: newRequests,
+      });
+    }
     default:
       return state;
   }
