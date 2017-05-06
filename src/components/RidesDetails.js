@@ -40,7 +40,7 @@ const RidesDetails = (props) => {
           <h7>{`Cost per seat: $${costPerSeat}`}</h7>
           <h7>{`Total seats: ${totalSeats}`}</h7>
           <h7>{`Description: ${description}`}</h7>
-          <h7>{`Posted: ${postTimestamp}`}</h7>
+          <h7>{`Posted: ${timestampToDate(postTimestamp)}`}</h7>
           <h7>{`You are ${role}`}</h7>
         </div>
       </CardText>
