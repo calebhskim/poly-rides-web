@@ -8,7 +8,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import appStyle from '../styles/components/app';
 import DrawerMenu from '../components/DrawerMenu';
-// import Title from '../components/Title';
+import lifecycles from '../constants/lifecycles';
 
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
@@ -43,13 +43,23 @@ class App extends Component {
   }
 
   render() {
+    const { lifecycle, title } = this.props;
+    const loggedIn = lifecycle !== lifecycles.AUTH_NOT_LOGGEDIN;
+
+    // Note: Do not set position: 'fixed' for landing page
+    if (loggedIn) {
+      appContainer.position = 'fixed';
+    }
+
     return (
       <MuiThemeProvider>
         <View style={appContainer}>
-          <AppBar
-            onLeftIconButtonTouchTap={this.handleToggle}
-            title={this.props.title}
-          />
+          { loggedIn &&
+            <AppBar
+              onLeftIconButtonTouchTap={this.handleToggle}
+              title={title}
+            />
+          }
           { /* Add this for nested routes */ }
           <View style={componentContainer}>
             { this.props.children }
@@ -71,12 +81,14 @@ App.propTypes = {
     React.PropTypes.arrayOf(React.PropTypes.node),
     React.PropTypes.node,
   ]),
+  lifecycle: PropTypes.string,
   title: PropTypes.string,
 };
 
 function mapStateToProps(state) {
-  const { config: { title } } = state;
+  const { auth: { lifecycle }, config: { title } } = state;
   return {
+    lifecycle,
     title,
   };
 }
