@@ -38,7 +38,12 @@ export class RidesInfo extends Component {
         {isDriver && <RidesRequests rideId={id} requests={requests} />}
         {
           (isDriver || uid in passengers) &&
-          <RidesPassengers passengers={passengers} driver={driver} isDriver={isDriver} />
+          <RidesPassengers
+            passengers={passengers}
+            driver={driver}
+            isDriver={isDriver}
+            rideId={id}
+          />
         }
         <RidesDetails {...tripInfo} />
       </div>
@@ -57,7 +62,7 @@ RidesInfo.propTypes = {
       PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
     ),
     departLocation: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
-    passengers: PropTypes.objectOf(PropTypes.bool),
+    passengers: PropTypes.objectOf(PropTypes.string),
     postTimestamp: PropTypes.number,
     arriveLocation: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
     totalSeats: PropTypes.number,

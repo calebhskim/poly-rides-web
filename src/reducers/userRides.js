@@ -1,7 +1,7 @@
 import actions from '../constants/actions';
 import initialState from '../constants/initialState';
 
-const rides = (state = initialState.data.userRides, { payload, type }) => {
+const userRidesR = (state = initialState.data.userRides, { payload, type }) => {
   switch(type) {
     case actions.FETCH_USERRIDES_START:
       return Object.assign({}, state, {
@@ -99,4 +99,4 @@ const rides = (state = initialState.data.userRides, { payload, type }) => {
   }
 };
 
-export default rides;
+export default userRidesR;

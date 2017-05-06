@@ -16,22 +16,29 @@ class RidesPassengers extends Component {
       driver,
       isDriver,
       passengers,
+      rideId,
     } = this.props;
 
-    const passNames = [];
+    const driverComponent = (<RidesPassengerItem
+      k={driver.uid}
+      isDriver={isDriver}
+      name={driver.displayName}
+      passId={driver.uid}
+      rideId={rideId}
+    />);
 
-    passNames.push(driver.displayName);
-
+    let passComponents = [];
     if (passengers) {
-      Object.keys(passengers).map(k => passNames.push(k));
+      passComponents = Object.keys(passengers).map(p => <RidesPassengerItem
+        k={passengers[p]}
+        isDriver={isDriver}
+        name={p}
+        passId={passengers[p]}
+        rideId={rideId}
+      />);
     }
 
-    const peopleItems = passNames.map((p, idx) => <RidesPassengerItem
-      k={idx}
-      driverName={driver.displayName}
-      isDriver={isDriver}
-      name={p}
-    />);
+    const passengerItems = [driverComponent, ...passComponents];
 
     return (
       <Card style={rideInfoCard}>
@@ -39,7 +46,7 @@ class RidesPassengers extends Component {
 
         <CardText>
           <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
-            {peopleItems}
+            {passengerItems}
           </div>
         </CardText>
       </Card>
@@ -50,7 +57,8 @@ class RidesPassengers extends Component {
 RidesPassengers.propTypes = {
   driver: PropTypes.objectOf(PropTypes.string),
   isDriver: PropTypes.bool,
-  passengers: PropTypes.objectOf(PropTypes.bool),
+  passengers: PropTypes.objectOf(PropTypes.string),
+  rideId: PropTypes.string,
 };
 
 function mapStateToProps() {

@@ -1,15 +1,19 @@
 import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
 
 import FlatButton from 'material-ui/FlatButton';
 import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
 import Popover from 'material-ui/Popover';
 
-export default class RidesPassengerItem extends Component {
+import removePassenger from '../actions/removePassenger';
+
+class RidesPassengerItem extends Component {
   constructor(props) {
     super(props);
 
     this.handleTouchTap = this.handleTouchTap.bind(this);
+    this.handleRemovePassenger = this.handleRemovePassenger.bind(this);
     this.handleRequestClose = this.handleRequestClose.bind(this);
 
     this.state = {
@@ -27,6 +31,13 @@ export default class RidesPassengerItem extends Component {
     });
   }
 
+  handleRemovePassenger() {
+    const { name, rideId } = this.props;
+
+    this.props.removePassenger(rideId, name);
+    this.handleRequestClose();
+  }
+
   handleRequestClose() {
     this.setState({
       open: false,
@@ -34,14 +45,15 @@ export default class RidesPassengerItem extends Component {
   }
 
   render() {
-    const { driverName, isDriver, name } = this.props;
+    const { isDriver, name, passId, userId } = this.props;
     // Note: If the user is not the driver do not allow them to modify passengers.
     // Also a driver should not be able to remove themselves as a passenger.
-    if (!isDriver || driverName === name) {
-      return (
-        <h6>{name}</h6>
-      );
-    }
+    const isUser = passId === userId;
+
+    const removePassItem = isDriver && !isUser ? (<MenuItem
+      primaryText='Remove'
+      onTouchTap={this.handleRemovePassenger}
+    />) : null;
 
     return (
       <div>
@@ -63,10 +75,7 @@ export default class RidesPassengerItem extends Component {
               primaryText='Message'
               onTouchTap={this.handleRequestClose}
             />
-            <MenuItem
-              primaryText='Remove'
-              onTouchTap={this.handleRequestClose}
-            />
+            {removePassItem}
           </Menu>
         </Popover>
       </div>
@@ -75,7 +84,24 @@ export default class RidesPassengerItem extends Component {
 }
 
 RidesPassengerItem.propTypes = {
-  driverName: PropTypes.string,
   isDriver: PropTypes.bool,
   name: PropTypes.string,
+  passId: PropTypes.string,
+  removePassenger: PropTypes.func,
+  rideId: PropTypes.string,
+  userId: PropTypes.string,
 };
+
+function mapStateToProps(state) {
+  const { auth: { user: { uid } } } = state;
+
+  return {
+    userId: uid,
+  };
+}
+
+const mapDispatchToProps = {
+  removePassenger,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(RidesPassengerItem);
