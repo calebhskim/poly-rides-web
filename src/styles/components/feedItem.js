@@ -2,10 +2,12 @@ export default {
   itemTitle: {
     alignItems: 'center',
     display: 'flex',
+    justifyContent: 'space-between',
   },
   feedItemCardText: {
     display: 'flex',
     flexDirection: 'column',
+    flexGrow: 1,
   },
   feedItemContainer: {
     height: '100%',
@@ -17,6 +19,8 @@ export default {
   },
   feedItemInfo: {
     display: 'flex',
+    flexDirection: 'column',
+    flexGrow: 1,
   },
   feedItemProfile: {
     alignItems: 'center',
@@ -28,12 +32,11 @@ export default {
     flexDirection: 'column',
   },
   infiniteValues: {
-    height: 120, // Note: This has to match height above
+    height: 170, // Note: This has to match height above
   },
   postTime: {
     color: 'grey',
-    fontSize: '90%',
-    marginBottom: '0.5rem',
+    fontSize: '70%',
     marginLeft: '5px',
   },
 };

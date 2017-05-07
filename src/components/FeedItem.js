@@ -3,12 +3,12 @@ import { connect } from 'react-redux';
 import { Motion, spring } from 'react-motion';
 
 import Avatar from 'material-ui/Avatar';
-import { Card, CardText } from 'material-ui/Card';
+import { Card, CardTitle, CardText } from 'material-ui/Card';
 import CheckCircle from 'material-ui/svg-icons/action/check-circle';
 import RaisedButton from 'material-ui/RaisedButton';
 import Seat from 'material-ui/svg-icons/action/event-seat';
-import ExpandLess from 'material-ui/svg-icons/navigation/expand-less';
-import ExpandMore from 'material-ui/svg-icons/navigation/expand-more';
+// import ExpandLess from 'material-ui/svg-icons/navigation/expand-less';
+// import ExpandMore from 'material-ui/svg-icons/navigation/expand-more';
 import TextField from 'material-ui/TextField';
 
 import buttonStyles from '../styles/components/requestRideButton';
@@ -142,15 +142,16 @@ class FeedItem extends Component {
       driver: {
         displayName,
         photoURL,
+        uid: driverUid,
       },
-      postTimestamp,
       requests,
     } = feedData;
 
     const driver = displayName || 'PolyRides';
     const disable = messageError || !message;
-    const expand = boxOpen ?
-      <ExpandLess onClick={this.handleClick} /> : <ExpandMore onClick={this.handleClick} />;
+    // Disable arrow for demo
+    // const expand = boxOpen ?
+    //   <ExpandLess onClick={this.handleClick} /> : <ExpandMore onClick={this.handleClick} />;
     const name = displayName || 'PolyRides';
     const profile = photoURL ? <Avatar src={photoURL} /> : <Avatar>{name[0]}</Avatar>;
     const requested = (uid && requests && uid in requests) || hasRequested;
@@ -159,34 +160,43 @@ class FeedItem extends Component {
     const seatPrice = costPerSeat ? `$${costPerSeat}` : 'unavailable';
     const style = requestOpen ? finalStyles() : initialStyles();
 
+    // don't show button if you are the driver
+    const requestButton = uid !== driverUid ? (
+      <RaisedButton
+        disabled={requested}
+        icon={requested && <CheckCircle />}
+        label={requestLabel}
+        onTouchTap={requestOpen ? this.handleClose : this.handleTouchTap}
+        primary={!requestOpen}
+        secondary={requestOpen}
+        style={buttonStyles.requestButton}
+      />) : null;
+
+    const cleanDepartureLocation = departLocation.name.replace(', United States', '');
+    const cleanArrivalLocation = arriveLocation.name.replace(', United States', '');
+
     return (
       <Card className='feedItem' style={feedItemContainer}>
         <div style={feedItemContent}>
+          <div style={feedItemProfile}>
+            {profile}
+          </div>
           <div style={feedItemInfo}>
-            <div style={feedItemProfile}>
-              {profile}
-            </div>
+            <CardTitle
+              title={`${cleanDepartureLocation} -> ${cleanArrivalLocation}`}
+              subtitle={timestampToDate(departTimestamp)}
+            />
             <CardText style={feedItemCardText}>
-              <div style={itemTitle}>
-                <h6>{`${departLocation.name} -> ${arriveLocation.name}`}</h6>
-                <h7 style={postTime}>{timestampToDate(postTimestamp)}</h7>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <Seat />
+                <h7>: {seatPrice}</h7>
               </div>
-              <h7 style={itemTitle}><Seat />: {seatPrice}</h7>
-              <h7>{`Departing: ${timestampToDate(departTimestamp)}`}</h7>
-              <h7>{`Description: ${description}`}</h7>
+              <h7>{description}</h7>
             </CardText>
           </div>
           <div style={feedItemRequest}>
             <div>
-              <RaisedButton
-                disabled={requested}
-                icon={requested && <CheckCircle />}
-                label={requestLabel}
-                onTouchTap={requestOpen ? this.handleClose : this.handleTouchTap}
-                primary={!requestOpen}
-                secondary={requestOpen}
-                style={buttonStyles.requestButton}
-              />
+              {requestButton}
             </div>
             {
               requestOpen ?
@@ -195,7 +205,7 @@ class FeedItem extends Component {
                   label={'Confirm'}
                   onTouchTap={this.handleConfirm}
                   primary={true}
-                /> : expand
+                /> : null
             }
           </div>
           <Motion style={style}>
