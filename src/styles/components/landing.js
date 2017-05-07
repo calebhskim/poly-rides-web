@@ -1,5 +1,62 @@
 export default {
+  demoStyles: {
+    position: 'absolute',
+    height: '60vh',
+    width: '100%',
+    bottom: '0',
+    display: 'flex',
+    justifyContent: 'center',
+    zIndex: 0,
+  },
+  featureBox: {
+    alignItems: 'center',
+    display: 'flex',
+    height: '250px',
+    flexDirection: 'column',
+    margin: '30px',
+    textAlign: 'center',
+    width: '350px',
+  },
+  featureContainer: {
+    backgroundColor: '#3F51B5',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  featureContent: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    marginTop: '45px',
+  },
+  featureImage: {
+    height: '100px',
+    width: '100px',
+  },
+  leftStyle: {
+    backgroundColor: 'white',
+    boxShadow: 'rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px',
+    width: '35%',
+    bottom: '0',
+    marginTop: '35px',
+  },
+  middleStyle: {
+    backgroundColor: 'white',
+    boxShadow: 'rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px',
+    width: '30%',
+    bottom: '0',
+    position: 'absolute',
+    height: 'inherit',
+  },
   navbarContainer: {
     position: 'fixed',
+    zIndex: 1000,
+  },
+  rightStyle: {
+    backgroundColor: 'white',
+    boxShadow: 'rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px',
+    width: '35%',
+    bottom: '0',
+    marginTop: '35px',
   },
 };
