@@ -121,16 +121,18 @@ class FeedItem extends Component {
     const { feedData, loading, uid } = this.props;
     const { boxOpen, hasRequested, message, messageError, requestOpen } = this.state;
 
-    if (loading) {
-      return (
-        <Card className='feedItem' style={styles.feedItemContainer}>
-          <CardText>
-            <div style={{ height: '16px', width: '10%', background: 'grey', marginBottom: '5px' }} />
-            <div style={{ height: '16px', width: '15%', background: 'grey', marginBottom: '5px' }} />
-            <div style={{ height: '16px', width: '25%', background: 'grey', marginBottom: '5px' }} />
-          </CardText>
-        </Card>
-      );
+    // doesn't work when there are few items in the list
+    if (loading || !feedData) {
+      return null;
+      // return (
+      //   <Card className='feedItem' style={styles.feedItemContainer}>
+      //     <CardText>
+      //       <div style={{ height: '16px', width: '10%', background: 'grey', marginBottom: '5px' }} />
+      //       <div style={{ height: '16px', width: '15%', background: 'grey', marginBottom: '5px' }} />
+      //       <div style={{ height: '16px', width: '25%', background: 'grey', marginBottom: '5px' }} />
+      //     </CardText>
+      //   </Card>
+      // );
     }
 
     const {
