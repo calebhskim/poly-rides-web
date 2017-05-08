@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 import RidesRequests from './RidesRequests';
@@ -11,44 +11,42 @@ const {
   infoRequestTemplate,
 } = styles;
 
-export class RidesInfo extends Component {
-  render() {
-    if (!this.props.data) {
-      return (
-        <div style={infoRequestTemplate}>
-          <h6>Go request a ride!</h6>
-        </div>
-      );
-    }
-
-    const {
-      data: {
-        id,
-        requests,
-        passengers,
-        driver,
-        ...tripInfo
-      },
-      uid,
-    } = this.props;
-    const isDriver = uid === driver.uid;
-
+export function RidesInfo(props) {
+  if (!props.data) {
     return (
-      <div style={infoContainer}>
-        {isDriver && <RidesRequests rideId={id} requests={requests} />}
-        {
-          (isDriver || uid in passengers) &&
-          <RidesPassengers
-            passengers={passengers}
-            driver={driver}
-            isDriver={isDriver}
-            rideId={id}
-          />
-        }
-        <RidesDetails {...tripInfo} />
+      <div style={infoRequestTemplate}>
+        <h6>Go request a ride!</h6>
       </div>
     );
   }
+
+  const {
+    data: {
+      id,
+      requests,
+      passengers,
+      driver,
+      ...tripInfo
+    },
+    uid,
+  } = props;
+  const isDriver = uid === driver.uid;
+
+  return (
+    <div style={infoContainer}>
+      {isDriver && <RidesRequests rideId={id} requests={requests} />}
+      {
+        (isDriver || uid in passengers) &&
+        <RidesPassengers
+          passengers={passengers}
+          driver={driver}
+          isDriver={isDriver}
+          rideId={id}
+        />
+      }
+      <RidesDetails {...tripInfo} />
+    </div>
+  );
 }
 
 RidesInfo.propTypes = {

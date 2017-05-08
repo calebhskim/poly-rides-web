@@ -13,7 +13,7 @@ export default function verifyInGroup() {
       });
       dispatch(push('/dashboard'));
 
-
+      console.log('IN GROUP :: ', snapshot.val() !== null);
       // if(snapshot.val() !== null) {
       //   dispatch({
       //     type: actions.IN_FB_GROUP,

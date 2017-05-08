@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 import { Card, CardTitle, CardText } from 'material-ui/Card';
@@ -10,37 +10,35 @@ const {
   rideInfoCard,
 } = styles;
 
-class RidesRequests extends Component {
-  render() {
-    const {
-      requests,
-      rideId,
-    } = this.props;
+function RidesRequests(props) {
+  const {
+    requests,
+    rideId,
+  } = props;
 
-    // Note: requests may be empty
-    let requestItems = Object.keys(requests || {}).map(k => (
-      <RidesRequestsItem
-        key={k}
-        req={requests[k]}
-        rideId={rideId}
-        uid={k}
-      />
-    ));
+  // Note: requests may be empty
+  let requestItems = Object.keys(requests || {}).map(k => (
+    <RidesRequestsItem
+      key={k}
+      req={requests[k]}
+      rideId={rideId}
+      uid={k}
+    />
+  ));
 
-    if (requestItems.length === 0) {
-      requestItems = 'It appears you have no requests';
-    }
-
-    return (
-      <Card style={rideInfoCard}>
-        <CardTitle title='Requests' />
-
-        <CardText>
-          {requestItems}
-        </CardText>
-      </Card>
-    );
+  if (requestItems.length === 0) {
+    requestItems = 'It appears you have no requests';
   }
+
+  return (
+    <Card style={rideInfoCard}>
+      <CardTitle title='Requests' />
+
+      <CardText>
+        {requestItems}
+      </CardText>
+    </Card>
+  );
 }
 
 function mapStateToProps() {

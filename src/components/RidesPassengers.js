@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 import { Card, CardTitle, CardText } from 'material-ui/Card';
@@ -10,48 +10,46 @@ const {
   rideInfoCard,
 } = styles;
 
-class RidesPassengers extends Component {
-  render() {
-    const {
-      driver,
-      isDriver,
-      passengers,
-      rideId,
-    } = this.props;
+function RidesPassengers(props) {
+  const {
+    driver,
+    isDriver,
+    passengers,
+    rideId,
+  } = props;
 
-    const driverComponent = (<RidesPassengerItem
-      k={driver.uid}
+  const driverComponent = (<RidesPassengerItem
+    k={driver.uid}
+    isDriver={isDriver}
+    name={driver.displayName}
+    passId={driver.uid}
+    rideId={rideId}
+  />);
+
+  let passComponents = [];
+  if (passengers) {
+    passComponents = Object.keys(passengers).map(p => <RidesPassengerItem
+      k={passengers[p]}
       isDriver={isDriver}
-      name={driver.displayName}
-      passId={driver.uid}
+      name={p}
+      passId={passengers[p]}
       rideId={rideId}
     />);
-
-    let passComponents = [];
-    if (passengers) {
-      passComponents = Object.keys(passengers).map(p => <RidesPassengerItem
-        k={passengers[p]}
-        isDriver={isDriver}
-        name={p}
-        passId={passengers[p]}
-        rideId={rideId}
-      />);
-    }
-
-    const passengerItems = [driverComponent, ...passComponents];
-
-    return (
-      <Card style={rideInfoCard}>
-        <CardTitle title='Passengers' />
-
-        <CardText>
-          <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
-            {passengerItems}
-          </div>
-        </CardText>
-      </Card>
-    );
   }
+
+  const passengerItems = [driverComponent, ...passComponents];
+
+  return (
+    <Card style={rideInfoCard}>
+      <CardTitle title='Passengers' />
+
+      <CardText>
+        <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
+          {passengerItems}
+        </div>
+      </CardText>
+    </Card>
+  );
 }
 
 RidesPassengers.propTypes = {
