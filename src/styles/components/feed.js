@@ -4,6 +4,11 @@ export default {
     height: '100%',
     width: '992px',
   },
+  feedScrollContainer: {
+    marginTop: '16px',
+    height: '95%',
+    width: '992px',
+  },
   feedScroll: {
     outline: 'none',
   },

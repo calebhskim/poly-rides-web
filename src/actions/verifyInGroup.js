@@ -7,13 +7,13 @@ export default function verifyInGroup() {
   return (dispatch, getState) => {
     const { firebase: { app }, auth: { user: { fbId } } } = getState();
     app.database().ref('members').child(fbId).once('value', (snapshot) => {
-      // disabled group verify to allow for testing
       dispatch({
         type: actions.IN_FB_GROUP,
       });
       dispatch(push('/dashboard'));
 
       console.log('IN GROUP :: ', snapshot.val() !== null);
+      // Disabling this while it is fixed to allow for site testing.
       // if(snapshot.val() !== null) {
       //   dispatch({
       //     type: actions.IN_FB_GROUP,
