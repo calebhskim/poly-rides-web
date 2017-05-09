@@ -36,7 +36,7 @@ export default {
       startFrom: {}, // Object to be passed to startAt e.g. { key: '', timestamp: '' }
       totalCount: 0,
     },
-    userRides: {
+    userRidesData: {
       isDrivesLoading: false,
       isRidesLoading: false,
       isRequestsLoading: false,

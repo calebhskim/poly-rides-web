@@ -64,7 +64,7 @@ Rides.propTypes = {
 function mapStateToProps(state) {
   const {
     data: {
-      userRides: {
+      userRidesData: {
         isDrivesLoading,
         isRidesLoading,
         isRequestsLoading,

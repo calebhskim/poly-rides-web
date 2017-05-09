@@ -31,7 +31,7 @@ const RidesDetails = (props) => {
     totalSeats,
     type,
   } = props;
-  const role = type === 'driver' ? 'Your ride' : `Status: ${passengerStatus(type)}`;
+  const role = type === 'drive' ? 'Your ride' : `Status: ${passengerStatus(type)}`;
 
   return (
     <Card style={rideInfoCard}>

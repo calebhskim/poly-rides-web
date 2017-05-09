@@ -54,7 +54,7 @@ RidesWrapper.propTypes = {
 function mapStateToProps(state) {
   const {
     data: {
-      userRides: { drives, rides, requests },
+      userRidesData: { drives, rides, requests },
     },
   } = state;
 

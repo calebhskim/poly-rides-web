@@ -234,7 +234,7 @@ class FeedItem extends Component {
 
 FeedItem.propTypes = {
   changeRowHeight: PropTypes.func,
-  displayName: PropTypes.func,
+  displayName: PropTypes.string,
   feedData: PropTypes.shape({
     costPerSeat: PropTypes.number,
     departTimestamp: PropTypes.number,

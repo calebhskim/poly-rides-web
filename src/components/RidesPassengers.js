@@ -19,7 +19,7 @@ function RidesPassengers(props) {
   } = props;
 
   const driverItemComponent = (<RidesPassengerItem
-    k={driver.uid}
+    key={driver.uid}
     isDriver={isDriver}
     name={driver.displayName}
     passId={driver.uid}
@@ -29,7 +29,7 @@ function RidesPassengers(props) {
   let passItemComponents = [];
   if (passengers) {
     passItemComponents = Object.keys(passengers).map(p => <RidesPassengerItem
-      k={passengers[p]}
+      key={passengers[p]}
       isDriver={isDriver}
       name={p}
       passId={passengers[p]}

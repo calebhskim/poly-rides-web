@@ -1,7 +1,7 @@
 import actions from '../constants/actions';
 import initialState from '../constants/initialState';
 
-const userRidesData = (state = initialState.data.userRides, { payload, type }) => {
+const userRidesData = (state = initialState.data.userRidesData, { payload, type }) => {
   switch(type) {
     case actions.FETCH_USERRIDES_START:
       return Object.assign({}, state, {
