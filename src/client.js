@@ -7,7 +7,7 @@ import { syncHistoryWithStore } from 'react-router-redux';
 
 import About from './components/About';
 import Account from './components/Account';
-import App from './containers/app';
+import App from './containers/App';
 import config from './config';
 import Contact from './components/Contact';
 import Feed from './components/Feed';

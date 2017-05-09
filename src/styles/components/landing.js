@@ -1,4 +1,14 @@
 export default {
+  contactContainer: {
+    alignItems: 'center',
+    backgroundColor: '#673AB7',
+    color: 'white',
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100vh',
+    justifyContent: 'center',
+    width: '100%',
+  },
   demoStyles: {
     position: 'absolute',
     height: '60vh',
@@ -19,6 +29,7 @@ export default {
   },
   featureContainer: {
     backgroundColor: '#3F51B5',
+    color: 'white',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -48,9 +59,21 @@ export default {
     position: 'absolute',
     height: 'inherit',
   },
+  navbar: {
+    alignContent: 'space-between',
+    display: 'flex',
+  },
   navbarContainer: {
     position: 'fixed',
     zIndex: 1000,
+  },
+  navLink: {
+    marginLeft: '10px',
+    marginRight: '10px',
+  },
+  navLinkContainer: {
+    alignItems: 'center',
+    display: 'flex',
   },
   rightStyle: {
     backgroundColor: 'white',
@@ -58,5 +81,9 @@ export default {
     width: '35%',
     bottom: '0',
     marginTop: '35px',
+  },
+  topContainer: {
+    backgroundColor: '#00BCD4',
+    position: 'relative',
   },
 };

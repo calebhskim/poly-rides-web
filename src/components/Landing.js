@@ -14,6 +14,7 @@ import Login from './Login';
 import styles from '../styles/components/general';
 
 const {
+  contactContainer,
   demoStyles,
   featureBox,
   featureContainer,
@@ -21,8 +22,12 @@ const {
   featureImage,
   leftStyle,
   middleStyle,
+  navbar,
   navbarContainer,
+  navLink,
+  navLinkContainer,
   rightStyle,
+  topContainer,
 } = landingStyles;
 
 class Landing extends Component {
@@ -44,9 +49,9 @@ class Landing extends Component {
 
     return (
       <div>
-        <div id='page-top' style={{ backgroundColor: '#00BCD4', position: 'relative' }}>
+        <div id='page-top' style={topContainer}>
           <nav id='mainNav' className='navbar' style={navbarContainer}>
-            <div className='container' style={{ alignContent: 'space-between', display: 'flex' }}>
+            <div className='container' style={navbar}>
               <div className='navbar-header'>
                 <Link
                   className='navbar-brand text-white'
@@ -55,24 +60,27 @@ class Landing extends Component {
                   PolyRides
                 </Link>
               </div>
-              <div style={{ display: 'flex', alignItems: 'center' }}>
+              <div style={navLinkContainer}>
                 <Link
                   to='features'
                   smooth={true}
                   offset={50}
                   duration={500}
-                  style={{ marginRight: '10px', marginLeft: '10px' }}
+                  style={navLink}
                   className='page-scroll text-white' href='#features'
                 >
                   Features
                 </Link>
-                <a
-                  style={{ marginRight: '10px', marginLeft: '10px' }}
-                  className='page-scroll text-white'
-                  href='#contact'
+                <Link
+                  to='contact'
+                  smooth={true}
+                  offset={50}
+                  duration={500}
+                  style={navLink}
+                  className='page-scroll text-white' href='#features'
                 >
                   Contact
-                </a>
+                </Link>
               </div>
             </div>
           </nav>
@@ -109,6 +117,12 @@ class Landing extends Component {
                 <h7>Know exactly where you are going with improved location services.</h7>
               </div>
             </div>
+          </div>
+        </Element>
+        <Element name='contact'>
+          <div id='contact' style={contactContainer}>
+            <h4>We would love to hear from you!</h4>
+            <h4><a href='mailto:poly@polyrides.com'>Email</a> us at poly@polyrides.com</h4>
           </div>
         </Element>
       </div>
