@@ -63,7 +63,7 @@ export class Feed extends Component {
           <SearchFeed />
           <PostRide />
         </Paper>
-        <Paper className={feedMedia.fullFeed} style={feedScrollContainer} id='feed'>
+        <Paper className={media.fullFeed} style={feedScrollContainer} id='feed'>
           {feed}
         </Paper>
       </div>

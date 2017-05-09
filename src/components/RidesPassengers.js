@@ -18,7 +18,7 @@ function RidesPassengers(props) {
     rideId,
   } = props;
 
-  const driverComponent = (<RidesPassengerItem
+  const driverItemComponent = (<RidesPassengerItem
     k={driver.uid}
     isDriver={isDriver}
     name={driver.displayName}
@@ -26,9 +26,9 @@ function RidesPassengers(props) {
     rideId={rideId}
   />);
 
-  let passComponents = [];
+  let passItemComponents = [];
   if (passengers) {
-    passComponents = Object.keys(passengers).map(p => <RidesPassengerItem
+    passItemComponents = Object.keys(passengers).map(p => <RidesPassengerItem
       k={passengers[p]}
       isDriver={isDriver}
       name={p}
@@ -37,7 +37,7 @@ function RidesPassengers(props) {
     />);
   }
 
-  const passengerItems = [driverComponent, ...passComponents];
+  const passengerItems = [driverItemComponent, ...passItemComponents];
 
   return (
     <Card style={rideInfoCard}>

@@ -1,12 +1,12 @@
 import { combineReducers } from 'redux';
 
 import rides from './rides';
-import userRides from './userRides';
+import userRidesData from './userRidesData';
 
 // Map of data reducers
 const reducers = {
   rides,
-  userRides,
+  userRidesData,
 };
 
 const data = combineReducers(reducers);

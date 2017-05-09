@@ -1,7 +1,7 @@
 export default {
   ridesContainer: {
-    marginTop: '24px',
     height: '100%',
+    marginTop: '24px',
     width: '992px',
   },
 };

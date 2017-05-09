@@ -9,6 +9,17 @@ const {
   rideInfoCard,
 } = styles;
 
+const passengerStatus = (type) => {
+  switch(type) {
+    case 'ride':
+      return 'Accepted';
+    case 'request':
+      return 'Pending';
+    default:
+      return 'Unknown';
+  }
+};
+
 const RidesDetails = (props) => {
   const {
     costPerSeat,
@@ -20,28 +31,19 @@ const RidesDetails = (props) => {
     totalSeats,
     type,
   } = props;
-
-  let role;
-
-  if (type === 'drive') {
-    role = 'the driver';
-  } else if (type === 'ride') {
-    role = 'a passenger';
-  } else if (type === 'request') {
-    role = 'a pending passenger';
-  }
+  const role = type === 'driver' ? 'Your ride' : `Status: ${passengerStatus(type)}`;
 
   return (
     <Card style={rideInfoCard}>
       <CardTitle title='Trip Info' subtitle={`${departLocation.name} -> ${arriveLocation.name}`} />
       <CardText>
         <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <h7>{role}</h7>
           <h7>{`Departing: ${timestampToDate(departTimestamp)}`}</h7>
           <h7>{`Cost per seat: $${costPerSeat}`}</h7>
           <h7>{`Total seats: ${totalSeats}`}</h7>
           <h7>{`Description: ${description}`}</h7>
           <h7>{`Posted: ${timestampToDate(postTimestamp)}`}</h7>
-          <h7>{`You are ${role}`}</h7>
         </div>
       </CardText>
     </Card>

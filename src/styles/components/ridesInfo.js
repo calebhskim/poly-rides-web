@@ -1,15 +1,15 @@
 export default {
   infoContainer: {
     display: 'flex',
+    flexDirection: 'column',
     height: '100%',
     width: '100%',
-    flexDirection: 'column',
   },
   infoRequestTemplate: {
-    display: 'flex',
-    justifyContent: 'center',
     alignItems: 'center ',
+    display: 'flex',
     height: '100%',
+    justifyContent: 'center',
     width: '100%',
   },
   rideInfoCard: {
