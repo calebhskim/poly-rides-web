@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import injectTapEventPlugin from 'react-tap-event-plugin';
-import { View } from 'react-native';
 
 import AppBar from 'material-ui/AppBar';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -45,22 +44,22 @@ class App extends Component {
   render() {
     return (
       <MuiThemeProvider>
-        <View style={appContainer}>
+        <div style={appContainer}>
           <AppBar
             onLeftIconButtonTouchTap={this.handleToggle}
             title={this.props.title}
           />
           { /* Add this for nested routes */ }
-          <View style={componentContainer}>
+          <div style={componentContainer}>
             { this.props.children }
-          </View>
+          </div>
           <DrawerMenu
             changeState={this.changeState}
             handleClose={this.handleClose}
             isOpen={this.state.open}
             setState={this.setState}
           />
-        </View>
+        </div>
       </MuiThemeProvider>
     );
   }

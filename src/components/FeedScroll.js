@@ -73,7 +73,7 @@ export class FeedScroll extends Component {
             ref={(child) => {
               this.listRef = child;
             }}
-            rowCount={Math.max(list.length, displayCount)}
+            rowCount={list.length || displayCount}
             rowHeight={this.isRowExpanded}
             rowRenderer={this.rowRenderer}
             width={width}

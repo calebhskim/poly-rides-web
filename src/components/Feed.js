@@ -15,6 +15,7 @@ import setNavTitle from '../actions/setNavTitle';
 const {
   feedContainer,
   feedScrollContainer,
+  feedSearchContainer,
 } = feedStyle;
 
 export class Feed extends Component {
@@ -59,7 +60,7 @@ export class Feed extends Component {
 
     return (
       <div style={feedContainer}>
-        <Paper style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', maxHeight: '88px' }} id='feed'>
+        <Paper style={feedSearchContainer} id='feed'>
           <SearchFeed />
           <PostRide />
         </Paper>

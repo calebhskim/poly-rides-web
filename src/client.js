@@ -4,6 +4,7 @@ import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import { browserHistory, IndexRedirect, IndexRoute, Router, Route } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
+import 'react-virtualized/styles.css'; // only needs to be imported once
 
 import About from './components/About';
 import Account from './components/Account';
