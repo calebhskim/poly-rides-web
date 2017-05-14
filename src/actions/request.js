@@ -11,16 +11,9 @@ export default function request(req) {
       rideId,
     } = req;
     const rides = app.database().ref('rides');
+    const users = app.database().ref('users');
     const update = {};
-
-    update[`/${rideId}/requests`] = newRequests;
-
-    dispatch({
-      type: actions.REQUEST_RIDE_START,
-      payload: uid,
-    });
-
-    return rides.update(update, (err) => {
+    const requestCB = (err) => {
       // TODO: Properly handle errors
       if (err) {
         console.log('POST ERR :: ', err);
@@ -32,6 +25,20 @@ export default function request(req) {
       });
 
       return Promise.resolve();
+    };
+
+    update[`/${rideId}/requests`] = newRequests;
+
+    dispatch({
+      type: actions.REQUEST_RIDE_START,
+      payload: uid,
     });
+
+    const requestActions = [
+      rides.update(update, requestCB),
+      users.child(`${uid}/requests/${rideId}`).set(true),
+    ];
+
+    return Promise.all(requestActions);
   };
 }

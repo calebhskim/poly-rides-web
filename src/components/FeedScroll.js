@@ -42,7 +42,7 @@ export class FeedScroll extends Component {
     });
   }
 
-  rowRenderer ({ index, key, style }) {
+  rowRenderer({ index, key, style }) {
     const { list, loadedRowsMap } = this.props;
     const row = list[index];
 
@@ -73,7 +73,7 @@ export class FeedScroll extends Component {
             ref={(child) => {
               this.listRef = child;
             }}
-            rowCount={Math.max(list.length, displayCount)}
+            rowCount={list.length || displayCount}
             rowHeight={this.isRowExpanded}
             rowRenderer={this.rowRenderer}
             width={width}

@@ -70,6 +70,7 @@ function getRandomRequest(min, max) {
     const uid = guid();
 
     res[uid] = {
+      displayName: getRandomFromDefined('passengers'),
       message: 'Give me a ride please!',
       requestTimestamp: getRandomTimestamp(3, 4),
     };

@@ -2,7 +2,7 @@ export default {
   container: {
     alignItems: 'center',
     display: 'flex',
-    height: '100vh',
+    height: '100%',
     justifyContent: 'center',
   },
 };
