@@ -30,6 +30,40 @@ function countRides() {
   };
 }
 
+function fetchUserRides() {
+  // TODO: Fetch user rides based on keys in user table. Possibly use cloud functions.
+  return (dispatch, getState) => {
+    const {
+      auth: { user: { uid } },
+      firebase: { app },
+    } = getState();
+    const ridesRef = app.database().ref('rides');
+
+    dispatch({
+      type: actions.FETCH_USERRIDES_START,
+    });
+
+    ridesRef.orderByChild(`requests/${uid}/uid`).equalTo(uid).on('value', (snap) => {
+      dispatch({
+        type: actions.USERRIDES_REQUESTS,
+        payload: snap.val(),
+      });
+    });
+    ridesRef.orderByChild(`passengers/${uid}`).equalTo(true).on('value', (snap) => {
+      dispatch({
+        type: actions.USERRIDES_RIDES,
+        payload: snap.val(),
+      });
+    });
+    ridesRef.orderByChild('driver/uid').equalTo(uid).on('value', (snap) => {
+      dispatch({
+        type: actions.USERRIDES_DRIVES,
+        payload: snap.val(),
+      });
+    });
+  };
+}
+
 function listenForRides() {
   return (dispatch, getState) => {
     const {
@@ -66,4 +100,4 @@ function stopListenForRides() {
   };
 }
 
-export { countRides, listenForRides, stopListenForRides };
+export { countRides, fetchUserRides, listenForRides, stopListenForRides };

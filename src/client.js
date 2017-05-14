@@ -2,8 +2,9 @@ import React from 'react';
 import * as firebase from 'firebase';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
-import { browserHistory, IndexRoute, IndexRedirect, Router, Route } from 'react-router';
+import { browserHistory, IndexRedirect, IndexRoute, Router, Route } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
+import 'react-virtualized/styles.css'; // only needs to be imported once
 
 import About from './components/About';
 import Account from './components/Account';
@@ -15,6 +16,7 @@ import initialState from './constants/initialState';
 import Landing from './components/Landing';
 import lifecycles from './constants/lifecycles';
 import NotFound from './components/NotFound';
+import Rides from './components/Rides';
 import serverInit from './actions/serverInit';
 import Store from './store';
 
@@ -58,6 +60,7 @@ render(
         <Route path='dashboard' component={Account} onEnter={authCheck(store)}>
           <IndexRedirect to='feed' />
           <Route path='feed' component={Feed} />
+          <Route path='rides' component={Rides} />
         </Route>
         <Route path='*' component={NotFound} />
       </Route>
