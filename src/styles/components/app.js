@@ -1,6 +1,5 @@
 export default {
   appContainer: {
-    position: 'fixed',
     height: '100vh',
     width: '100vw',
   },

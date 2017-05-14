@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import Snackbar from 'material-ui/Snackbar';
 
@@ -44,6 +43,14 @@ export class Login extends Component {
 
   render() {
     const { loginButton: { backgroundColor, color } } = loginStyle;
+    const textStyle = {
+      color: 'white',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      margin: '15px',
+      zIndex: 100,
+    };
 
     // Note: Hack to have the snackbar slide in after redirect to Login page.
     // This takes advantage of the fact setState is async and is batched.
@@ -57,7 +64,11 @@ export class Login extends Component {
 
     return (
       <div>
-        <Paper style={Object.assign({}, cardStyle, loginStyle.loginCard)} >
+        <div style={Object.assign({}, cardStyle, loginStyle.loginCard)} >
+          <div id='landingText' style={textStyle}>
+            <h2>Ridesharing made easy.</h2>
+            <h6>Find, search, and post with a synced platform for ridesharing groups.</h6>
+          </div>
           <RaisedButton
             backgroundColor={backgroundColor}
             icon={<img
@@ -69,8 +80,9 @@ export class Login extends Component {
             label='Login with Facebook'
             labelColor={color}
             onClick={this.handleFBSignin}
+            style={{ zIndex: 100 }}
           />
-        </Paper>
+        </div>
         <Snackbar
           action='Join'
           message="Oh no! It looks like you're not in the Cal Poly Ride Share Group."
