@@ -20,13 +20,10 @@ We support [`stage-1`](https://babeljs.io/docs/plugins/preset-stage-1/#community
   * Verify email
   * Password check/re-enter
 * Finish SSR
-* Handle routing
-* Add Navbar
-* Configure Webpack properly
+* Update routing
+* Add production webpack configuration
 * Setup testing
-* Begin actual UI/UX
 * Setup production
-* Connect to Firebase
 * Update to webpack 2
 
 ## DATA:
