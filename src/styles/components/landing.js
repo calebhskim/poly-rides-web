@@ -39,6 +39,7 @@ export default {
     flexWrap: 'wrap',
     justifyContent: 'center',
     marginTop: '45px',
+    marginBottom: '45px',
   },
   featureImage: {
     height: '100px',

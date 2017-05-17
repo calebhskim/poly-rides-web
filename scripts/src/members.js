@@ -16,7 +16,7 @@ if (process.argv.length !== 3) {
 firebase.initializeApp(config.firebase);
 
 let currentVal = 0;
-const baseURL = 'https://graph.facebook.com';
+const baseURL = 'https://graph.facebook.com/v2.9';
 const maxValue = 16343;
 const progressBar = new Progress(30);
 const members = firebase.database().ref('members');

@@ -49,13 +49,14 @@ class Landing extends Component {
 
     return (
       <div>
-        <div id='page-top' style={topContainer}>
+        <div id='page-top' name='page-top' style={topContainer}>
           <nav id='mainNav' className='navbar' style={navbarContainer}>
             <div className='container' style={navbar}>
               <div className='navbar-header'>
                 <Link
                   className='navbar-brand text-white'
                   onClick={() => animateScroll.scrollToTop()}
+                  to='page-top'
                 >
                   PolyRides
                 </Link>
