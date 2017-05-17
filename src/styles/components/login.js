@@ -1,7 +1,7 @@
 export default {
   loginButton: {
     backgroundColor: '#3b5998',
-    color: 'white',
+    color: '#ffffff',
   },
   loginCard: {
     alignItems: 'center',
