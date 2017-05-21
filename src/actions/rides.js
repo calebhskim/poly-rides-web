@@ -73,15 +73,15 @@ function listenForRides() {
 
     const ridesRef = app.database().ref('rides');
     // TODO: Update totalCount when this is fired
-    ridesRef.orderByChild('postTimestamp').on('child_added', (snap) => {
-      const ride = snap.val();
+    ridesRef.orderByChild('postTimestamp').on('value', (snap) => {
+      const rides = snap.val();
 
       // Note: Skip initial value, only listen for updates
       // Can fire two actions here: one for initial and one for new
       // saves on sorting in reducer
       dispatch({
         type: CURRENT_RIDES_CHANGE,
-        payload: ride,
+        payload: rides,
       });
     }, (err) => {
       // TODO: Implement proper error handling
