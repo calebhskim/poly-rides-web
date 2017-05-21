@@ -32,7 +32,7 @@ export class Feed extends Component {
   }
 
   componentDidMount() {
-    this.props.setNavTitle('Feed');
+    this.props.setNavTitle('Find Rides');
   }
 
   componentWillUnmount() {

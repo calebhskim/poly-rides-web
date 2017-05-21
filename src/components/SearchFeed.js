@@ -55,7 +55,7 @@ export class SearchFeed extends Component {
         placeId: '',
         error: false,
       },
-      departDate: new Date(),
+      departDate: null,
       departDateError: false,
     };
   }
@@ -215,7 +215,7 @@ export class SearchFeed extends Component {
           fullWidth={true}
         />
         <GooglePlaceAutocomplete
-          floatingLabelText='Arrive At'
+          floatingLabelText='Destination'
           onChange={this.arriveChange}
           onNewRequest={this.arriveRequest}
           name={'arrive'}

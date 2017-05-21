@@ -247,13 +247,17 @@ export class PostRide extends Component {
     // TODO: Do proper sanitization below
     return (
       <div>
-        <FloatingActionButton
-          mini={true}
-          onTouchTap={this.handleOpen}
-          style={postStyles.actionButton}
-        >
-          <ContentAdd />
-        </FloatingActionButton>
+        <div style={postStyles.actionButton}>
+          <FloatingActionButton
+            mini={true}
+            onTouchTap={this.handleOpen}
+          >
+            <ContentAdd />
+          </FloatingActionButton>
+          <small style={postStyles.postRideText}>
+            Post a ride
+          </small>
+        </div>
         <Dialog
           title='Post a ride'
           actions={actions}
@@ -277,7 +281,7 @@ export class PostRide extends Component {
                 searchText={depart.name}
               />
               <GooglePlaceAutocomplete
-                floatingLabelText='Arrive At'
+                floatingLabelText='Destination'
                 errorText={arriveError && 'Field requires a valid address'}
                 onChange={this.arriveChange}
                 onNewRequest={this.arriveRequest}
