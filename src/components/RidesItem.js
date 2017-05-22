@@ -28,7 +28,7 @@ class RidesItem extends Component {
     } = this.props;
     const itemStyle = Object.assign({}, ridesItemContainer);
     const ridesItemText = {
-      color: 'black'; 
+      color: 'black',
     };
 
     if (selected) {
