@@ -5,7 +5,4 @@ export default {
     margin: '5px',
     width: '95%',
   },
-  ridesItemText: {
-    color: 'white',
-  },
 };

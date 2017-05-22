@@ -8,7 +8,6 @@ import timestampToDate from '../utils/timestampToDate';
 
 const {
   ridesItemContainer,
-  ridesItemText,
 } = styles;
 
 class RidesItem extends Component {
@@ -28,9 +27,13 @@ class RidesItem extends Component {
       selected,
     } = this.props;
     const itemStyle = Object.assign({}, ridesItemContainer);
+    const ridesItemText = {
+      color: 'black'; 
+    };
 
     if (selected) {
       itemStyle.backgroundColor = '#3F51B5';
+      ridesItemText.color = 'white';
     }
 
     const cleanDepartureLocation = departLocation.name.replace(', United States', '');
