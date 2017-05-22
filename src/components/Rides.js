@@ -19,7 +19,7 @@ export class Rides extends Component {
   }
 
   componentDidMount() {
-    this.props.setNavTitle('Rides');
+    this.props.setNavTitle('My Rides');
   }
 
   handleUpdateInput(value) {
