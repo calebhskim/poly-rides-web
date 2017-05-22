@@ -7,17 +7,18 @@ import initialState from '../constants/initialState';
 const rides = (state = initialState.data.rides, { payload, response, type }) => {
   switch(type) {
     case actions.CURRENT_RIDES_CHANGE: {
-      const { isPosting, list } = state;
       const loadedRows = {};
       const clickedRows = {};
-      const newride = isPosting === payload.driver ? list.slice(1) : list.slice(0);
-      const index = isPosting === payload.driver ? 0 : list.length;
 
-      newride.unshift(payload);
-      loadedRows[index] = true;
-      clickedRows[index] = false;
+      const rideList = orderBy(payload, ['postTimestamp'], ['desc']);
+
+      for (let i = 0; i < rideList.length; i += 1) {
+        loadedRows[i] = true;
+        clickedRows[i] = false;
+      }
+
       return Object.assign({}, state, {
-        list: orderBy(newride, ['postTimestamp'], ['desc']),
+        list: rideList,
         loadedRowsMap: Object.assign({}, state.loadedRowsMap, loadedRows),
         clickedRowsMap: Object.assign({}, state.clickedRowsMap, clickedRows),
       });
@@ -36,33 +37,10 @@ const rides = (state = initialState.data.rides, { payload, response, type }) => 
       });
     }
     // TODO: Handle GET_RIDES_COUNT_FAILURE
-    case actions.POST_RIDE_START: {
-      const { list } = state;
-      const loadedRows = {};
-      const newride = list.slice(0);
-
-      newride.unshift({
-        loading: payload,
-      });
-      loadedRows[list.length] = true;
-      loadedRows[0] = false;
-      return Object.assign({}, state, {
-        isPosting: payload,
-        list: newride,
-        loadedRowsMap: Object.assign({}, state.loadedRowsMap, loadedRows),
-      });
-    }
-    case actions.POST_RIDE_SUCCESS: {
-      const { list } = state;
-      const loadedRows = { 0: true };
-      const newlist = list.slice(1);
-
-      return Object.assign({}, state, {
-        isPosting: '',
-        list: newlist,
-        loadedRowsMap: Object.assign({}, state.loadedRowsMap, loadedRows),
-      });
-    }
+    // case actions.POST_RIDE_START: {
+    // }
+    // case actions.POST_RIDE_SUCCESS: {
+    // }
     case actions.RIDES_SEARCH_START: {
       return Object.assign({}, state, {
         isLoading: true,
