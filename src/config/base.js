@@ -4,6 +4,6 @@ export default {
   port: 3000,
   urls: {
     firebaseDB: 'https://polyridesweb.firebaseio.com/', // TODO: Update when db rules change
-    graph: 'https://graph.facebook.com/',
+    graph: 'https://graph.facebook.com/v2.9/',
   },
 };

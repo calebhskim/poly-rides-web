@@ -44,7 +44,7 @@ export class Login extends Component {
   render() {
     const { loginButton: { backgroundColor, color } } = loginStyle;
     const textStyle = {
-      color: 'white',
+      color: '#ffffff',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',

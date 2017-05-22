@@ -32,9 +32,9 @@ class RidesPassengerItem extends Component {
   }
 
   handleRemovePassenger() {
-    const { name, rideId } = this.props;
+    const { passId, rideId } = this.props;
 
-    this.props.removePassenger(rideId, name);
+    this.props.removePassenger(rideId, passId);
     this.handleRequestClose();
   }
 

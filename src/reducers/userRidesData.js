@@ -57,43 +57,43 @@ const userRidesData = (state = initialState.data.userRidesData, { payload, type 
         drives,
       });
     }
-    case actions.ACCEPT_REQUEST_SUCCESS: {
-      const { drives } = state;
-      const { name, rideId, uid } = payload;
-      const newDrives = drives.map((drive) => {
-        const newDrive = JSON.parse(JSON.stringify(drive));
-        if (!newDrive.passengers) {
-          newDrive.passengers = {};
-        }
+    // case actions.ACCEPT_REQUEST_SUCCESS: {
+    //   const { drives } = state;
+    //   const { name, rideId, uid } = payload;
+    //   const newDrives = drives.map((drive) => {
+    //     const newDrive = JSON.parse(JSON.stringify(drive));
+    //     if (!newDrive.passengers) {
+    //       newDrive.passengers = {};
+    //     }
 
-        if (newDrive.id === rideId) {
-          newDrive.passengers[name] = uid;
-          delete newDrive.requests[uid];
-        }
+    //     if (newDrive.id === rideId) {
+    //       newDrive.passengers[name] = uid;
+    //       delete newDrive.requests[uid];
+    //     }
 
-        return newDrive;
-      });
-      return Object.assign({}, state, {
-        drives: newDrives,
-      });
-    }
-    case actions.REJECT_REQUEST_SUCCESS: {
-      const { requests } = state;
-      const { rideId, uid } = payload;
-      const newRequests = requests.map((req) => {
-        const newReq = JSON.parse(JSON.stringify(req));
+    //     return newDrive;
+    //   });
+    //   return Object.assign({}, state, {
+    //     drives: newDrives,
+    //   });
+    // }
+    // case actions.REJECT_REQUEST_SUCCESS: {
+    //   const { requests } = state;
+    //   const { rideId, uid } = payload;
+    //   const newRequests = requests.map((req) => {
+    //     const newReq = JSON.parse(JSON.stringify(req));
 
-        if (newReq.id === rideId) {
-          delete newReq.requests[uid];
-        }
+    //     if (newReq.id === rideId) {
+    //       delete newReq.requests[uid];
+    //     }
 
-        return newReq;
-      });
+    //     return newReq;
+    //   });
 
-      return Object.assign({}, state, {
-        requests: newRequests,
-      });
-    }
+    //   return Object.assign({}, state, {
+    //     requests: newRequests,
+    //   });
+    // }
     default:
       return state;
   }

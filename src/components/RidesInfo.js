@@ -26,6 +26,7 @@ export function RidesInfo(props) {
       requests,
       passengers,
       driver,
+      type,
       ...tripInfo
     },
     uid,
@@ -36,7 +37,7 @@ export function RidesInfo(props) {
     <div style={infoContainer}>
       {isDriver && <RidesRequests rideId={id} requests={requests} />}
       {
-        (isDriver || uid in passengers) &&
+        (type !== 'request') &&
         <RidesPassengers
           passengers={passengers}
           driver={driver}

@@ -29,10 +29,10 @@ function RidesPassengers(props) {
   let passItemComponents = [];
   if (passengers) {
     passItemComponents = Object.keys(passengers).map(p => <RidesPassengerItem
-      key={passengers[p]}
+      key={p}
       isDriver={isDriver}
-      name={p}
-      passId={passengers[p]}
+      name={passengers[p]}
+      passId={p}
       rideId={rideId}
     />);
   }
