@@ -26,11 +26,14 @@ class RidesItem extends Component {
       data: { arriveLocation, departLocation, departTimestamp },
     } = this.props;
 
+    const cleanDepartureLocation = departLocation.name.replace(', United States', '');
+    const cleanArrivalLocation = arriveLocation.name.replace(', United States', '');
+
     return (
       <Card className='ridesItem' onClick={this.handleClick} style={ridesItemContainer}>
         <CardText>
           <div>
-            <h6>{`${departLocation.name} -> ${arriveLocation.name}`}</h6>
+            <h6>{`${cleanDepartureLocation} -> ${cleanArrivalLocation}`}</h6>
           </div>
           <h7>{`Departing: ${timestampToDate(departTimestamp)}`}</h7>
         </CardText>
