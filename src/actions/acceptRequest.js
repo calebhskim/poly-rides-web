@@ -9,7 +9,7 @@ export default function acceptRequest(name, rideId, uid) {
     const rideRef = app.database().ref(`rides/${rideId}/passengers/${uid}`);
 
     // Remove user from request once accpeted
-    return rejectRequest(rideId, uid).then(() => {
+    return dispatch(rejectRequest(rideId, uid)).then(() => {
       rideRef.set(name, (err) => {
         if (err) {
           // TODO: Handle errors properly
