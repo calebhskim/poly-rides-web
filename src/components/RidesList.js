@@ -14,7 +14,7 @@ export class RidesList extends Component {
   }
 
   rowRenderer({ index, key, style }) {
-    const { list } = this.props;
+    const { currentItem, list } = this.props;
     const row = list[index];
 
     return (
@@ -26,6 +26,7 @@ export class RidesList extends Component {
           id={index}
           data={row}
           key={index}
+          selected={currentItem === index}
           updateItemIndex={this.props.updateItemIndex}
         />
       </div>
@@ -63,6 +64,7 @@ export class RidesList extends Component {
 
 
 RidesList.propTypes = {
+  currentItem: PropTypes.number,
   list: PropTypes.arrayOf(
     PropTypes.objectOf(PropTypes.oneOfType(
       [PropTypes.string, PropTypes.number, PropTypes.object]))),

@@ -8,6 +8,7 @@ import timestampToDate from '../utils/timestampToDate';
 
 const {
   ridesItemContainer,
+  ridesItemText,
 } = styles;
 
 class RidesItem extends Component {
@@ -24,14 +25,20 @@ class RidesItem extends Component {
   render() {
     const {
       data: { arriveLocation, departLocation, departTimestamp },
+      selected,
     } = this.props;
+    const itemStyle = Object.assign({}, ridesItemContainer);
+
+    if (selected) {
+      itemStyle.backgroundColor = '#3F51B5';
+    }
 
     const cleanDepartureLocation = departLocation.name.replace(', United States', '');
     const cleanArrivalLocation = arriveLocation.name.replace(', United States', '');
 
     return (
-      <Card className='ridesItem' onClick={this.handleClick} style={ridesItemContainer}>
-        <CardText>
+      <Card className='ridesItem' onClick={this.handleClick} style={itemStyle}>
+        <CardText style={ridesItemText}>
           <div>
             <h6>{`${cleanDepartureLocation} -> ${cleanArrivalLocation}`}</h6>
           </div>
@@ -59,6 +66,7 @@ RidesItem.propTypes = {
     totalSeats: PropTypes.number,
   }),
   id: PropTypes.number,
+  selected: PropTypes.bool,
   updateItemIndex: PropTypes.func,
 };
 
