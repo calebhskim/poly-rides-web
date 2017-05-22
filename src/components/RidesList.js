@@ -53,6 +53,7 @@ export class RidesList extends Component {
             rowCount={list.length}
             rowHeight={styles.height}
             rowRenderer={this.rowRenderer}
+            style={{ outline: 'none' }}
             width={width}
           />
         )}

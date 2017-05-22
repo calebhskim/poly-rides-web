@@ -2,7 +2,7 @@ export default {
   contactContainer: {
     alignItems: 'center',
     backgroundColor: '#673AB7',
-    color: 'white',
+    color: '#ffffff',
     display: 'flex',
     flexDirection: 'column',
     height: '100vh',
@@ -29,7 +29,7 @@ export default {
   },
   featureContainer: {
     backgroundColor: '#3F51B5',
-    color: 'white',
+    color: '#ffffff',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -39,20 +39,21 @@ export default {
     flexWrap: 'wrap',
     justifyContent: 'center',
     marginTop: '45px',
+    marginBottom: '45px',
   },
   featureImage: {
     height: '100px',
     width: '100px',
   },
   leftStyle: {
-    backgroundColor: 'white',
+    backgroundColor: '#ffffff',
     boxShadow: 'rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px',
     width: '35%',
     bottom: '0',
     marginTop: '35px',
   },
   middleStyle: {
-    backgroundColor: 'white',
+    backgroundColor: '#ffffff',
     boxShadow: 'rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px',
     width: '30%',
     bottom: '0',
@@ -76,7 +77,7 @@ export default {
     display: 'flex',
   },
   rightStyle: {
-    backgroundColor: 'white',
+    backgroundColor: '#ffffff',
     boxShadow: 'rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px',
     width: '35%',
     bottom: '0',

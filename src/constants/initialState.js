@@ -22,7 +22,6 @@ export default {
     title: 'PolyRides',
   },
   data: {
-    messages: null,
     rides: {
       displayCount: 10,
       isNextLoading: false,

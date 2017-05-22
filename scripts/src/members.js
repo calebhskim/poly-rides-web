@@ -16,7 +16,7 @@ if (process.argv.length !== 3) {
 firebase.initializeApp(config.firebase);
 
 let currentVal = 0;
-const baseURL = 'https://graph.facebook.com';
+const baseURL = 'https://graph.facebook.com/v2.9';
 const maxValue = 16343;
 const progressBar = new Progress(30);
 const members = firebase.database().ref('members');
@@ -42,10 +42,10 @@ const pushHandler = () => {
 
 // Deconstruct member object to detect changes to facebook graph api
 // Should minimally version lock graph api
-const generateMember = ({ administrator, name }) => {
+const generateMember = ({ administrator, id}) => {
   return {
     isAdmin: administrator,
-    name
+    id
   }
 };
 
@@ -65,7 +65,7 @@ const getUsers = (url, token, importAll) => {
     const nextUrl = get(data, 'paging.next', '');
     const responseMembers = get(data, 'data', []);
     const inParallel = responseMembers.map((member) => {
-      return members.child(member.id).set(generateMember(member), pushHandler);
+      return members.child(member.name).set(generateMember(member), pushHandler);
     });
 
     return Promise.all(inParallel).then(() => {

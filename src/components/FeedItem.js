@@ -217,7 +217,7 @@ class FeedItem extends Component {
                   width: `${width}%`,
                   height: `${height}%`,
                   position: 'absolute',
-                  backgroundColor: 'white',
+                  backgroundColor: '#ffffff',
                   paddingRight: '140px',
                   marginLeft: '16px',
                 }}

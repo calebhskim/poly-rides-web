@@ -34,7 +34,7 @@ function fetchUserRides() {
   // TODO: Fetch user rides based on keys in user table. Possibly use cloud functions.
   return (dispatch, getState) => {
     const {
-      auth: { user: { uid } },
+      auth: { user: { displayName, uid } },
       firebase: { app },
     } = getState();
     const ridesRef = app.database().ref('rides');
@@ -49,7 +49,7 @@ function fetchUserRides() {
         payload: snap.val(),
       });
     });
-    ridesRef.orderByChild(`passengers/${uid}`).equalTo(true).on('value', (snap) => {
+    ridesRef.orderByChild(`passengers/${uid}`).equalTo(displayName).on('value', (snap) => {
       dispatch({
         type: actions.USERRIDES_RIDES,
         payload: snap.val(),
