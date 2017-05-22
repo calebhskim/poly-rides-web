@@ -34,6 +34,8 @@ class DrawerMenu extends Component {
       items.push(<MenuItem key='signout' onTouchTap={this.handleSignout}>Signout</MenuItem>);
       items.push(<Link key='feed' style={linkStyles} to='/dashboard'>
         <MenuItem onTouchTap={handleClose}>Find Rides</MenuItem></Link>);
+      items.push(<Link key='rides' style={linkStyles} to='/dashboard/rides'>
+        <MenuItem onTouchTap={handleClose}>Rides</MenuItem></Link>);
     } else {
       items.push(<Link key='login' style={linkStyles} to='/'>
         <MenuItem onTouchTap={handleClose}>Login</MenuItem></Link>);

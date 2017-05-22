@@ -5,6 +5,7 @@ export default {
   },
   loginCard: {
     alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: 'column',
+    paddingTop: '10%',
   },
 };

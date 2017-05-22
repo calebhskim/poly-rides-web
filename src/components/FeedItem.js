@@ -73,6 +73,7 @@ class FeedItem extends Component {
 
   handleConfirm() {
     const {
+      displayName,
       feedData: {
         id,
         requests,
@@ -85,8 +86,10 @@ class FeedItem extends Component {
     const timestamp = new Date();
 
     newRequests[uid] = {
+      displayName,
       message: this.state.message,
       requestTimestamp: timestamp.getTime(),
+      uid,
     };
 
     this.setState({
@@ -240,6 +243,7 @@ class FeedItem extends Component {
 
 FeedItem.propTypes = {
   changeRowHeight: PropTypes.func,
+  displayName: PropTypes.string,
   feedData: PropTypes.shape({
     costPerSeat: PropTypes.number,
     departTimestamp: PropTypes.number,
@@ -250,7 +254,7 @@ FeedItem.propTypes = {
       PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
     ),
     fromLocation: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
-    passengers: PropTypes.objectOf(PropTypes.bool),
+    passengers: PropTypes.objectOf(PropTypes.string),
     postTimestamp: PropTypes.number,
     toLocation: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
     totalSeats: PropTypes.number,
@@ -262,9 +266,10 @@ FeedItem.propTypes = {
 };
 
 function mapStateToProps(state) {
-  const { auth: { user: { uid } } } = state;
+  const { auth: { user: { displayName, uid } } } = state;
 
   return {
+    displayName,
     uid,
   };
 }

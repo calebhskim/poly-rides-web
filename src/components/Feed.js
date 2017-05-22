@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 
 import Paper from 'material-ui/Paper';
 
-import feedMedia from '../styles/css/feed.css';
 import FeedScroll from './FeedScroll';
 import feedStyle from '../styles/components/feed';
+import media from '../styles/css/media.css';
 import PostRide from './PostRide';
 import { listenForRides, stopListenForRides } from '../actions/rides';
 import Loading from './Loading';
@@ -15,6 +15,7 @@ import setNavTitle from '../actions/setNavTitle';
 const {
   feedContainer,
   feedScrollContainer,
+  feedSearchContainer,
 } = feedStyle;
 
 export class Feed extends Component {
@@ -59,11 +60,11 @@ export class Feed extends Component {
 
     return (
       <div style={feedContainer}>
-        <Paper style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', maxHeight: '88px' }} id='feed'>
+        <Paper style={feedSearchContainer} id='feed'>
           <SearchFeed />
           <PostRide />
         </Paper>
-        <Paper className={feedMedia.fullFeed} style={feedScrollContainer} id='feed'>
+        <Paper className={media.fullFeed} style={feedScrollContainer} id='feed'>
           {feed}
         </Paper>
       </div>

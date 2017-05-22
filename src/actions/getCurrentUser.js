@@ -16,6 +16,9 @@ export default function getCurrentUser() {
           type: actions.AUTH_STATECHANGE_LOGOUT,
         });
       }
+    }, (err) => {
+      // TODO: Properly log errors
+      console.log('AUTH ERR :: ', err);
     });
   };
 }

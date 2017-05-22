@@ -12,6 +12,7 @@ export default function verifyInGroup() {
       });
       dispatch(push('/dashboard'));
 
+      console.log('IN GROUP :: ', snapshot.val() !== null);
       // Disabling this while it is fixed to allow for site testing.
       // if(snapshot.val() !== null) {
       //   dispatch({

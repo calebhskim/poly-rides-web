@@ -36,6 +36,14 @@ export default {
       startFrom: {}, // Object to be passed to startAt e.g. { key: '', timestamp: '' }
       totalCount: 0,
     },
+    userRidesData: {
+      isDrivesLoading: false,
+      isRidesLoading: false,
+      isRequestsLoading: false,
+      drives: [],
+      rides: [],
+      requests: [],
+    },
   },
   firebase: {
     app: null,

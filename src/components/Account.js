@@ -12,7 +12,13 @@ class Account extends Component {
   }
 
   render() {
-    return <div style={styles.container}>{this.props.children}</div>;
+    return (
+      <div
+        style={Object.assign({}, styles.container)}
+      >
+        {this.props.children}
+      </div>
+    );
   }
 }
 
