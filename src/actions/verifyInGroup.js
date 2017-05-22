@@ -12,18 +12,18 @@ export default function verifyInGroup() {
       });
       dispatch(push('/dashboard'));
 
-      if(snapshot.val() !== null) {
-        dispatch({
-          type: actions.IN_FB_GROUP,
-        });
-        dispatch(push('/dashboard'));
-      } else {
-        dispatch({
-          type: actions.NOT_IN_FB_GROUP,
-        });
-        dispatch(signout());
-        dispatch(push('/'));
-      }
+      // if(snapshot.val() !== null) {
+      //   dispatch({
+      //     type: actions.IN_FB_GROUP,
+      //   });
+      //   dispatch(push('/dashboard'));
+      // } else {
+      //   dispatch({
+      //     type: actions.NOT_IN_FB_GROUP,
+      //   });
+      //   dispatch(signout());
+      //   dispatch(push('/'));
+      // }
     });
   };
 }
