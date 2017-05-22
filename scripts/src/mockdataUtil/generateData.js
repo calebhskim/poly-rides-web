@@ -103,7 +103,8 @@ function getMockValue(entry) {
       res = getRandomFromDefined(entry.name);
       break;
     case 'passengers':
-      res = getRandomPassengers(entry.min, entry.max);
+      // res = getRandomPassengers(entry.min, entry.max);
+      res = null;
       break;
     case 'placeholder':
       res = getRandomBody();

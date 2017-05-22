@@ -1,11 +1,11 @@
 import actions from '../constants/actions';
 
-export default function removePassenger(rideId, name) {
+export default function removePassenger(rideId, uid) {
   return (dispatch, getState) => {
     const {
       firebase: { app },
     } = getState();
-    const rideRef = app.database().ref(`rides/${rideId}/passengers/${name}`);
+    const rideRef = app.database().ref(`rides/${rideId}/passengers/${uid}`);
 
     return rideRef.set(null, (err) => {
       if (err) {
@@ -19,7 +19,7 @@ export default function removePassenger(rideId, name) {
           type: actions.REMOVE_PASSENGER_SUCCESS,
           payload: {
             rideId,
-            name,
+            uid,
           },
         });
       }
