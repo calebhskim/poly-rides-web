@@ -24,6 +24,7 @@ export default {
   data: {
     rides: {
       displayCount: 10,
+      fblist: [], // list containing fb post
       isNextLoading: false,
       isPosting: '', // uid of current user used as boolean and id
       isLoading: false, // in the middle of some lookup, i.e. search

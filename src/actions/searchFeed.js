@@ -54,7 +54,11 @@ function searchFeed(depart, arrive, date) {
 
       rides.orderByChild('departTimestamp').startAt(searchDate).once('value', (snap) => {
         const possibleRides = snap.val();
-        const orderedRides = possibleRides ? sortRides(depart, arrive, possibleRides) : {};
+        const orderedRides = possibleRides ? sortRides(depart, arrive, possibleRides) : [];
+
+        for (let i = 0; i < orderedRides.length; i += 1) {
+          orderedRides[i].source = 'polyrides';
+        }
 
         dispatch({
           type: RIDES_SEARCH_RESULTS,

@@ -1,5 +1,5 @@
 import get from 'lodash/get';
-import orderBy from 'lodash/orderBy';
+import values from 'lodash/values';
 
 import actions from '../constants/actions';
 import initialState from '../constants/initialState';
@@ -7,20 +7,32 @@ import initialState from '../constants/initialState';
 const rides = (state = initialState.data.rides, { payload, response, type }) => {
   switch(type) {
     case actions.CURRENT_RIDES_CHANGE: {
-      const loadedRows = {};
-      const clickedRows = {};
-
-      const rideList = orderBy(payload, ['postTimestamp'], ['desc']);
+      const rideList = values(payload);
 
       for (let i = 0; i < rideList.length; i += 1) {
-        loadedRows[i] = true;
-        clickedRows[i] = false;
+        rideList[i].source = 'polyrides';
       }
 
       return Object.assign({}, state, {
         list: rideList,
-        loadedRowsMap: Object.assign({}, state.loadedRowsMap, loadedRows),
-        clickedRowsMap: Object.assign({}, state.clickedRowsMap, clickedRows),
+      });
+    }
+    case actions.FB_RIDES_CHANGE: {
+      const postList = [];
+      const keys = Object.keys(payload);
+
+      for (let i = 0; i < keys.length; i += 1) {
+        const key = keys[i];
+        const value = payload[key];
+
+        value.source = 'FB';
+        value.rideId = key;
+
+        postList.push(value);
+      }
+
+      return Object.assign({}, state, {
+        fblist: postList,
       });
     }
     case actions.CHANGE_ROW_HEIGHT: {

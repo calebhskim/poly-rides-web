@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 import Paper from 'material-ui/Paper';
+import orderBy from 'lodash/orderBy';
 
 import FeedScroll from './FeedScroll';
 import feedStyle from '../styles/components/feed';
@@ -51,12 +52,19 @@ export class Feed extends Component {
       isSearching,
       isLoading,
       list,
+      fblist,
       searchResults,
     } = this.props;
 
-    const feedData = isSearching ? searchResults : list;
+    const combinedList = list.concat(fblist);
+    const feedData = isSearching ? searchResults : orderBy(combinedList, ['postTimestamp'], ['desc']);
 
-    const feed = isLoading ? <Loading /> : <FeedScroll list={feedData} />;
+    const rowMap = {};
+    for (let i = 0; i < feedData.length; i += 1) {
+      rowMap[i] = true;
+    }
+
+    const feed = isLoading ? <Loading /> : <FeedScroll list={feedData} loadedRowsMap={rowMap} />;
 
     return (
       <div style={feedContainer}>
@@ -75,6 +83,7 @@ export class Feed extends Component {
 
 Feed.propTypes = {
   list: PropTypes.arrayOf(PropTypes.object),
+  fblist: PropTypes.arrayOf(PropTypes.object),
   searchResults: PropTypes.arrayOf(PropTypes.object),
   isSearching: PropTypes.bool,
   isLoading: PropTypes.bool,
@@ -87,6 +96,7 @@ function mapStateToProps(state) {
   const {
     data: {
       rides: {
+        fblist,
         list,
         isSearching,
         isLoading,
@@ -96,6 +106,7 @@ function mapStateToProps(state) {
   } = state;
 
   return {
+    fblist,
     isSearching,
     isLoading,
     list,

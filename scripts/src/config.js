@@ -6,4 +6,5 @@ export default {
     storageBucket: 'polyridesweb.appspot.com',
     messagingSenderId: '429026541463',
   },
+  fbtoken: '499792160144836|HbpsJDfkbSxCnOWTBTbd7IwXO6w',
 };
