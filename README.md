@@ -14,8 +14,6 @@ yarn
 ## Development
 In order to develop you will need to be added to the polyrides facebook application and polyrides firebase application. Ask either @lukasfroehlich or @calebhskim to be added.
 
-## NOTES:
-We support [`stage-1`](https://babeljs.io/docs/plugins/preset-stage-1/#community-discussion).  
 
 ## TODO:
 * Auth
@@ -32,6 +30,7 @@ We support [`stage-1`](https://babeljs.io/docs/plugins/preset-stage-1/#community
 * Error handling and logging
 * Finish merging in facebook posts
 * Validate users are in facebook group
+* Merge with polyrides mobile applications
 
 ## Data:
 * Members
