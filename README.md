@@ -23,14 +23,16 @@ In order to develop you will need to be added to the polyrides facebook applicat
 * Finish SSR
 * Update routing to react-router 2
 * Add production webpack configuration
-* Setup testing
-* Setup production
 * Update to webpack 2
 * Make application mobile friendly
 * Error handling and logging
 * Finish merging in facebook posts
 * Validate users are in facebook group
 * Merge with polyrides mobile applications
+* Secure and setup environments: change config keys
+  * Setup development
+  * Setup testing
+  * Setup production
 
 ## Data:
 ### Members
