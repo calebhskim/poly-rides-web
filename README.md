@@ -33,17 +33,17 @@ In order to develop you will need to be added to the polyrides facebook applicat
 * Merge with polyrides mobile applications
 
 ## Data:
-* Members
+### Members
 A map of all the members in the ridesharing group. Is used to verify users are in the rideshare group and is populated running
 ```
 yarn run members
 ```
-* fbposts
+### fbposts
 A map of all the facebook posts in the ridesharing page based on some timeline. Is populated running
 ```
 yarn run fbposts
 ```
-* Rides Object:
+### Rides Object:
 ```
 {
  id: "vCxcrCsnmJU3T8uvF1ZOucozad123asd",
