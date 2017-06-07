@@ -1,5 +1,5 @@
 # poly-rides-web
-Web implementation of the PolyRides application using React, Redux, and Firebase. Poly rides web looks to provide an easily searchable interface for the Cal Poly Rideshare facebook page along with providing a smooth platform to request and post rides.
+Web implementation of the PolyRides application using React, Redux, and Firebase. Polyrides web looks to provide an easily searchable interface for the Cal Poly Rideshare facebook page along with providing a smooth platform to request and post rides.
 
 ## Install
 To install this project you will need [yarn](https://yarnpkg.com/).
