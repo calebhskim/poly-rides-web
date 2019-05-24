@@ -4,6 +4,7 @@ import actions from '../constants/actions';
 
 const {
   CURRENT_RIDES_CHANGE,
+  FB_RIDES_CHANGE,
   GET_RIDES_COUNT,
   GET_RIDES_COUNT_SUCCESS,
   GET_RIDES_COUNT_FAILURE,
@@ -71,6 +72,7 @@ function listenForRides() {
       // data: { rides: { displayCount } },
     } = getState();
 
+    // pulling in polyrides posts
     const ridesRef = app.database().ref('rides');
     // TODO: Update totalCount when this is fired
     ridesRef.orderByChild('postTimestamp').on('value', (snap) => {
@@ -87,6 +89,27 @@ function listenForRides() {
       // TODO: Implement proper error handling
       console.log('err: ', err);
     });
+
+    const now = new Date();
+    // show past 4 days of posts
+    now.setDate(now.getDate() - 4);
+
+    // pulling in fb posts
+    const fbposts = app.database().ref('fbposts');
+    fbposts.orderByChild('postTimestamp').startAt(now.getTime()).on('value', (snap) => {
+      const posts = snap.val();
+
+      // Note: Skip initial value, only listen for updates
+      // Can fire two actions here: one for initial and one for new
+      // saves on sorting in reducer
+      dispatch({
+        type: FB_RIDES_CHANGE,
+        payload: posts,
+      });
+    }, (err) => {
+      // TODO: Implement proper error handling
+      console.log('err: ', err);
+    });
   };
 }
 
@@ -95,8 +118,10 @@ function stopListenForRides() {
     const { firebase: { app } } = getState();
 
     const ridesRef = app.database().ref('rides');
-
     ridesRef.off();
+
+    const fbpostRef = app.database().ref('fbpost');
+    fbpostRef.off();
   };
 }
 

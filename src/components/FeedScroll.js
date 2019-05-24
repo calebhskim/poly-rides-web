@@ -3,7 +3,10 @@ import { connect } from 'react-redux';
 import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer';
 import List from 'react-virtualized/dist/commonjs/List';
 
+import { Card, CardText } from 'material-ui/Card';
+
 import FeedItem from './FeedItem';
+import FeedItemFB from './FeedItemFB';
 import feedStyle from '../styles/components/feed';
 import feedItemStyle from '../styles/components/feedItem';
 import { listenForRides, stopListenForRides } from '../actions/rides';
@@ -46,11 +49,32 @@ export class FeedScroll extends Component {
     const { list, loadedRowsMap } = this.props;
     const row = list[index];
 
-    return (
-      <div
-        key={key}
-        style={style}
-      >
+    let feedItem;
+
+    if (row == null) {
+      return (
+        <Card id={index} key={index} className='feedItem' style={feedItemStyle.feedItemContainer}>
+          <CardText>
+            <div style={{ height: '16px', width: '10%', background: 'grey', marginBottom: '5px' }} />
+            <div style={{ height: '16px', width: '15%', background: 'grey', marginBottom: '5px' }} />
+            <div style={{ height: '16px', width: '25%', background: 'grey', marginBottom: '5px' }} />
+          </CardText>
+        </Card>
+      );
+    }
+
+    if (row.source === 'FB') {
+      feedItem = (
+        <FeedItemFB
+          id={index}
+          feedData={row}
+          key={index}
+          loading={!loadedRowsMap[index]}
+          changeRowHeight={this.changeRowHeight}
+        />
+      );
+    } else if (row.source === 'polyrides') {
+      feedItem = (
         <FeedItem
           id={index}
           feedData={row}
@@ -58,6 +82,17 @@ export class FeedScroll extends Component {
           loading={!loadedRowsMap[index]}
           changeRowHeight={this.changeRowHeight}
         />
+      );
+    } else {
+      console.log(`ERR :: inavlid source '${row.source}`);
+    }
+
+    return (
+      <div
+        key={key}
+        style={style}
+      >
+        {feedItem}
       </div>
     );
   }
@@ -101,7 +136,6 @@ function mapStateToProps(state) {
         clickedRowsMap,
         displayCount,
         isNextLoading,
-        loadedRowsMap,
         totalCount,
       },
     },
@@ -111,7 +145,6 @@ function mapStateToProps(state) {
     clickedRowsMap,
     displayCount,
     isNextLoading,
-    loadedRowsMap,
     totalCount,
   };
 }
