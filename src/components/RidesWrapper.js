@@ -27,11 +27,16 @@ export class RidesWrapper extends Component {
 
   render() {
     const { drives, requests, rides } = this.props;
+    const { currentItem } = this.state;
     const ridesList = [...drives, ...rides, ...requests];
     return (
       <div style={wrapperContainer}>
         <div style={wrapperList}>
-          <RidesList list={ridesList} updateItemIndex={this.updateItemIndex} />
+          <RidesList
+            currentItem={currentItem}
+            list={ridesList}
+            updateItemIndex={this.updateItemIndex}
+          />
         </div>
         <RidesInfo data={ridesList[this.state.currentItem]} />
       </div>

@@ -24,13 +24,26 @@ class RidesItem extends Component {
   render() {
     const {
       data: { arriveLocation, departLocation, departTimestamp },
+      selected,
     } = this.props;
+    const itemStyle = Object.assign({}, ridesItemContainer);
+    const ridesItemText = {
+      color: 'black',
+    };
+
+    if (selected) {
+      itemStyle.backgroundColor = '#3F51B5';
+      ridesItemText.color = 'white';
+    }
+
+    const cleanDepartureLocation = departLocation.name.replace(', United States', '');
+    const cleanArrivalLocation = arriveLocation.name.replace(', United States', '');
 
     return (
-      <Card className='ridesItem' onClick={this.handleClick} style={ridesItemContainer}>
-        <CardText>
+      <Card className='ridesItem' onClick={this.handleClick} style={itemStyle}>
+        <CardText style={ridesItemText}>
           <div>
-            <h6>{`${departLocation.name} -> ${arriveLocation.name}`}</h6>
+            <h6>{`${cleanDepartureLocation} -> ${cleanArrivalLocation}`}</h6>
           </div>
           <h7>{`Departing: ${timestampToDate(departTimestamp)}`}</h7>
         </CardText>
@@ -56,6 +69,7 @@ RidesItem.propTypes = {
     totalSeats: PropTypes.number,
   }),
   id: PropTypes.number,
+  selected: PropTypes.bool,
   updateItemIndex: PropTypes.func,
 };
 
